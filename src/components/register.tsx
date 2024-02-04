@@ -20,27 +20,45 @@ export const Register = () => {
 
     // const navigate = useNavigate(); this after setting up router
      return (
-      <Card className="w-[350px]">
+      <Card className="w-[700px]">
       <CardHeader>
         <CardTitle className="text-4xl">Register</CardTitle>
        
       </CardHeader>
       <CardContent>
+      
         <form>
-
-          <div className="grid w-full items-center gap-4">
+      
+          <div className="grid md:grid-cols-2 w-full  gap-4">
+          
+          <div className="flex flex-col gap-4">
+          <div className="flex flex-col space-y-2">
+              <Label htmlFor="username">UserName</Label>
+              <Input id="username" placeholder="Username" type="text" autoComplete="off"/>
+            </div>
             <div className="flex flex-col space-y-2">
-              <Label htmlFor="name">Email</Label>
-              <Input id="name" placeholder="Email" type="email" autoComplete="off"/>
+              <Label htmlFor="fullName">FullName</Label>
+              <Input id="fullName" placeholder="fullName" type="text" autoComplete="off"/>
+            </div>
+            <div className="flex flex-col space-y-2">
+              <Label htmlFor="email">Email</Label>
+              <Input id="email" placeholder="Email" type="email" autoComplete="off"/>
             </div>
           
             <div className="flex flex-col space-y-2">
             <Label htmlFor="name">Password</Label>
               <InputPassword autoComplete="off"/>
             </div>
+            </div>
+            <div className="flex flex-col gap-4 justify-start">
             <div className="grid w-full max-w-sm items-center gap-1.5">
-            <Label htmlFor="picture">Picture</Label>
-            <Input id="picture" type="file" />
+            <Label htmlFor="avatar">avatar</Label>
+            <Input id="avatar" type="file" />
+            </div>
+            <div className="grid w-full max-w-sm items-center gap-1.5">
+            <Label htmlFor="coverImage">coverImage</Label>
+            <Input id="coverImage" type="file" />
+            </div>
             </div>
           </div>
         </form>
