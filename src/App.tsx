@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button"
 import { Login } from './components/login'
 import { Register } from './components/register'
 import { Navbar } from './components/Header/header'
-import { ResizableMain } from './pages/MainPage/MainPage'
+import { MainPage, ResizableMain } from './pages/MainPage/MainPage'
 
 function App() {
 
@@ -16,7 +16,7 @@ function App() {
   return (
     <>
    
-    <ResizableMain/>
+    <MainPage/>
 
     
     </>

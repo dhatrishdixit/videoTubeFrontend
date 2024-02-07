@@ -14,7 +14,7 @@ import { SideBar } from '@/components/SideBar/sideBar'
         direction="horizontal"
         className="max-w-full h-screen rounded-lg border-none"
       >
-        <ResizablePanel defaultSize={50}>
+        <ResizablePanel defaultSize={15}>
           <div className="flex h-screen items-center justify-center p-6">
             <span className="font-semibold">SideBar
 
@@ -23,9 +23,9 @@ import { SideBar } from '@/components/SideBar/sideBar'
           </div>
         </ResizablePanel>
         <ResizableHandle />
-        <ResizablePanel defaultSize={50}>
+        <ResizablePanel defaultSize={85}>
           <ResizablePanelGroup direction="vertical">
-            <ResizablePanel defaultSize={25}>
+            <ResizablePanel defaultSize={10}>
               <div className="flex h-full items-center justify-center p-6">
                 <span className="font-semibold">
                     <Navbar/>
@@ -33,7 +33,7 @@ import { SideBar } from '@/components/SideBar/sideBar'
               </div>
             </ResizablePanel>
             <ResizableHandle />
-            <ResizablePanel defaultSize={75}>
+            <ResizablePanel defaultSize={90}>
               <div className="flex h-full items-center justify-center p-6">
                 <span className="font-semibold">
                     videos
@@ -44,5 +44,23 @@ import { SideBar } from '@/components/SideBar/sideBar'
           </ResizablePanelGroup>
         </ResizablePanel>
       </ResizablePanelGroup>
+    )
+  }
+
+
+  export const MainPage = () =>{
+    return(
+      <div>
+      <div className='grid grid-cols-12 h-screen '>
+        <div className=' col-span-2'><SideBar/></div>
+        <div className=' grid grid-rows-10  col-span-10'>
+         <div className='row-span-1'><Navbar/></div>
+         <div className='row-span-9'>content</div>
+
+        </div>
+
+      </div>
+      </div>
+      
     )
   }
