@@ -13,7 +13,7 @@ const arr:string[] = new Array(20).fill("checking");
 export function SideBar() {
   return (
     <div className=" h-screen overflow-x-hidden
-      scrollbar scrollbar-thin dark:scrollbar-track-[#09090b] scrollbar-thumb-red-600 scrollbar-track-white ">
+      scrollbar  dark:scrollbar-track-[#09090b] scrollbar-thumb-red-600 scrollbar-track-white scrollbar-thin ">
   
     {
        arr.map(curr=>(

@@ -2,12 +2,12 @@ import {Logo} from "../logo/logo"
 import {
     NavigationMenu,
     NavigationMenuContent,
-    NavigationMenuIndicator,
+   // NavigationMenuIndicator,
     NavigationMenuItem,
     NavigationMenuLink,
     NavigationMenuList,
     NavigationMenuTrigger,
-    NavigationMenuViewport,
+  //  NavigationMenuViewport,
   } from "@/components/ui/navigation-menu"
 import { Input } from "../ui/input"
 import { ModeToggle, Switcher } from "../mood-toggle"
@@ -21,6 +21,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { ScrollableArea } from "../ScrollableContent"
 import { Button } from "../ui/button"
 import { PublishedBtn } from "../publishVidBtn"
+import { InputSearch } from "../ui/inputSearch"
 
 export const Navbar = () =>{
     return (
@@ -35,7 +36,8 @@ export const Navbar = () =>{
         </div>
       <div className="flex gap-8 items-center">
         <div>
-        <Input type="text" placeholder="search" className="w-[400px]"/>
+        {/* <Input type="text" placeholder="search" className="w-[400px]"/> */}
+        <InputSearch className="w-[450px]"/>
         </div>
         <div>
           <PublishedBtn/>
@@ -72,27 +74,27 @@ export const Navbar = () =>{
 }
 
      // write custom header with all these components
-     <NavigationMenu className="w-screen flex items-stretch">
-     <NavigationMenuList className="justify-between min-w-[800px]">
-       <NavigationMenuItem>
-         <Button variant="destructive">logout</Button>
-       </NavigationMenuItem>
-       <NavigationMenuItem>
-         <NavigationMenuTrigger>Item One</NavigationMenuTrigger>
-         <NavigationMenuContent>
-           <NavigationMenuLink> <Button variant="destructive">logout</Button></NavigationMenuLink>
-         </NavigationMenuContent>
-       </NavigationMenuItem>
-       <NavigationMenuItem>
-         <Input type="text" placeholder="search" className="w-[400px]"/>
-       </NavigationMenuItem>
-       <NavigationMenuItem>
-         <ModeToggle/>
-       </NavigationMenuItem>
-       <NavigationMenuItem>
+  //    <NavigationMenu className="w-screen flex items-stretch">
+  //    <NavigationMenuList className="justify-between min-w-[800px]">
+  //      <NavigationMenuItem>
+  //        <Button variant="destructive">logout</Button>
+  //      </NavigationMenuItem>
+  //      <NavigationMenuItem>
+  //        <NavigationMenuTrigger>Item One</NavigationMenuTrigger>
+  //        <NavigationMenuContent>
+  //          <NavigationMenuLink> <Button variant="destructive">logout</Button></NavigationMenuLink>
+  //        </NavigationMenuContent>
+  //      </NavigationMenuItem>
+  //      <NavigationMenuItem>
+  //        <Input type="text" placeholder="search" className="w-[400px]"/>
+  //      </NavigationMenuItem>
+  //      <NavigationMenuItem>
+  //        <ModeToggle/>
+  //      </NavigationMenuItem>
+  //      <NavigationMenuItem>
      
-       </NavigationMenuItem>
+  //      </NavigationMenuItem>
      
-     </NavigationMenuList>
-   </NavigationMenu>
+  //    </NavigationMenuList>
+  //  </NavigationMenu>
    

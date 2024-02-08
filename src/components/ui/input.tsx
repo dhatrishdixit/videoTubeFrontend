@@ -1,7 +1,7 @@
 import * as React from "react"
-
 import { cn } from "@/lib/utils"
 import { EyeNoneIcon, EyeOpenIcon } from "@radix-ui/react-icons"
+
 
 export interface InputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {}
@@ -65,9 +65,10 @@ const InputPassword = React.forwardRef<HTMLInputElement, InputProps>(
         >{isPasswordVisible ?<EyeOpenIcon/> :<EyeNoneIcon/>}</button>
         </div>
     )
-
   }
 )
 InputPassword.displayName = "Input Password"
+
+
 
 export { Input,InputPassword }
