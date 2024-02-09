@@ -41,6 +41,7 @@ export const Navbar = () =>{
        <HoverCardTrigger>
        <AvatarImage 
        src="https://github.com/shadcn.png" 
+       //fetch these images from avatar 
        onClick={
         ()=>{
          console.log('clicked')
@@ -51,7 +52,7 @@ export const Navbar = () =>{
      <HoverCardContent className="p-0">
         <ScrollableArea/>
      </HoverCardContent>
-   </HoverCard>
+     </HoverCard>
        </Avatar>
         </div>
       

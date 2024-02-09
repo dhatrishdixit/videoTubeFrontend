@@ -6,8 +6,9 @@ import {
   } from "@/components/ui/resizable"
 import { SideBar } from '@/components/SideBar/sideBar'
   import { Navbar } from '@/components/Header/header'
+import { Content } from '@/components/Content/content'
 
-
+  // remove this completely
   export function ResizableMain() {
     return (
       <ResizablePanelGroup
@@ -55,7 +56,7 @@ import { SideBar } from '@/components/SideBar/sideBar'
         <div className=' col-span-2'><SideBar/></div>
         <div className=' grid grid-rows-10  col-span-10'>
          <div className='row-span-1'><Navbar/></div>
-         <div className='row-span-9'>content</div>
+         <div className='row-span-9'><Content/></div>
 
         </div>
 
