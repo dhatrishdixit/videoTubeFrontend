@@ -14,7 +14,7 @@ import { InputSearch } from "../ui/inputSearch"
 
 export const Navbar = () =>{
     return (
-      <div className=" px-2 flex w-full h-full items-center justify-around grid grid-cols-10">
+      <div className=" px-2 flex w-full h-full items-center justify-around grid grid-cols-10 ">
       
       <div className="col-span-3 flex ml-3 items-center gap-4"
            onClick={()=>{
