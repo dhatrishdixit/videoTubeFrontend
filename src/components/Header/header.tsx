@@ -22,7 +22,7 @@ export const Navbar = () =>{
             //TODO: navigate to home page 
            }}
       >
-        <Logo/><p className="text-red-600 font-bold text-2xl">Video Tube</p>
+        <Logo/><p className="text-red-600 font-bold text-xl">VideoTube</p>
         </div>
         <div className="col-span-1">
         <FilterBtn/>

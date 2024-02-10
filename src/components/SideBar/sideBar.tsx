@@ -3,6 +3,21 @@ import { Button } from "../ui/button"
 // in place of this have user info 
 const arr:string[] = new Array(20).fill("checking");
 
+[
+  {
+    name:"Home",
+    click:function (){
+      // navigate to home page 
+    }
+  },{
+    
+  },{
+
+  },{
+    
+  }
+]
+
 export function SideBar() {
   return (
     <div className=" h-screen overflow-x-hidden
