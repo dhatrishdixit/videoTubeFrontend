@@ -11,7 +11,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 type watchHistorySchema = {}; // complete this
 
-interface intialStateInt {
+interface initialStateInt {
     status:boolean,
     userData:{
        _id?:string ;
@@ -25,7 +25,7 @@ interface intialStateInt {
     }
 }
 
-const initialState:intialStateInt = {
+const initialState:initialStateInt = {
     status :false,
     userData : {} 
 }
