@@ -7,6 +7,7 @@ import {
 import { SideBar } from '@/components/SideBar/sideBar'
   import { Navbar } from '@/components/Header/header'
 import {  ContentMain,ContentSearch } from '@/components/Content/content'
+import { MainVideoPage } from '../VideoPage/VideoPage'
 
   // remove this completely
   export function ResizableMain() {
@@ -62,8 +63,9 @@ import {  ContentMain,ContentSearch } from '@/components/Content/content'
                //TODO: have outlet here 
                //  <ContentMain/>
           }
-       
-          <ContentSearch/>
+       {/* <ContentMain/> */}
+          {/* <ContentSearch/> */}
+          <MainVideoPage/>
           
           
           </div>

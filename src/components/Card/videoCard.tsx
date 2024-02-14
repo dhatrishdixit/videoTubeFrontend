@@ -160,7 +160,7 @@ export const VideoCardSearch = (
     const [hoverTimer,setHoverTimer] = React.useState<NodeJS.Timeout|undefined>(undefined);
 
 return(
-    <div className={` bg-white  ${ !isHover ? "rounded-lg":""}  dark:bg-[#09090b]   cursor-pointer flex` }onClick={()=>{
+    <div className={` bg-white  ${ !isHover ? "rounded-lg":""}  dark:bg-[#09090b]   cursor-pointer flex my-2 border p-1` }onClick={()=>{
         console.log('clicked')
         //direct to video 
         // useNavigate from react router dom 
@@ -198,7 +198,7 @@ return(
     />
 }
     </div>
-    <div className="flex py-2 px-2 gap-4 pl-4">
+    <div className="flex py-2 px-2 gap-4 pl-6">
 
     <div className="flex flex-col"> 
     <h5 className="text-xl font-bold tracking-tight text-left text-gray-900 dark:text-white"
