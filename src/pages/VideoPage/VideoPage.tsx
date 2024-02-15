@@ -2,10 +2,12 @@ import { ContentSearch } from "@/components/Content/content";
 import React from "react"
 import ReactPlayer, { ReactPlayerProps } from "react-player";
 
+import { Player } from "@/components/CustomVideoPlayer/Player";
+
 //important things to add in this 
 //
 
-interface VideoPageProps {
+interface VideoPageProps{
     videoId :string ;
     userId :string ;
 }
@@ -44,11 +46,11 @@ export const MainVideoPage:React.FC<ReactPlayerProps> = ({
    return (
     <div className="m-2 grid grid-cols-10">
      <div className="col-span-7">
-    <ReactPlayer
+    <Player
     className='react-player'
     url={data.videoFile}
-
-    ></ReactPlayer>
+    light={data.thumbnail}
+    ></Player>
      like
       
      comment section 
