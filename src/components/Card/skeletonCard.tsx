@@ -1,4 +1,4 @@
-import { Skeleton } from "@/components/ui/skeleton"
+import { Skeleton } from "@/components/ui/skeleton";
 
 export function SkeletonCardMain() {
   return (
@@ -9,21 +9,21 @@ export function SkeletonCardMain() {
         <Skeleton className="h-4 w-[200px]" />
       </div>
     </div>
-  )
+  );
 }
 
-export const SkeletonCardSearch = () =>{
-    return(
-      <>
-          <div className="flex flex-row space-y-3 mt-2">
-      <Skeleton className="h-[15vw] w-[30vw] rounded-xl" />
-      <div className="space-y-2 ml-2">
-        <Skeleton className="h-4 w-[450px]" />
-        <Skeleton className="h-4 w-[450px]" />
-        <Skeleton className="h-4 w-[200px]" />
-        <Skeleton className="h-4 w-[200px]" />
+export const SkeletonCardSearch = () => {
+  return (
+    <>
+      <div className="flex flex-row space-y-3 mt-2">
+        <Skeleton className="h-[15vw] w-[30vw] rounded-xl" />
+        <div className="space-y-2 ml-2">
+          <Skeleton className="h-4 w-[450px]" />
+          <Skeleton className="h-4 w-[450px]" />
+          <Skeleton className="h-4 w-[200px]" />
+          <Skeleton className="h-4 w-[200px]" />
+        </div>
       </div>
-    </div>
-      </>
-    )
-}
+    </>
+  );
+};

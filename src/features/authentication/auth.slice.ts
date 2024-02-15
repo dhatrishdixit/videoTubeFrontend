@@ -12,39 +12,39 @@ import { createSlice } from "@reduxjs/toolkit";
 type watchHistorySchema = {}; // complete this
 
 interface initialStateInt {
-    status:boolean,
-    userData:{
-       _id?:string ;
-       username?:string;
-       email?:string;
-       fullName?:string;
-       avatar?:string;
-       coverImage?:string;
-       watchHistory?:string[]; // change watch history in backend to return all other types and update this type with array of objects 
-       createdAt?:Date; 
-    }
+  status: boolean;
+  userData: {
+    _id?: string;
+    username?: string;
+    email?: string;
+    fullName?: string;
+    avatar?: string;
+    coverImage?: string;
+    watchHistory?: string[]; // change watch history in backend to return all other types and update this type with array of objects
+    createdAt?: Date;
+  };
 }
 
-const initialState:initialStateInt = {
-    status :false,
-    userData : {} 
-}
+const initialState: initialStateInt = {
+  status: false,
+  userData: {},
+};
 
 export const authSlice = createSlice({
-  name:"auth",
-  initialState:initialState,
-  reducers:{
-      logIn:(state,action)=>{
-            state.status = true ;
-            state.userData = action.payload.userData ;
-      },
-      logOut:(state)=>{
-            state.status = false ;
-            state.userData = {} ;
-      }
-  }
-})
+  name: "auth",
+  initialState: initialState,
+  reducers: {
+    logIn: (state, action) => {
+      state.status = true;
+      state.userData = action.payload.userData;
+    },
+    logOut: (state) => {
+      state.status = false;
+      state.userData = {};
+    },
+  },
+});
 
-export const {logIn,logOut} = authSlice.actions;
+export const { logIn, logOut } = authSlice.actions;
 
-export default authSlice.reducer ;
+export default authSlice.reducer;
