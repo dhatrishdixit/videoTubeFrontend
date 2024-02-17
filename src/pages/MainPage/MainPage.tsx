@@ -2,6 +2,7 @@ import React from "react";
 import { SideBar } from "@/components/SideBar/sideBar";
 import { Navbar } from "@/components/Header/header";
 import { MainVideoPage } from "../VideoPage/VideoPage";
+import { ContentMain, ContentSearch } from "@/components/Content/content";
 
 
 export const MainPage = () => {
@@ -21,8 +22,9 @@ export const MainPage = () => {
               //  <ContentMain/>
             }
             {/* <ContentMain/> */}
-            {/* <ContentSearch/> */}
-            <MainVideoPage />
+            {/* <ContentMain/> */}
+            <ContentSearch/>
+            {/* <MainVideoPage /> */}
           </div>
         </div>
       </div>

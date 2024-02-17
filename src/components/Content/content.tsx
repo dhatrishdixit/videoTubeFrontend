@@ -58,20 +58,21 @@ export const ContentSearch = () => {
            dark:scrollbar-track-[#09090b]
           "
     >
+      <SkeletonCardSearch/>
+              <SkeletonCardSearch/>
+              <SkeletonCardSearch/>
+              <SkeletonCardSearch/>
+              <SkeletonCardSearch/>
+              <SkeletonCardSearch/>
+              <SkeletonCardSearch/>
+              <SkeletonCardSearch/>
+              <SkeletonCardSearch/>
+              <SkeletonCardSearch/>
+              <SkeletonCardSearch/>
+              <SkeletonCardSearch/>
+               <SkeletonCardSearch/> 
       {/* <SkeletonCardSearch/>
-              <SkeletonCardSearch/>
-              <SkeletonCardSearch/>
-              <SkeletonCardSearch/>
-              <SkeletonCardSearch/>
-              <SkeletonCardSearch/>
-              <SkeletonCardSearch/>
-              <SkeletonCardSearch/>
-              <SkeletonCardSearch/>
-              <SkeletonCardSearch/>
-              <SkeletonCardSearch/>
-              <SkeletonCardSearch/>
-               <SkeletonCardSearch/> */}
-      {/* <SkeletonCardSearch/> */}
+      {/* <VideoCardSearch />
       <VideoCardSearch />
       <VideoCardSearch />
       <VideoCardSearch />
@@ -81,8 +82,7 @@ export const ContentSearch = () => {
       <VideoCardSearch />
       <VideoCardSearch />
       <VideoCardSearch />
-      <VideoCardSearch />
-      <VideoCardSearch />
+      <VideoCardSearch /> */}
     </div>
   );
 };
