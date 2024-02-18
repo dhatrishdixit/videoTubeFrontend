@@ -1,9 +1,23 @@
 import ReactPlayer,{ ReactPlayerProps } from "react-player";
+import React from "react";
+import { PlayArrowRounded } from "@mui/icons-material";
 
-
+import BsPlayFill from "./PlayIcon";
 export const Player: React.FC<ReactPlayerProps> = (props: ReactPlayerProps) => {
-  // const {url,light} = props;
+   const {url,thumbnail} = props;
+ 
 
-  // manage our react player  
-  return <div></div>;
+  return (
+    <div>
+    <ReactPlayer 
+      url={url}
+      light={thumbnail}
+      controls={true}
+      playIcon={<BsPlayFill/>}
+      style={{
+            width:"90%",
+          }}
+    ></ReactPlayer>
+    </div>
+  )
 };

@@ -21,6 +21,7 @@ const arr: btnTypes[] = [
       // navigate to home page
     },
     variant: "outline",
+  
   },
   {
     name: "Subscriptions",
@@ -44,7 +45,7 @@ const arr: btnTypes[] = [
     variant: "outline",
   },
   {
-    name: "Liked Video",
+    name: "Liked Videos",
     clickHandler: function () {
       //direct to all the liked videos
     },
@@ -72,11 +73,12 @@ export function SideBar() {
       className=" h-screen overflow-x-hidden
         dark:scrollbar-track-[#09090b] scrollbar-thumb-red-600 scrollbar-track-white scrollbar-thin mt-10"
     >
-      {arr.map((curr) => (
+      {arr.map((curr,index) => (
         <Button
           variant={curr.variant}
           className="w-full mt-2  hover:bg-red-600  "
           onClick={curr.clickHandler}
+          key={index}
         >
           {curr.name}
         </Button>

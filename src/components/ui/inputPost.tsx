@@ -1,22 +1,19 @@
 import { cn } from "@/lib/utils";
 import React from "react";
-import { Search, X } from "lucide-react";
+import { X } from "lucide-react";
+import { IoMdSend } from "react-icons/io";
 import { InputProps } from "./input";
 
-
-
-
-export const InputSearch:React.FC<InputProps>= ({ className }) => {
-
-  const [search, setSearch] = React.useState<string | undefined>("");
+export const InputPost:React.FC<InputProps> = ({ className,...props }) => {
+  // add debouncing to this also
+  const [post, setPost] = React.useState<string | undefined>("");
   const [isFocus, setIsFocus] = React.useState<boolean | undefined>(false);
-  // add clear button and search button in this after learning about forward ref
-  //
+  // add clear button and post button in this after learning about forward ref
 
   return (
     <div
       className={cn(
-        "flex flex-row w-full rounded-md border border-input bg-transparent  text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium ",
+        "flex flex-row w-full rounded-md border border-gray-400 bg-transparent  text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium ",
         {
           "border-red-600": isFocus,
         },
@@ -28,7 +25,6 @@ export const InputSearch:React.FC<InputProps>= ({ className }) => {
           "flex h-9 w-full rounded-md  bg-transparent px-3 py-1 text-sm shadow-sm focus:outline-none file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50  ",
         )}
         id="name"
-        placeholder="Search"
         type="text"
         onFocus={() => {
           setIsFocus && setIsFocus(true);
@@ -37,19 +33,20 @@ export const InputSearch:React.FC<InputProps>= ({ className }) => {
           setIsFocus && setIsFocus(false);
         }}
         onChange={(e) => {
-          setSearch && setSearch(e.target.value);
+          setPost && setPost(e.target.value);
         }}
-        value={search}
+        value={post}
+        {...props}
       />
 
       <button
         onClick={(e) => {
           e.preventDefault();
-          setSearch("");
+          setPost("");
         }}
         className={`
             px-2  rounded-r-md 
-            ${search ? "" : "hidden"}`}
+            ${post ? "" : "hidden"}`}
       >
         <X size={18} />
       </button>
@@ -57,16 +54,16 @@ export const InputSearch:React.FC<InputProps>= ({ className }) => {
       <button
         onClick={(e) => {
           e.preventDefault();
-          // call backend for search
+          // call backend for post
         }}
         className={`
             px-3  rounded-r-md 
             `}
       >
-        <Search size={18} />
+        <IoMdSend/>
       </button>
     </div>
   );
 };
 
-InputSearch.displayName = "Input Search";
+InputPost.displayName = "Input Post";

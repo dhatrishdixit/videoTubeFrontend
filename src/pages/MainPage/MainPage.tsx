@@ -8,7 +8,7 @@ import { ContentMain, ContentSearch } from "@/components/Content/content";
 export const MainPage = () => {
   return (
     <div>
-      <div className="grid grid-cols-12 h-screen overflow-y-hidden">
+      <div className="grid grid-cols-12 h-screen overflow-y-hidden w-screen">
         <div className=" col-span-2">
           <SideBar />
         </div>
@@ -23,8 +23,8 @@ export const MainPage = () => {
             }
             {/* <ContentMain/> */}
             {/* <ContentMain/> */}
-            <ContentSearch/>
-            {/* <MainVideoPage /> */}
+            {/* <ContentSearch/> */}
+            <MainVideoPage />
           </div>
         </div>
       </div>

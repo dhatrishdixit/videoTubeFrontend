@@ -29,7 +29,7 @@ export const Navbar = () => {
         <FilterBtn />
       </div>
       <div className="col-span-4">
-        <InputSearch className="w-full" />
+        <InputSearch className="w-full " />
       </div>
 
       <div className="col-span-1">
