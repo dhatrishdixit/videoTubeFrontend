@@ -46,13 +46,17 @@ export const Login = () => {
     console.log(data);
     try{
       // api call
-      await setTimeout(()=>{console.log('timeout is completed')},1000)
+      await new Promise((resolve,_)=>{setTimeout(resolve,5000)});
       throw new Error("hey there some error")
     }
     catch(err){
-      setError("root",{
-        message:err as string
-      })
+      if(err instanceof Error){
+        let error:string = err.message;
+        setError("root",{
+          message:error
+        })
+      }
+     
     }
   }
 
@@ -96,7 +100,7 @@ export const Login = () => {
                 }
           </div>
          <div className="w-full flex align-middle justify-center">
-         <Button size="lg" className="mt-6 mb-4">
+         <Button size="lg" className="mt-6 mb-4" disabled={isSubmitting}>
           Login
         </Button>
          </div>
