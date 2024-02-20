@@ -15,11 +15,11 @@ export const Register = () => {
   // use loading to make it disabled
   // ref and use react hook form
 
-  // const navigate = useNavigate(); this after setting up router
+   const navigate = useNavigate();
   return (
     <Card className="w-[700px]">
       <CardHeader>
-        <CardTitle className="text-4xl">Register</CardTitle>
+        <CardTitle className="text-4xl text-center">Register</CardTitle>
       </CardHeader>
       <CardContent>
         <form>
@@ -81,7 +81,7 @@ export const Register = () => {
             <p
               className="group text-red-600 transition-all duration-300 ease-in-out cursor-pointer"
               onClick={() => {
-                // navigate()
+                navigate("/login")
                 console.log("link clicked");
               }}
             >

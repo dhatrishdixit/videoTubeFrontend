@@ -9,6 +9,7 @@ import { PiThumbsUpFill } from "react-icons/pi";
 import { Input } from "@/components/ui/input";
 import { InputPost } from "@/components/ui/inputPost";
 import { CommentCard } from "@/components/Card/commentCard";
+import { VideoCardRelated, VideoCardSearch } from "@/components/Card/videoCard";
 
 //important things to add in this
 //
@@ -67,7 +68,7 @@ export const MainVideoPage: React.FC<ReactPlayerProps> = (
 
   return (
     <div className="mx-4 my-2 grid grid-cols-10 h-[90vh] overflow-y-scroll scrollbar-thin dark:scrollbar-track-[#09090b] scrollbar-track-white scrollbar-thumb-red-600">
-      <div className="col-span-7">
+      <div className="col-span-6">
         <Player
           className="react-player"
           url={data.videoFile}
@@ -92,7 +93,7 @@ export const MainVideoPage: React.FC<ReactPlayerProps> = (
         </Button>
        <p>{data.likeCount}</p>
        </div>
-       <div className="w-[90%] dark:bg-[#272727] rounded-md my-4 bg-[#f1f1f1] pr-4">
+       <div className="w-[95%] dark:bg-[#272727] rounded-md my-4 bg-[#f1f1f1] pr-4">
         {
           // description with more and less information
           // TODO: remember to update views as well
@@ -104,7 +105,7 @@ export const MainVideoPage: React.FC<ReactPlayerProps> = (
           data.description.length <= 99 ? data.description : (
             <>
             {collapse? stringShortener(data.description) : data.description}
-            <Button variant="outline" className="dark:bg-[#272727] bg-[#f1f1f1] border-none border-0 " onClick={()=>{
+            <Button variant="outline" className="dark:bg-[#272727] bg-[#f1f1f1] border-none border-0 text-gray-400" onClick={()=>{
                  setCollapse(prev => !prev);          
             }}>{collapse?"...more":"show less"}</Button>
             </>
@@ -118,28 +119,34 @@ export const MainVideoPage: React.FC<ReactPlayerProps> = (
        {
         // comment section make a comment section page and comment section component 
       }
-       <div className=" w-[90%] dark:bg-[#272727] rounded-md my-4 bg-[#f1f1f1] text-left px-4 py-4">
+       <div className=" w-[95%] dark:bg-[#272727] rounded-md my-4 bg-[#f1f1f1] text-left px-4 py-4">
           <p className="text-xl font-bold">{data.commentsCount.toLocaleString("en-US")} Comments</p>
           <div className="my-4 flex items-center ">
             <img src={data.userAvatar} className="h-12 w-12 rounded-full "/>
-            {/* <Input placeholder="comment" className="border-b border-gray-400 focus:border-red-600 focus:outline-none w-[80%] ml-4" onChange ={
-              ()=>{
-                // use the button below to submit the comment and change it using useState 
-              }
-            } />
-            <Button><IoMdSend/></Button> */}
+          
             <InputPost placeholder="comment" className="w-[80%] ml-6 border-b"/>
           </div>
-        
+        {/*iterate over comments*/}
+          <CommentCard/>
+          <CommentCard/>
+          <CommentCard/>
+          <CommentCard/>
+          <CommentCard/>
+          <CommentCard/>
+          <CommentCard/>
           <CommentCard/>
         </div>
         
       </div>
     
     
-      <div className="col-span-3 ">
+      <div className="col-span-4 ">
         video recomended from same channel
         {/* <ContentSearch/> i.e. same channel videos*/}
+        <VideoCardRelated />
+        <VideoCardRelated />
+        <VideoCardRelated />
+        <VideoCardRelated />
       </div>
 
 

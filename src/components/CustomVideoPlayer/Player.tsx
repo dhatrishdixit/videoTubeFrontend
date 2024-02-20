@@ -14,9 +14,7 @@ export const Player: React.FC<ReactPlayerProps> = (props: ReactPlayerProps) => {
       light={thumbnail}
       controls={true}
       playIcon={<BsPlayFill/>}
-      style={{
-            width:"90%",
-          }}
+      width="95%"
     ></ReactPlayer>
     </div>
   )

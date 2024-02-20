@@ -55,9 +55,11 @@ const InputPassword = React.forwardRef<HTMLInputElement, InputProps>(
           placeholder="Password"
           type={isPasswordVisible ? "text" : "password"}
           onFocus={() => {
+            console.log("is focus")
             setIsFocus && setIsFocus(true);
           }}
           onBlur={() => {
+            console.log("is not focus")
             setIsFocus && setIsFocus(false);
           }}
           ref={ref}

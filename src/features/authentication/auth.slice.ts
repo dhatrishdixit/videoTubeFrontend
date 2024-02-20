@@ -12,7 +12,7 @@ import { createSlice } from "@reduxjs/toolkit";
 type watchHistorySchema = {}; // complete this
 
 interface initialStateInt {
-  status: boolean;
+  authStatus: boolean;
   userData: {
     _id?: string;
     username?: string;
@@ -26,7 +26,7 @@ interface initialStateInt {
 }
 
 const initialState: initialStateInt = {
-  status: false,
+  authStatus: false,
   userData: {},
 };
 
@@ -35,11 +35,11 @@ export const authSlice = createSlice({
   initialState: initialState,
   reducers: {
     logIn: (state, action) => {
-      state.status = true;
+      state.authStatus = true;
       state.userData = action.payload.userData;
     },
     logOut: (state) => {
-      state.status = false;
+      state.authStatus = false;
       state.userData = {};
     },
   },
