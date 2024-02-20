@@ -51,7 +51,7 @@ export const Login = () => {
     }
     catch(err){
       setError("root",{
-        message:err
+        message:err as string
       })
     }
   }
@@ -89,14 +89,24 @@ export const Login = () => {
                   errors.password && <p className="text-red-600">{errors.password.message}</p>
                 }
             </div>
+                {
+                  errors.root && <p className="text-red-600 text-center">
+                    {JSON.stringify(errors.root.message)}
+                  </p>
+                }
           </div>
-          <button>click to submit</button>
-        </form>
-      </CardContent>
-      <CardFooter className="flex justify-center flex-col">
-        <Button size="lg" className="mb-4">
+         <div className="w-full flex align-middle justify-center">
+         <Button size="lg" className="mt-6 mb-4">
           Login
         </Button>
+         </div>
+     
+      
+          </form>
+      </CardContent>
+      <CardFooter className="flex justify-center flex-col">
+       
+       
         <div>
           <p className="leading-5 [&:not(:first-child)]:mt-6 text-sm flex cursor-default">
             Don't have an account ? &nbsp;{" "}
