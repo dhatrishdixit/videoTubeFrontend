@@ -10,10 +10,20 @@ import {
 } from "@/components/ui/card";
 import { Input, InputPassword } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import {z} from 'zod';
+import { zodResolver } from "@hookform/resolvers/zod";
+import {SubmitHandler,useForm} from "react-hook-form";
+import axios from "axios";
+import { useToast } from "./ui/use-toast";
 
-export const Register = () => {
+
+export const Register:React.FC = () => {
   // use loading to make it disabled
   // ref and use react hook form
+  
+  const {toast} = useToast();
+  
+
 
    const navigate = useNavigate();
   return (
@@ -53,6 +63,10 @@ export const Register = () => {
                 />
               </div>
 
+              <div className="flex flex-col space-y-2">
+                <Label htmlFor="name">Password</Label>
+                <InputPassword autoComplete="off" />
+              </div>
               <div className="flex flex-col space-y-2">
                 <Label htmlFor="name">Password</Label>
                 <InputPassword autoComplete="off" />

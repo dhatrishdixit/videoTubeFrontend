@@ -8,7 +8,8 @@ import { store } from "./app/store.ts";
 import { createBrowserRouter,RouterProvider } from "react-router-dom";
 import LoginPage from "./pages/Login/LoginPage.tsx";
 import RegisterPage from "./pages/Register/RegisterPage.tsx";
-
+import { ToastProvider } from "./components/ui/toast.tsx";
+import { Toaster } from "./components/ui/toaster.tsx";
 
 const router = createBrowserRouter([
   {
@@ -27,7 +28,10 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
     
     <Provider store={store}>
       <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+      <ToastProvider>
       <RouterProvider router={router} />
+      <Toaster />
+      </ToastProvider>
       </ThemeProvider>
     </Provider>
    
