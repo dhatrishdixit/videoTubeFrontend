@@ -64,13 +64,13 @@ export const Register:React.FC = () => {
               </div>
 
               <div className="flex flex-col space-y-2">
-                <Label htmlFor="name">Password</Label>
+                <Label htmlFor="password">Password</Label>
                 <InputPassword autoComplete="off" />
               </div>
-              <div className="flex flex-col space-y-2">
+              {/* <div className="flex flex-col space-y-2">
                 <Label htmlFor="name">Password</Label>
                 <InputPassword autoComplete="off" />
-              </div>
+              </div> */}
             </div>
             <div className="flex flex-col gap-4 justify-start">
               <div className="grid w-full max-w-sm items-center gap-1.5">

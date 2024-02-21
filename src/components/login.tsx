@@ -92,9 +92,9 @@ export const Login:React.FC = () => {
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="grid w-full items-center gap-4">
             <div className="flex flex-col space-y-2">
-              <Label htmlFor="name">Email</Label>
+              <Label htmlFor="email">Email</Label>
               <Input
-                id="name"
+                id="email"
                 placeholder="Email"
                 type="email"
                 autoComplete="off"
@@ -106,7 +106,7 @@ export const Login:React.FC = () => {
             </div>
 
             <div className="flex flex-col space-y-2">
-              <Label htmlFor="name">Password</Label>
+              <Label htmlFor="password">Password</Label>
               <InputPassword
                autoComplete="off"
                {...register("password")} 
