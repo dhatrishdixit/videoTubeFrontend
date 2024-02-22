@@ -15,16 +15,75 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import {SubmitHandler,useForm} from "react-hook-form";
 import axios from "axios";
 import { useToast } from "./ui/use-toast";
+import { ConstructionOutlined } from "@mui/icons-material";
 
 
 export const Register:React.FC = () => {
-  // use loading to make it disabled
-  // ref and use react hook form
-  
+
+  // TODO: add refresh token functionality 
   const {toast} = useToast();
+  const schema = z.object({
+    username:z.string(),// add to lower case
+    fullName:z.string(),
+    email:z.string().email(),
+    password:z.string().min(8),
+    confirmPassword:z.string().min(8),
+    avatar:z.instanceof(FileList).refine(val => val.length == 1,"only one avatar file should be there "),
+    coverImage:z.instanceof(FileList).refine(val => val.length <= 1,"coverImage should not be more than 1").optional()
+  })
   
+  type formFields = z.infer<typeof schema>;
 
+  const {
+    register,
+    handleSubmit,
+    setError,
+    formState
+  } = useForm<formFields>(
+    {
+      resolver:zodResolver(schema)
+    }
+  )
 
+  const {errors,isSubmitting} = formState ;
+
+   const onSubmit:SubmitHandler<formFields> = async (data)  =>{
+      // console.log(data) ;
+      try {
+        const passwordCorrect = data.password === data.confirmPassword;
+        if(!passwordCorrect){
+           throw new Error("confirm password should be same")
+        }
+        const formData = new FormData();
+        formData.append("username",data.username.toLowerCase());
+        formData.append("fullName",data.fullName);
+        formData.append("email",data.email);
+        formData.append("password",data.password);
+        formData.append("avatar",data.avatar[0]);
+        if(data?.coverImage?.length == 1){
+           formData.append("coverImage",data?.coverImage[0])
+        }
+        const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/api/v1/users/register`,formData);
+        console.log(response)
+        // for (const p of formData) {
+        //   console.log(p)
+        // }
+      } catch (error) {
+        if(error instanceof Error){
+          toast({
+            variant:"default",
+            type:"foreground",
+            description:error.message
+          })
+          setError(
+            "root",{
+              message:error.message
+            }
+          )
+        }
+      }
+
+   }
    const navigate = useNavigate();
   return (
     <Card className="w-[700px]">
@@ -32,26 +91,32 @@ export const Register:React.FC = () => {
         <CardTitle className="text-4xl text-center">Register</CardTitle>
       </CardHeader>
       <CardContent>
-        <form>
+        <form id="registerForm" onSubmit = {handleSubmit(onSubmit)}>
           <div className="grid md:grid-cols-2 w-full  gap-4">
             <div className="flex flex-col gap-4">
               <div className="flex flex-col space-y-2">
-                <Label htmlFor="username">UserName</Label>
+                <Label htmlFor="username">Username</Label>
                 <Input
                   id="username"
                   placeholder="Username"
                   type="text"
                   autoComplete="off"
+                  {...register("username")}
                 />
+                {errors.username &&
+                <p className="text-red-600">{errors.username.message}</p>}
               </div>
               <div className="flex flex-col space-y-2">
-                <Label htmlFor="fullName">FullName</Label>
+                <Label htmlFor="fullName">Name</Label>
                 <Input
                   id="fullName"
-                  placeholder="fullName"
+                  placeholder="name"
                   type="text"
                   autoComplete="off"
+                  {...register("fullName")}
                 />
+                  {errors.fullName &&
+                    <p className="text-red-600">{errors.fullName.message}</p>}
               </div>
               <div className="flex flex-col space-y-2">
                 <Label htmlFor="email">Email</Label>
@@ -60,35 +125,67 @@ export const Register:React.FC = () => {
                   placeholder="Email"
                   type="email"
                   autoComplete="off"
+                  {...register("email")}
                 />
+                  {errors.email &&
+                    <p className="text-red-600">{errors.email.message}</p>}
               </div>
 
               <div className="flex flex-col space-y-2">
                 <Label htmlFor="password">Password</Label>
-                <InputPassword autoComplete="off" />
+                <InputPassword 
+                autoComplete="off" 
+                id="password" 
+                {...register("password")}
+                />
+                  {errors.password &&
+                    <p className="text-red-600">{errors.password.message}</p>}
               </div>
-              {/* <div className="flex flex-col space-y-2">
-                <Label htmlFor="name">Password</Label>
-                <InputPassword autoComplete="off" />
-              </div> */}
+              <div className="flex flex-col space-y-2">
+                <Label htmlFor="confirmPassword">Password</Label>
+                <InputPassword 
+                autoComplete="off" 
+                id="confirmPassword"
+                {...register("confirmPassword")}
+                />
+                  {errors.confirmPassword &&
+                    <p className="text-red-600">{errors.confirmPassword.message}</p>}
+              </div>
             </div>
             <div className="flex flex-col gap-4 justify-start">
               <div className="grid w-full max-w-sm items-center gap-1.5">
                 <Label htmlFor="avatar">avatar</Label>
-                <Input id="avatar" type="file" />
+                <Input 
+                id="avatar" 
+                type="file" 
+                {...register("avatar")}
+                />
+                  {errors.avatar &&
+                    <p className="text-red-600">{errors.avatar.message}</p>}
               </div>
               <div className="grid w-full max-w-sm items-center gap-1.5">
                 <Label htmlFor="coverImage">coverImage</Label>
-                <Input id="coverImage" type="file" />
+                <Input 
+                id="coverImage" 
+                type="file" 
+                {...register("coverImage")}
+                />
+                  {errors.coverImage &&
+                    <p className="text-red-600">{errors.coverImage.message}</p>}
               </div>
             </div>
           </div>
         </form>
       </CardContent>
       <CardFooter className="flex justify-center flex-col">
-        <Button size="lg" className="mb-4">
-          Login
+        <Button size="lg" className="mb-4" form="registerForm">
+          Register
         </Button>
+        {
+          errors.root && <p className="text-red-600">
+            {errors.root.message}
+            </p>
+        }
         <div>
           <p className="leading-5 [&:not(:first-child)]:mt-6 text-sm flex cursor-default">
             Already have an account ? &nbsp;{" "}

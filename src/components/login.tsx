@@ -109,6 +109,7 @@ export const Login:React.FC = () => {
               <Label htmlFor="password">Password</Label>
               <InputPassword
                autoComplete="off"
+               id="password"
                {...register("password")} 
                 />
                 {
