@@ -12,7 +12,7 @@ import { Label } from "@/components/ui/label";
 import {z} from 'zod';
 import {zodResolver} from "@hookform/resolvers/zod";
 import { SubmitHandler,useForm } from "react-hook-form";
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { useToast } from "./ui/use-toast";
 
 export const Login:React.FC = () => {
@@ -71,12 +71,19 @@ export const Login:React.FC = () => {
       // console.log(userDetails)
     }
     catch(err){
-      if(err instanceof Error){
-        let error:string = err.message;
-        setError("root",{
-          message:error
-        })
-      }
+      if(err instanceof AxiosError){
+        // console.log(error.response.data.message)
+          toast({
+            variant:"destructive",
+            type:"foreground",
+            description:err?.response?.data?.message
+          })
+          setError(
+            "root",{
+              message:err?.response?.data?.message
+            }
+          )
+        }
      
     }
   }

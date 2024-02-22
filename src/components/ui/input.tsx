@@ -49,7 +49,7 @@ const InputPassword = React.forwardRef<HTMLInputElement, InputProps>(
             className,
           )}
           
-          placeholder="Password"
+          
           type={isPasswordVisible ? "text" : "password"}
           ref={ref}
           {...props}
