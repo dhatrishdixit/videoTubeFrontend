@@ -21,6 +21,7 @@ import { useToast } from "./ui/use-toast";
 export const Register:React.FC = () => {
 
   // TODO: add refresh token functionality 
+  const navigate = useNavigate();
   const {toast} = useToast();
   const schema = z.object({
     username:z.string(),
@@ -70,6 +71,9 @@ export const Register:React.FC = () => {
           type:"foreground",
           description:"registration successfull"
         })
+        setTimeout(()=>{
+          navigate('/login')
+        },2000)
         // for (const p of formData) {
         //   console.log(p)
         // }
@@ -91,7 +95,7 @@ export const Register:React.FC = () => {
       }
 
    }
-   const navigate = useNavigate();
+   
   return (
     <Card className="w-[700px] my-2 ">
       <CardHeader>
