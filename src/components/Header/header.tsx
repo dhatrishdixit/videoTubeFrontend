@@ -1,5 +1,6 @@
 import { Logo } from "../logo/logo";
-
+import { useSelector } from "react-redux";
+import { RootState } from "@/app/store";
 import { Switcher } from "../mood-toggle";
 import {
   HoverCard,
@@ -13,7 +14,11 @@ import { PublishedBtn } from "../publishVidBtn";
 import { InputSearch } from "../ui/inputSearch";
 import { FilterBtn } from "../filterBtn";
 
+
 export const Navbar = () => {
+
+  const userInfo = useSelector((state:RootState) => state.authorization);
+  console.log(userInfo)
   return (
     <div className=" px-2  w-full h-full items-center justify-around grid grid-cols-10 ">
       <div

@@ -42,11 +42,11 @@ export const CommentCard : React.FC = (
         <img src={data.ownerAvatar} className='h-12 w-12 rounded-full'/>
         <div className='flex flex-col ml-4'>
         <div className='flex flex-row'> 
-        <text> @{data.ownerUserName}</text>
-        <text className='text-gray-400 ml-2'>&nbsp;{data.createdAt}</text>
+        <span> @{data.ownerUserName}</span>
+        <span className='text-gray-400 ml-2'>&nbsp;{data.createdAt}</span>
         </div>
         
-         <text>     {
+         <span>     {
           data.content.length <= 120 ? data.content : (
             <>
             {collapse? `${stringShortener(data.content)}...`: data.content}
@@ -55,7 +55,7 @@ export const CommentCard : React.FC = (
             }}>{collapse?"show more":"show less"}</Button>
             </>
           )
-        }</text>
+        }</span>
          
          <Button
           variant="ghost"

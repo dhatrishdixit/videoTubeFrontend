@@ -52,6 +52,14 @@ const arr: btnTypes[] = [
     variant: "outline",
   },
   {
+    name:"Settings",
+    clickHandler:function(){
+      // open settings page 
+    },
+    variant:"outline"
+  },
+
+  {
     name: "Logout",
     clickHandler: function () {
       // call logout route

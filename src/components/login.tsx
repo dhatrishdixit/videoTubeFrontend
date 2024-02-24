@@ -14,11 +14,15 @@ import {zodResolver} from "@hookform/resolvers/zod";
 import { SubmitHandler,useForm } from "react-hook-form";
 import axios, { AxiosError } from 'axios';
 import { useToast } from "./ui/use-toast";
-
+import {AppDispatch } from "@/app/store";
+import { useDispatch } from "react-redux";
+import { UserState } from "@/features/authentication/auth.slice";
+import { logIn } from "@/features/authentication/auth.slice";
 export const Login:React.FC = () => {
   // use loading to make it disabled
   // ref and use react hook form
   const {toast} = useToast();
+  const dispatch = useDispatch<AppDispatch>();
   const schema = z.object(
     {
       email:z.string().email(),
@@ -40,14 +44,14 @@ export const Login:React.FC = () => {
   const  { errors, isSubmitting } = formState
 
   const onSubmit:SubmitHandler<formFields> = async (data) =>{
-    console.log("clicked");
-    console.log(data);
+   //  console.log("clicked");
+  //  console.log(data);
    
     try{
       // api call
       // await new Promise((resolve,_)=>{setTimeout(resolve,5000)});
       // throw new Error("hey there some error")
-      console.log(import.meta.env.VITE_BASE_URL)
+   //   console.log(import.meta.env.VITE_BASE_URL)
       const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/api/v1/users/login`,{
         email:data.email,
         password:data.password
@@ -57,7 +61,7 @@ export const Login:React.FC = () => {
       },
         withCredentials:true
       })
-       console.log(response);
+     //  console.log(response.data.data);
        toast({
         variant:"success",
         type:"foreground",
@@ -69,6 +73,12 @@ export const Login:React.FC = () => {
       //   withCredentials:true
       // })
       // console.log(userDetails)
+      const userData:UserState = response.data.data.user;
+     // console.log(userData);
+      dispatch(logIn(userData));
+      setTimeout(()=>{
+        navigate("/")
+      },2000)
     }
     catch(err){
       if(err instanceof AxiosError){
@@ -116,6 +126,7 @@ export const Login:React.FC = () => {
               <Label htmlFor="password">Password</Label>
               <InputPassword
                autoComplete="off"
+               placeholder="Password"
                id="password"
                {...register("password")} 
                 />
