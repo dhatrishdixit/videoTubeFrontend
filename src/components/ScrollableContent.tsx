@@ -2,7 +2,7 @@ import * as React from "react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { UserChannelProfile } from "./Header/header";
-// in place of this have user info
+
 
 
 export const ScrollableArea:React.FC<UserChannelProfile> = (props:UserChannelProfile) => {

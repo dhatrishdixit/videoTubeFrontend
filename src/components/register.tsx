@@ -49,7 +49,6 @@ export const Register:React.FC = () => {
   const {errors,isSubmitting} = formState ;
 
    const onSubmit:SubmitHandler<formFields> = async (data)  =>{
-      // console.log(data) ;
       try {
         const passwordCorrect = data.password === data.confirmPassword;
         if(!passwordCorrect){

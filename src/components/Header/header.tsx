@@ -37,14 +37,12 @@ export const Navbar = () => {
   const userInfo = useSelector((state:RootState) => state.authorization.userData);
   const channelUserName = userInfo.username;
   const [data,setData] = React.useState<UserChannelProfile|null>(null)
-  //{{localServer}}/users/c/:username
   React.useEffect(()=>{
      axios.get(`${import.meta.env.VITE_BASE_URL}/api/v1/users/c/${channelUserName}`,{
       withCredentials:true
      })
      .then(res => res.data.data)
      .then(data => {
-       console.log(data);
        setData(data);
        return ;
      })
@@ -63,9 +61,9 @@ export const Navbar = () => {
   return (
     <div className=" px-2  w-full h-full items-center justify-around grid grid-cols-10 ">
       <div
-        className="col-span-2 flex ml-3 items-center gap-4"
+        className="col-span-2 flex ml-3 items-center gap-4 cursor-pointer"
         onClick={() => {
-          //TODO: navigate to home page
+           navigate("/")
         }}
       >
         <Logo />
