@@ -13,11 +13,52 @@ import { ScrollableArea } from "../ScrollableContent";
 import { PublishedBtn } from "../publishVidBtn";
 import { InputSearch } from "../ui/inputSearch";
 import { FilterBtn } from "../filterBtn";
+import { useNavigate } from "react-router-dom";
+import React from "react";
+import axios from "axios";
+import { useToast } from "../ui/use-toast";
 
+
+export interface UserChannelProfile{
+  _id?:string;
+  username?:string;
+  email?:string;
+  fullName?:string;
+  avatar?:string;
+  coverImage?:string;
+  subscriberCount?:number;
+  subscribedToCount?:number;
+  isSubscribed?:boolean
+}
 
 export const Navbar = () => {
+  const {toast} = useToast();
+  const navigate = useNavigate();
+  const userInfo = useSelector((state:RootState) => state.authorization.userData);
+  const channelUserName = userInfo.username;
+  const [data,setData] = React.useState<UserChannelProfile|null>(null)
+  //{{localServer}}/users/c/:username
+  React.useEffect(()=>{
+     axios.get(`${import.meta.env.VITE_BASE_URL}/api/v1/users/c/${channelUserName}`,{
+      withCredentials:true
+     })
+     .then(res => res.data.data)
+     .then(data => {
+       console.log(data);
+       setData(data);
+       return ;
+     })
+     .catch(err => {
+      toast({
+        variant:"destructive",
+        type:"foreground",
+        description:err?.response?.data?.message
+      })
+      return ;
+     })
+  },[])
 
-  const userInfo = useSelector((state:RootState) => state.authorization);
+
   console.log(userInfo)
   return (
     <div className=" px-2  w-full h-full items-center justify-around grid grid-cols-10 ">
@@ -51,16 +92,18 @@ export const Navbar = () => {
             <HoverCardTrigger>
               <AvatarImage
                 //TODO:add actual image url here
-                src="https://github.com/shadcn.png"
+                src={userInfo?.avatar}
                 //fetch these images from avatar
                 onClick={() => {
-                  console.log("clicked");
+                  navigate("/")
                 }}
               />
               <AvatarFallback>CN</AvatarFallback>
             </HoverCardTrigger>
             <HoverCardContent className="p-0">
-              <ScrollableArea />
+              <ScrollableArea 
+               {...data}
+              />
             </HoverCardContent>
           </HoverCard>
         </Avatar>
