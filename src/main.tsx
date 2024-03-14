@@ -10,7 +10,6 @@ import LoginPage from "./pages/Login/LoginPage.tsx";
 import RegisterPage from "./pages/Register/RegisterPage.tsx";
 import { ToastProvider } from "./components/ui/toast.tsx";
 import { Toaster } from "./components/ui/toaster.tsx";
-import { ContentMain } from "./components/Content/content.tsx";
 import { MainPage } from "./pages/MainPage/MainPage.tsx";
 
 const router = createBrowserRouter([

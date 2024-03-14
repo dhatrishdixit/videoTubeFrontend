@@ -91,7 +91,7 @@ export const MainVideoPage: React.FC<ReactPlayerProps> = (
         data.isLiked?<PiThumbsUpDuotone className="scale-150"/>:<PiThumbsUpFill className="scale-150"/>
        }
         </Button>
-       <p>{data.likeCount}</p>
+       <p className="ml-2">{data.likeCount}</p>
        </div>
        <div className="w-[95%] dark:bg-[#272727] rounded-md my-4 bg-[#f1f1f1] pr-4">
         {

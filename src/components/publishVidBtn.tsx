@@ -7,6 +7,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
+  DialogClose
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -50,7 +51,7 @@ export const PublishedBtn = () => {
             await axios.post(`${import.meta.env.VITE_BASE_URL}/api/v1/videos`,formData,{
               withCredentials:true,
             });
-            
+         
             toast({
               variant:"success",
               type:"foreground",

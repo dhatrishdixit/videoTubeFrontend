@@ -55,9 +55,8 @@ export const Navbar = () => {
       return ;
      })
   },[])
+   
 
-
-  console.log(userInfo)
   return (
     <div className=" px-2  w-full h-full items-center justify-around grid grid-cols-10 ">
       <div
