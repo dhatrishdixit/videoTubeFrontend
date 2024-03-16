@@ -1,5 +1,5 @@
 import React from 'react';
-
+//TODO: add getCurrent User here update that when you complete this 
 
 interface AuthLayoutProps {
     authentication:boolean,

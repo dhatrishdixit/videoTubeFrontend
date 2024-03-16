@@ -16,10 +16,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import {SubmitHandler,useForm} from "react-hook-form";
 import axios,{AxiosError} from "axios";
 import { useToast } from "./ui/use-toast";
-
+import React from "react";
 
 export const PublishedBtn = () => {
-  
+ 
+  const dialogCloseRef = React.useRef<typeof DialogClose>(null);
   const {toast} = useToast();
   const schema = z.object({
     title:z.string(),
@@ -39,6 +40,7 @@ export const PublishedBtn = () => {
     })
 
     const {errors,isSubmitting} = formState ;
+    const [open,setOpen] = React.useState<boolean>(false);
 
     const onSubmit:SubmitHandler<formFields> = async (data) =>{
          try {
@@ -58,6 +60,10 @@ export const PublishedBtn = () => {
               description:"video published successfully"
             })
 
+            setTimeout(()=>{
+                setOpen(false);
+            },1000)
+
          } catch (error) {
            if(error instanceof AxiosError){
              toast({
@@ -74,7 +80,7 @@ export const PublishedBtn = () => {
     }
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button variant="outline" size="icon" className="hover:bg-red-600">
           <svg

@@ -35,7 +35,9 @@ export const Navbar = () => {
   const {toast} = useToast();
   const navigate = useNavigate();
   const userInfo = useSelector((state:RootState) => state.authorization.userData);
+  console.log("userInfo",userInfo)
   const channelUserName = userInfo.username;
+  console.log("username",channelUserName);
   const [data,setData] = React.useState<UserChannelProfile|null>(null)
   React.useEffect(()=>{
      axios.get(`${import.meta.env.VITE_BASE_URL}/api/v1/users/c/${channelUserName}`,{
@@ -54,8 +56,9 @@ export const Navbar = () => {
       })
       return ;
      })
-  },[])
-   
+  },[channelUserName])
+  // important to remember here channelUserName might take some time to fetch as we are going through server requests therefore we pass it through the dependency array so as to to update it 
+  // console.log(data);
 
   return (
     <div className=" px-2  w-full h-full items-center justify-around grid grid-cols-10 ">

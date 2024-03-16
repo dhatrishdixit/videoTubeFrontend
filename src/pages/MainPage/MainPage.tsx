@@ -2,8 +2,7 @@ import React from "react";
 import { SideBar } from "@/components/SideBar/sideBar";
 import { Navbar } from "@/components/Header/header";
 import { MainVideoPage } from "../VideoPage/VideoPage";
-import { ContentLoading,  ContentSearch } from "@/components/Content/content";
-import InfiniteScroll from 'react-infinite-scroll-component';
+import { ContentLoading,  ContentSearch } from "@/components/Content/FrontPageContent";
 
 
 // adding infinite scroll here 

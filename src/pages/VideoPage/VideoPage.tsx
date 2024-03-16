@@ -1,4 +1,4 @@
-import { ContentSearch } from "@/components/Content/content";
+import { ContentSearch } from "@/components/Content/FrontPageContent";
 import React from "react";
 import ReactPlayer, { ReactPlayerProps } from "react-player";
 import { IoMdSend } from "react-icons/io";
