@@ -21,6 +21,8 @@ const props = {
 import { useNavigate } from "react-router-dom";
 import React from "react";
 import ReactPlayer from "react-player";
+
+
 interface videoPropsMain {
   key: string;
   _id: string;

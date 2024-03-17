@@ -35,9 +35,9 @@ export const Navbar = () => {
   const {toast} = useToast();
   const navigate = useNavigate();
   const userInfo = useSelector((state:RootState) => state.authorization.userData);
-  console.log("userInfo",userInfo)
+ // console.log("userInfo",userInfo)
   const channelUserName = userInfo.username;
-  console.log("username",channelUserName);
+ // console.log("username",channelUserName);
   const [data,setData] = React.useState<UserChannelProfile|null>(null)
   React.useEffect(()=>{
      axios.get(`${import.meta.env.VITE_BASE_URL}/api/v1/users/c/${channelUserName}`,{
