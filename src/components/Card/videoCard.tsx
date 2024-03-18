@@ -17,40 +17,22 @@ const props = {
   description:
     "Hello this is my first video how do you like it hey there guys ggkfsdkljgklskjflksdjlkgjdslkjflksdlksjgksjdflkjsdkjlksdjglksdjflksdj ",
 };
+import React, { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
+import ReactPlayer from 'react-player';
 
-import { useNavigate } from "react-router-dom";
-import React from "react";
-import ReactPlayer from "react-player";
-
-
-interface videoPropsMain {
-  key: string;
+export interface VideoPropsMain {
   _id: string;
   videoFile: string;
   thumbnail: string;
-  ownerId: string;
+  owner: string;
   title: string;
   duration: number;
   views: number;
-  channelUniqueName: string; //  @ type
+  channel: string;
   channelFullName: string;
   channelAvatar: string;
   createdAt: Date;
-}
-interface videoPropsSearch {
-  key: string;
-  _id: string;
-  videoFile: string;
-  thumbnail: string;
-  ownerId: string;
-  title: string;
-  duration: number;
-  views: number;
-  channelUniqueName: string; //  @ type
-  channelFullName: string;
-  channelAvatar: string;
-  createdAt: Date;
-  description: string;
 }
 
 function manageString(str: string): string {
@@ -58,27 +40,34 @@ function manageString(str: string): string {
     return str;
   }
 
-  return str.slice(0, 69) + "....";
+  return str.slice(0, 69) + '....';
 }
 
-export const VideoCardMain = () =>
-  //props:videoProps
+export const VideoCardMain = React.forwardRef<HTMLDivElement, VideoPropsMain>(
+  (props, ref) => {
+    const [isHover, setHover] = useState<boolean>(false);
+    const [hoverTimer, setHoverTimer] = useState<NodeJS.Timeout | undefined>(undefined);
+    const navigate = useNavigate();
+    const divRef = useRef<HTMLDivElement>(null);
 
-  {
-    // TODO:created at  --- add through pipeLine
-    // add hover effect to play video
-    const [isHover, setHover] = React.useState<boolean>(false);
-    const [hoverTimer, setHoverTimer] = React.useState<
-      NodeJS.Timeout | undefined
-    >(undefined);
+    useEffect(() => {
+      if (ref) {
+        if (typeof ref === 'function') {
+          ref(divRef.current);
+        } else {
+          ref.current = divRef.current;
+        }
+      }
+    }, [ref]);
 
     return (
       <div
-        className={`w-[55vh] bg-white  ${!isHover ? "rounded-lg" : ""}  dark:bg-[#09090b]  h-[60vh]  p-2 cursor-pointer`}
+        ref={divRef}
+        className={`w-[55vh] bg-white ${!isHover ? 'rounded-lg' : ''} dark:bg-[#09090b] h-[60vh] p-2 cursor-pointer`}
         onClick={() => {
-          console.log("clicked");
-          //direct to video
-          // useNavigate from react router dom
+          console.log('clicked');
+          // direct to video
+          // navigate('/video/:videoId');
         }}
       >
         <div
@@ -103,13 +92,13 @@ export const VideoCardMain = () =>
             />
           ) : (
             <img
-              className="rounded-t-lg h-[40vh] "
+              className="rounded-t-lg h-[40vh]"
               src={props.thumbnail}
               alt={props.title}
               onClick={() => {
-                console.log("clicked");
-                //direct to video
-                // useNavigate from react router dom
+                console.log('clicked');
+                // direct to video
+                // navigate('/video/:videoId');
               }}
             />
           )}
@@ -120,9 +109,9 @@ export const VideoCardMain = () =>
               src={props.channelAvatar}
               className="h-8 w-8 rounded-full"
               onClick={() => {
-                console.log("clicked");
-                //direct to channel home page
-                // useNavigate from react router dom
+                console.log('clicked');
+                // direct to channel home page
+                // navigate('/channel/:channelId');
               }}
             />
           </div>
@@ -130,9 +119,9 @@ export const VideoCardMain = () =>
             <h5
               className="text-xl font-bold tracking-tight text-left text-gray-900 dark:text-white"
               onClick={() => {
-                console.log("clicked");
-                //direct to video
-                // useNavigate from react router dom
+                console.log('clicked');
+                // direct to video
+                // navigate('/video/:videoId');
               }}
             >
               {props.title}
@@ -141,22 +130,38 @@ export const VideoCardMain = () =>
             <p
               className="mb -1 font-normal text-gray-700 dark:text-gray-400 text-left"
               onClick={() => {
-                console.log("clicked");
-                //direct to channel home page
-                // useNavigate from react router dom
+                console.log('clicked');
+                // direct to channel home page
+                // navigate('/channel/:channelId');
               }}
             >
-              {props.channelFullName}
+              {props.channel}
             </p>
             <p className="mb -1 font-normal text-gray-700 dark:text-gray-400">
-              {" "}
+              {' '}
               {props.views} views • 3 months ago
             </p>
           </div>
         </div>
       </div>
     );
-  };
+  }
+);
+  export interface videoPropsSearch {
+
+    _id: string;
+    videoFile: string;
+    thumbnail: string;
+    owner: string;
+    title: string;
+    duration: number;
+    views: number;
+    channel: string; //  @ type
+    channelFullName: string;
+    channelAvatar: string;
+    createdAt: Date;
+    description: string;
+  }
 
 export const VideoCardSearch = () =>
   // props:videoPropsSearch

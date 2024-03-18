@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
-
+import { VideoPropsMain } from '@/components/Card/videoCard'
 export const api = axios.create({
     baseURL: `${import.meta.env.VITE_BASE_URL}/api/v1`
 })
@@ -30,7 +30,7 @@ interface ErrorSchema {
   }
 
 const usePosts = (pageNum = 0) => {
-    const [results, setResults] = useState<VideoSchema[]>([])
+    const [results, setResults] = useState<VideoPropsMain[]>([])
     const [isLoading, setIsLoading] = useState(false)
     const [isError, setIsError] = useState(false)
     const [error, setError] = useState<ErrorSchema>({})
