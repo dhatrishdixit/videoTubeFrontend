@@ -10,7 +10,8 @@ import LoginPage from "./pages/Login/LoginPage.tsx";
 import RegisterPage from "./pages/Register/RegisterPage.tsx";
 import { ToastProvider } from "./components/ui/toast.tsx";
 import { Toaster } from "./components/ui/toaster.tsx";
-import { MainPage } from "./pages/MainPage/MainPage.tsx";
+import { FrontPageContent } from "./components/Content/FrontPageContent.tsx";
+import { MainVideoPage } from "./pages/VideoPage/VideoPage.tsx";
 
 const router = createBrowserRouter([
   {
@@ -23,11 +24,21 @@ const router = createBrowserRouter([
   },
   {
     path:"/",
-    element:<App/>
+    element:<App/>,
+    children:[
+      {
+        path:"/",
+        element:<FrontPageContent/>
+      },
+      {
+        path:"video/:videoId",
+        element:<MainVideoPage/>
+      }
+    ]
   },
+
 ])
 
-// our create BrowserRouter is made using context api in react 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>  
     <Provider store={store}>

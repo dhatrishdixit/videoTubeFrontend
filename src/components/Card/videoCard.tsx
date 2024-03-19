@@ -49,7 +49,7 @@ export const VideoCardMain = React.forwardRef<HTMLDivElement, VideoPropsMain>(
     const [hoverTimer, setHoverTimer] = useState<NodeJS.Timeout | undefined>(undefined);
     const navigate = useNavigate();
     const divRef = useRef<HTMLDivElement>(null);
-
+    // console.log(ref);
     useEffect(() => {
       if (ref) {
         if (typeof ref === 'function') {

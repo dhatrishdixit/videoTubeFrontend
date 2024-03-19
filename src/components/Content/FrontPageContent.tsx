@@ -5,7 +5,7 @@ import { useToast } from "../ui/use-toast";
 import usePosts from "@/hooks/lazyLoading";
 import { VideoPropsMain } from "../Card/videoCard";
 
-export const ContentLoading = () => {
+export const FrontPageContent = () => {
   const { toast } = useToast();
   const [pageNum, setPageNum] = useState(0);
   const { isLoading, isError, error, results, hasNextPage } = usePosts(pageNum);
@@ -55,9 +55,10 @@ export const ContentLoading = () => {
   }
 
   return (
-    <div className="p-2 grid grid-cols-3 overflow-y-scroll h-[90vh] scrollbar-thin dark:scrollbar-track-[#09090b] scrollbar-thumb-red-600 scrollbar-track-white place-items-center">
+    <div className="p-2 grid grid-cols-3 overflow-y-scroll h-[90vh] scrollbar-thin dark:scrollbar-track-[#09090b] scrollbar-thumb-red-600 scrollbar-track-white place-items-center" id="top">
       {isLoading ? (
-        <>
+   
+          <>
           {...content}
           <SkeletonCardMain />
           <SkeletonCardMain />
@@ -69,9 +70,11 @@ export const ContentLoading = () => {
           <SkeletonCardMain />
           <SkeletonCardMain />
         </>
+       
       ) : (
         content
       )}
+
     </div>
   );
 };
