@@ -40,7 +40,7 @@ const router = createBrowserRouter([
 ])
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
-  <React.StrictMode>  
+   //<React.StrictMode>  
     <Provider store={store}>
       <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
       <ToastProvider>
@@ -49,5 +49,5 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
       </ToastProvider>
       </ThemeProvider>
     </Provider>
-  </React.StrictMode>,
+  //</React.StrictMode>,
 );

@@ -1,5 +1,5 @@
 // you will have to pass props in place of this dummy data
-
+import { formatDate } from '@/utils/DateFormat';
 const props = {
   _id: "65b6bf8d5bc50568f33c12b3",
   videoFile:
@@ -65,9 +65,7 @@ export const VideoCardMain = React.forwardRef<HTMLDivElement, VideoPropsMain>(
         ref={divRef}
         className={`w-[55vh] bg-white ${!isHover ? 'rounded-lg' : ''} dark:bg-[#09090b] h-[60vh] p-2 cursor-pointer`}
         onClick={() => {
-          console.log('clicked');
-          // direct to video
-          // navigate('/video/:videoId');
+           navigate(`/video/${props._id}`);
         }}
       >
         <div
@@ -96,9 +94,7 @@ export const VideoCardMain = React.forwardRef<HTMLDivElement, VideoPropsMain>(
               src={props.thumbnail}
               alt={props.title}
               onClick={() => {
-                console.log('clicked');
-                // direct to video
-                // navigate('/video/:videoId');
+                navigate(`/video/${props._id}`);
               }}
             />
           )}
@@ -109,9 +105,8 @@ export const VideoCardMain = React.forwardRef<HTMLDivElement, VideoPropsMain>(
               src={props.channelAvatar}
               className="h-8 w-8 rounded-full"
               onClick={() => {
-                console.log('clicked');
-                // direct to channel home page
-                // navigate('/channel/:channelId');
+               
+                navigate(`/video/${props._id}`);
               }}
             />
           </div>
@@ -120,8 +115,7 @@ export const VideoCardMain = React.forwardRef<HTMLDivElement, VideoPropsMain>(
               className="text-xl font-bold tracking-tight text-left text-gray-900 dark:text-white"
               onClick={() => {
                 console.log('clicked');
-                // direct to video
-                // navigate('/video/:videoId');
+                navigate(`/video/${props._id}`);
               }}
             >
               {props.title}
@@ -139,7 +133,7 @@ export const VideoCardMain = React.forwardRef<HTMLDivElement, VideoPropsMain>(
             </p>
             <p className="mb -1 font-normal text-gray-700 dark:text-gray-400">
               {' '}
-              {props.views} views • 3 months ago
+              {props.views} views • {formatDate(props.createdAt)}
             </p>
           </div>
         </div>
@@ -265,7 +259,7 @@ export const VideoCardSearch = () =>
 
 
   
-export const VideoCardRelated = () =>
+export const VideoCardRecommendation = () =>
 // props:videoPropsSearch
 {
   // TODO:created at  --- add through pipeLine

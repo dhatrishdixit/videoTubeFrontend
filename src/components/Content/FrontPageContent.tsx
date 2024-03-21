@@ -45,7 +45,7 @@ export const FrontPageContent = () => {
       <VideoCardMain key={Math.random()} {...(post as VideoPropsMain)} />
     );
   });
-  console.log(content)
+  //console.log(content)
   if (isError) {
     toast({
       variant: "destructive",
