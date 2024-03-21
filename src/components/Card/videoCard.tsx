@@ -81,13 +81,16 @@ export const VideoCardMain = React.forwardRef<HTMLDivElement, VideoPropsMain>(
           }}
         >
           {isHover ? (
+            <div onClick={()=>{
+              navigate(`/video/${props._id}`);
+            }}>
             <ReactPlayer
               className="react-player"
               url={props.videoFile}
               playing={true}
               width="100%"
               height="40vh"
-            />
+            /></div>
           ) : (
             <img
               className="rounded-t-lg h-[40vh]"

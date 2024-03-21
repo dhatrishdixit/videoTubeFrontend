@@ -11,7 +11,7 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import { formatDate } from "@/utils/DateFormat";
 import { useToast } from "@/components/ui/use-toast";
-import Cookies from 'js-cookie';
+
 
 function stringShortener(str:string):string {
   return str?.substring(0,100);
@@ -104,8 +104,7 @@ export const MainVideoPage: React.FC<ReactPlayerProps> = () => {
   const currentChannelId = useRef<string|undefined>(undefined);
   const [recommmendedVideo,setRecommenedVideo] = useState()
   useEffect(()=>{
-    const cookie = Cookies.get('accesssToken');
-    console.log('Cookie value outside :', cookie);
+  
      axios
      .get(`${import.meta.env.VITE_BASE_URL}/api/v1/videos/w/${videoId}`,{
       withCredentials:true
@@ -137,16 +136,12 @@ export const MainVideoPage: React.FC<ReactPlayerProps> = () => {
      
      
     return () =>{
-      const cookie = Cookies.get('accesssToken');
-      console.log('Cookie value:', cookie);
+     
       if(initialLikeState.current !== currentLikeState.current) {
          console.log("toggle like through api call");
         
          axios
-        .post(`${import.meta.env.VITE_BASE_URL}/api/v1/likes/toggle/v/${videoId}`,{
-          headers:{
-            "Content-Type":"application/json"
-        },
+        .post(`${import.meta.env.VITE_BASE_URL}/api/v1/likes/toggle/v/${videoId}`,null,{
           withCredentials:true
         })
         .then(res => {
@@ -169,10 +164,8 @@ export const MainVideoPage: React.FC<ReactPlayerProps> = () => {
          console.log("toggle subscribe through api call");
         
          axios
-         .post(`${import.meta.env.VITE_BASE_URL}/api/v1/subscriptions/c/${currentChannelId.current}`,{
-          headers:{
-            "Content-Type":"application/json"
-        },
+         .post(`${import.meta.env.VITE_BASE_URL}/api/v1/subscriptions/c/${currentChannelId.current}`,null,{
+       
           withCredentials:true
         })
          .then(res=> {
