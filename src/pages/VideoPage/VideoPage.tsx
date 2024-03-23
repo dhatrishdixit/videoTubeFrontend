@@ -7,14 +7,76 @@ import { PiThumbsUpFill } from "react-icons/pi";
 import { InputPost } from "@/components/ui/inputPost";
 import { CommentCard } from "@/components/Card/commentCard";
 import { VideoCardRecommendation, VideoCardSearch } from "@/components/Card/videoCard";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import axios from "axios";
 import { formatDate } from "@/utils/DateFormat";
 import { useToast } from "@/components/ui/use-toast";
+import { Recommend } from "@mui/icons-material";
+import { RecommendedVideo } from "@/components/Content/RecommededVideo";
 
 
 function stringShortener(str:string):string {
   return str?.substring(0,100);
+}
+interface SubscribersArraySchema{
+  _id?: string,
+  subscriber?: string,
+  channel?: string,
+  createdAt?: string,
+  updatedAt?: string,
+  __v?: number
+}
+
+interface LikesArraySchema{
+_id?: string,
+video?: string,
+likedBy?: string,
+createdAt?: string,
+updatedAt?: string,
+__v?: number
+}
+
+interface CommentSchema{
+_id?: string,
+content?: string,
+video?: string,
+owner?: string,
+createdAt?: string,
+updatedAt?: string,
+__v?: number
+}
+interface VideoPageSchema{
+_id? : string,
+videoFile?: string,
+thumbnail?: string,
+title?: string,
+description?: string,
+duration?: number,
+views?: number,
+isPublic?: boolean,
+createdAt?:Date,
+channelId?: string,
+channelEmail?: string,
+channelName?: string,
+channelAvatar?:string,
+subscribers?:SubscribersArraySchema[],
+likes?:LikesArraySchema[],
+comments?:CommentSchema[],
+subscribersCount?: number,
+likesCount?: number,
+commentsCount?:number,
+isSubscribed?: boolean,
+isLiked?: boolean,
+
+}
+interface LikedSchema{
+  liked?:boolean,
+  likedCount?:number
+}
+
+interface SubscribedSchema{
+  subscribed?:boolean,
+  subscribedCount?:number
 }
 
 export const MainVideoPage: React.FC<ReactPlayerProps> = () => {
@@ -31,67 +93,9 @@ export const MainVideoPage: React.FC<ReactPlayerProps> = () => {
   // also should get user id from fetch request
  // remember updating subscriber count when subcribed by the user
   const [collapse,setCollapse] = useState<boolean>(true) ;
+  const location = useLocation();
+  console.log(location.state);
 
-  interface SubscribersArraySchema{
-      _id?: string,
-      subscriber?: string,
-      channel?: string,
-      createdAt?: string,
-      updatedAt?: string,
-      __v?: number
-  }
-
-  interface LikesArraySchema{
-    _id?: string,
-    video?: string,
-    likedBy?: string,
-    createdAt?: string,
-    updatedAt?: string,
-    __v?: number
-  }
-
-  interface CommentSchema{
-    _id?: string,
-    content?: string,
-    video?: string,
-    owner?: string,
-    createdAt?: string,
-    updatedAt?: string,
-    __v?: number
-  }
-  interface VideoPageSchema{
-    _id? : string,
-    videoFile?: string,
-    thumbnail?: string,
-    title?: string,
-    description?: string,
-    duration?: number,
-    views?: number,
-    isPublic?: boolean,
-    createdAt?:Date,
-    channelId?: string,
-    channelEmail?: string,
-    channelName?: string,
-    channelAvatar?:string,
-    subscribers?:SubscribersArraySchema[],
-    likes?:LikesArraySchema[],
-    comments?:CommentSchema[],
-    subscribersCount?: number,
-    likesCount?: number,
-    commentsCount?:number,
-    isSubscribed?: boolean,
-    isLiked?: boolean,
-    
-  }
-  interface LikedSchema{
-      liked?:boolean,
-      likedCount?:number
-  }
-  
-  interface SubscribedSchema{
-      subscribed?:boolean,
-      subscribedCount?:number
-  }
   const { toast } = useToast();
   const [data,setData] = useState<VideoPageSchema>({});
   const { videoId } = useParams() ;
@@ -102,7 +106,7 @@ export const MainVideoPage: React.FC<ReactPlayerProps> = () => {
   const currentLikeState = useRef<boolean|undefined>(undefined);
   const currentSubscribeState = useRef<boolean|undefined>(undefined);
   const currentChannelId = useRef<string|undefined>(undefined);
-  const [recommmendedVideo,setRecommenedVideo] = useState()
+  const [recommmendedVideoChannel,setRecommenedVideoChannel] = useState<string>("");
   useEffect(()=>{
   
      axios
@@ -145,11 +149,12 @@ export const MainVideoPage: React.FC<ReactPlayerProps> = () => {
           withCredentials:true
         })
         .then(res => {
-          toast({
-            variant:"success",
-            type:"foreground",
-            description:res.data.message
-          })
+          // toast({
+          //   variant:"success",
+          //   type:"foreground",
+          //   description:res.data.message
+          // })
+          console.log(res.data.message);
         })
         .catch(err=>{
           toast({
@@ -169,11 +174,12 @@ export const MainVideoPage: React.FC<ReactPlayerProps> = () => {
           withCredentials:true
         })
          .then(res=> {
-          toast({
-            variant:"success",
-            type:"foreground",
-            description:res.data.message
-          })
+          // toast({
+          //   variant:"success",
+          //   type:"foreground",
+          //   description:res.data.message
+          // })
+          console.log(res.data.message);
          })
          .catch(err=>{
           toast({
@@ -193,9 +199,10 @@ export const MainVideoPage: React.FC<ReactPlayerProps> = () => {
 
   
   useEffect(()=>{
+    
+    setRecommenedVideoChannel(data.channelId as string);
 
-
-  },[])
+  },[data])
 
   return (
     <div className="mx-4 my-2 grid grid-cols-10 h-[90vh] overflow-y-scroll scrollbar-thin dark:scrollbar-track-[#09090b] scrollbar-track-white scrollbar-thumb-red-600">
@@ -215,7 +222,7 @@ export const MainVideoPage: React.FC<ReactPlayerProps> = () => {
        src={data.channelAvatar} 
        className="h-12 w-12 rounded-full  col-span-1"/>
        <div 
-       className="flex col-span-6 items-center gap-4 ml-2">
+       className="flex col-span-6 items-center gap-4 ml-2" >
         <div>
         <p className="text-lg text-bold text-left">{data.channelName}</p>
          <p className="text-slate-500 text-sm text-left">{subscribed.subscribedCount} subscribers</p></div>
@@ -253,11 +260,7 @@ export const MainVideoPage: React.FC<ReactPlayerProps> = () => {
       
        </div>
        <div className="w-[95%] dark:bg-[#272727] rounded-md my-4 bg-[#f1f1f1] pr-4">
-        {
-          // description with more and less information
-          // TODO: remember to update views as well
-          // TODO: owner of channelOwnerId === userId than provide accesss to tweet section to the owner  
-        }
+   
         <p className="text-left pl-4 text-lg font-semibold pt-2">{data.views} views • {formatDate(data.createdAt as Date)}</p>
         <p className="text-left py-2 px-4">
         {
@@ -302,12 +305,10 @@ export const MainVideoPage: React.FC<ReactPlayerProps> = () => {
     
     
       <div className="col-span-4 ">
-        video recomended from same channel
-        {/* <ContentSearch/> i.e. same channel videos*/}
-        {/* <VideoCardRelated />
-        <VideoCardRelated />
-        <VideoCardRelated />
-        <VideoCardRelated /> */}
+        <h4 className="text-center font-semibold">Recommendations</h4>
+
+        <RecommendedVideo channelId={location?.state?.channelId}/>
+      
       </div>
 
 

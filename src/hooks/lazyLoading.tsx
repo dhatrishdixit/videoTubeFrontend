@@ -1,15 +1,7 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
-import { VideoPropsMain } from '@/components/Card/videoCard'
-export const api = axios.create({
-    baseURL: `${import.meta.env.VITE_BASE_URL}/api/v1`
-})
+import { VideoPropsMain, VideoPropsSearch } from '@/components/Card/videoCard'
 
-export const getPostsPage = async (pageParam = 0,limit = 9, options = {}) => {
-    const response = await api.get(`/videos?limit=${limit}&page=${pageParam}`, options)
-    // console.log(response.data.data);
-    return response.data.data
-}
 interface ErrorSchema {
     message? : string ,
   }
@@ -27,15 +19,31 @@ interface ErrorSchema {
      channel:string,
      channelFullName:string,
      channelAvatar:string,
+     channelId:string,
   }
 
-const usePosts = (pageNum = 0) => {
-    const [results, setResults] = useState<VideoPropsMain[]>([])
+export const api = axios.create({
+    baseURL: `${import.meta.env.VITE_BASE_URL}/api/v1`
+})
+
+export const getPostsPage = async (pageParam = 0,limit = 9,params:string|null = null, options = {},) => {
+    let url = `/videos?limit=${limit}&page=${pageParam}`;
+    if(params) {
+        url += `&${params}`
+    }
+    console.log("url: ",url);
+    const response = await api.get(url, options)
+    // console.log(response.data.data);
+    return response.data.data
+}
+
+const usePosts = (pageNum = 0,limit=9,params:string|null = null) => {
+    const [results, setResults] = useState<VideoPropsMain[]|VideoPropsSearch[]>([])
     const [isLoading, setIsLoading] = useState(false)
     const [isError, setIsError] = useState(false)
     const [error, setError] = useState<ErrorSchema>({})
     const [hasNextPage, setHasNextPage] = useState(false)
-
+    console.log("params: ",params)
     useEffect(() => {
         setIsLoading(true)
         setIsError(false)
@@ -44,7 +52,7 @@ const usePosts = (pageNum = 0) => {
         const controller = new AbortController()
         const { signal } = controller
 
-        getPostsPage(pageNum,9, { withCredentials:true ,signal})
+        getPostsPage(pageNum,limit, params,{ withCredentials:true ,signal})
             .then(data => {
                 setResults(prev => [...prev, ...data])
                 setHasNextPage(Boolean(data.length))

@@ -1,5 +1,5 @@
 // you will have to pass props in place of this dummy data
-import { formatDate } from '@/utils/DateFormat';
+
 const props = {
   _id: "65b6bf8d5bc50568f33c12b3",
   videoFile:
@@ -17,6 +17,7 @@ const props = {
   description:
     "Hello this is my first video how do you like it hey there guys ggkfsdkljgklskjflksdjlkgjdslkjflksdlksjgksjdflkjsdkjlksdjglksdjflksdj ",
 };
+import { formatDate } from '@/utils/DateFormat';
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ReactPlayer from 'react-player';
@@ -30,6 +31,7 @@ export interface VideoPropsMain {
   duration: number;
   views: number;
   channel: string;
+  channelId:string;
   channelFullName: string;
   channelAvatar: string;
   createdAt: Date;
@@ -65,7 +67,7 @@ export const VideoCardMain = React.forwardRef<HTMLDivElement, VideoPropsMain>(
         ref={divRef}
         className={`w-[55vh] bg-white ${!isHover ? 'rounded-lg' : ''} dark:bg-[#09090b] h-[60vh] p-2 cursor-pointer`}
         onClick={() => {
-           navigate(`/video/${props._id}`);
+           navigate(`/video/${props._id}`,{ state: { channelId: props.channelId } });
         }}
       >
         <div
@@ -82,7 +84,8 @@ export const VideoCardMain = React.forwardRef<HTMLDivElement, VideoPropsMain>(
         >
           {isHover ? (
             <div onClick={()=>{
-              navigate(`/video/${props._id}`);
+             
+              navigate(`/video/${props._id}`,{ state: { channelId: props.channelId } });
             }}>
             <ReactPlayer
               className="react-player"
@@ -97,7 +100,7 @@ export const VideoCardMain = React.forwardRef<HTMLDivElement, VideoPropsMain>(
               src={props.thumbnail}
               alt={props.title}
               onClick={() => {
-                navigate(`/video/${props._id}`);
+                navigate(`/video/${props._id}`,{ state: { channelId: props.channelId } });
               }}
             />
           )}
@@ -108,8 +111,7 @@ export const VideoCardMain = React.forwardRef<HTMLDivElement, VideoPropsMain>(
               src={props.channelAvatar}
               className="h-8 w-8 rounded-full"
               onClick={() => {
-               
-                navigate(`/video/${props._id}`);
+                navigate(`/video/${props._id}`,{ state: { channelId: props.channelId } });
               }}
             />
           </div>
@@ -117,8 +119,7 @@ export const VideoCardMain = React.forwardRef<HTMLDivElement, VideoPropsMain>(
             <h5
               className="text-xl font-bold tracking-tight text-left text-gray-900 dark:text-white"
               onClick={() => {
-                console.log('clicked');
-                navigate(`/video/${props._id}`);
+                navigate(`/video/${props._id}`,{ state: { channelId: props.channelId } });
               }}
             >
               {props.title}
@@ -144,7 +145,7 @@ export const VideoCardMain = React.forwardRef<HTMLDivElement, VideoPropsMain>(
     );
   }
 );
-  export interface videoPropsSearch {
+  export interface VideoPropsSearch {
 
     _id: string;
     videoFile: string;
@@ -158,13 +159,12 @@ export const VideoCardMain = React.forwardRef<HTMLDivElement, VideoPropsMain>(
     channelAvatar: string;
     createdAt: Date;
     description: string;
+    channelId:string
   }
 
 export const VideoCardSearch = () =>
   // props:videoPropsSearch
   {
-    // TODO:created at  --- add through pipeLine
-    // add hover effect to play video
     const [isHover, setHover] = React.useState<boolean>(false);
     const [hoverTimer, setHoverTimer] = React.useState<
       NodeJS.Timeout | undefined
@@ -262,23 +262,33 @@ export const VideoCardSearch = () =>
 
 
   
-export const VideoCardRecommendation = () =>
-// props:videoPropsSearch
+export const VideoCardRecommendation = React.forwardRef<HTMLDivElement,VideoPropsSearch>((props,ref) =>
 {
-  // TODO:created at  --- add through pipeLine
-  // add hover effect to play video
+
   const [isHover, setHover] = React.useState<boolean>(false);
   const [hoverTimer, setHoverTimer] = React.useState<
     NodeJS.Timeout | undefined
   >(undefined);
+  const navigate = useNavigate();
+  const divRef = useRef<HTMLDivElement>(null);
+  // console.log(ref);
+  useEffect(() => {
+    if (ref) {
+      if (typeof ref === 'function') {
+        ref(divRef.current);
+      } else {
+        ref.current = divRef.current;
+      }
+    }
+  }, [ref]);
 
   return (
     <div
+      ref={divRef}
       className={` bg-white  ${!isHover ? "rounded-lg" : ""}  dark:bg-[#09090b]   cursor-pointer flex my-2 border p-1`}
       onClick={() => {
-        console.log("clicked");
-        //direct to video
-        // useNavigate from react router dom
+        navigate(`/video/${props._id}`,{ state: { channelId: props.channelId } });
+        
       }}
     >
       <div
@@ -344,12 +354,11 @@ export const VideoCardRecommendation = () =>
           </div>
           <p className="mb -1 font-normal text-gray-700 dark:text-gray-400 text-left">
             {" "}
-            {props.views} views • {/*TODO: here use created at  */}3 months
-            ago
+            {props.views} views • {formatDate(props.createdAt)} ago
           </p>
        
         </div>
       </div>
     </div>
   );
-};
+})
