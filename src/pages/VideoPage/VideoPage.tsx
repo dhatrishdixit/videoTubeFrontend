@@ -228,7 +228,7 @@ export const MainVideoPage: React.FC<ReactPlayerProps> = () => {
          <p className="text-slate-500 text-sm text-left">{subscribed.subscribedCount} subscribers</p></div>
          <Button 
          variant="secondary" 
-         className={`${!subscribed.subscribed? "rounded-xl bg-red-600" : ""} w-[96px]`}
+         className={`${!subscribed.subscribed? "rounded-xl dark:bg-red-600 bg-red-600 text-white hover:text-black" : ""} w-[96px]`}
          onClick={()=>{
              currentSubscribeState.current = !currentSubscribeState.current;
              setSubscribed(prev =>{

@@ -318,9 +318,7 @@ export const VideoCardRecommendation = React.forwardRef<HTMLDivElement,VideoProp
             src={props.thumbnail}
             alt={props.title}
             onClick={() => {
-              console.log("clicked");
-              //direct to video
-              // useNavigate from react router dom
+              navigate(`/video/${props._id}`,{ state: { channelId: props.channelId } });
             }}
           />
         )}
@@ -331,8 +329,7 @@ export const VideoCardRecommendation = React.forwardRef<HTMLDivElement,VideoProp
             className="text-xl font-bold tracking-tight text-left text-gray-900 dark:text-white"
             onClick={() => {
               console.log("clicked");
-              //direct to video
-              // useNavigate from react router dom
+              navigate(`/video/${props._id}`,{ state: { channelId: props.channelId } });
             }}
           >
             {props.title}

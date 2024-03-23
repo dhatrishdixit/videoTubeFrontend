@@ -4,6 +4,7 @@ import { useToast } from "../ui/use-toast";
 import usePosts from "@/hooks/lazyLoading";
 import { VideoPropsSearch } from "../Card/videoCard";
 import { TailSpin } from "react-loader-spinner";
+import { SkeletonCardRecommended } from "../Card/skeletonCard";
 
 
 type RecommendedVideoProps = {
@@ -13,7 +14,7 @@ type RecommendedVideoProps = {
 export const RecommendedVideo:React.FC<RecommendedVideoProps> = ({channelId}) => {
   const { toast } = useToast();
   const [pageNum, setPageNum] = useState(0);
-  const { isLoading, isError, error, results, hasNextPage } = usePosts(pageNum,10,`userId=${channelId}`);
+  const { isLoading, isError, error, results, hasNextPage } = usePosts(pageNum,3,`userId=${channelId}`);
   const intObserver = useRef<IntersectionObserver | null>(null);
   
   const lastPostRef = useCallback(
@@ -62,24 +63,18 @@ export const RecommendedVideo:React.FC<RecommendedVideoProps> = ({channelId}) =>
     <div className="" >
       {isLoading ? (
    
-          <div className="grid place-items-center h-[90vh]">
+         <>
           {...content}
-          <TailSpin
-           visible={true}
-           height="80"
-           width="80" 
-           color="#272727"
-           ariaLabel="tail-spin-loading"
-           radius="1"
-           wrapperStyle={{}}
-           wrapperClass=""
-           />
-        </div>
+          <SkeletonCardRecommended/>
+          <SkeletonCardRecommended/>
+          <SkeletonCardRecommended/>
+     
+         </>
        
       ) : (
         content
       )}
-
+   
     </div>
   );
 };
