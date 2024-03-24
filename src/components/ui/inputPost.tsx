@@ -4,8 +4,9 @@ import { X } from "lucide-react";
 import { IoMdSend } from "react-icons/io";
 import { InputProps } from "./input";
 
-export const InputPost:React.FC<InputProps> = ({ className,...props }) => {
+export const InputPost = React.forwardRef<HTMLInputElement,InputProps>(({ className,...props },ref) => {
   // add debouncing to this also
+  // add lazy loading to this also
   const [post, setPost] = React.useState<string | undefined>("");
   const [isFocus, setIsFocus] = React.useState<boolean | undefined>(false);
   // add clear button and post button in this after learning about forward ref
@@ -36,7 +37,9 @@ export const InputPost:React.FC<InputProps> = ({ className,...props }) => {
           setPost && setPost(e.target.value);
         }}
         value={post}
+        autoComplete="off"
         {...props}
+        ref={ref}
       />
 
       <button
@@ -64,6 +67,6 @@ export const InputPost:React.FC<InputProps> = ({ className,...props }) => {
       </button>
     </div>
   );
-};
+})
 
 InputPost.displayName = "Input Post";

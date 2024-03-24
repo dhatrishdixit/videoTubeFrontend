@@ -82,7 +82,7 @@ export const PublishedBtn = () => {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline" size="icon" className="hover:bg-red-600">
+        <Button variant="outline" size="icon" className="hover:bg-red-600 ml-2">
           <svg
             stroke="currentColor"
             fill="currentColor"

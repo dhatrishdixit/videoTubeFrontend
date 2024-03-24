@@ -3,7 +3,6 @@ import {useCallback, useRef, useState} from "react";
 import { useToast } from "../ui/use-toast";
 import usePosts from "@/hooks/lazyLoading";
 import { VideoPropsSearch } from "../Card/videoCard";
-import { TailSpin } from "react-loader-spinner";
 import { SkeletonCardRecommended } from "../Card/skeletonCard";
 
 

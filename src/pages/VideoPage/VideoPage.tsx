@@ -4,15 +4,13 @@ import { Player } from "@/components/CustomVideoPlayer/Player";
 import { Button } from "@/components/ui/button";
 import { PiThumbsUpDuotone } from "react-icons/pi";
 import { PiThumbsUpFill } from "react-icons/pi";
-import { InputPost } from "@/components/ui/inputPost";
-import { CommentCard } from "@/components/Card/commentCard";
 import { VideoCardRecommendation, VideoCardSearch } from "@/components/Card/videoCard";
 import { useLocation, useParams } from "react-router-dom";
 import axios from "axios";
 import { formatDate } from "@/utils/DateFormat";
 import { useToast } from "@/components/ui/use-toast";
-import { Recommend } from "@mui/icons-material";
 import { RecommendedVideo } from "@/components/Content/RecommededVideo";
+import { CommentPage } from "../CommentPage/CommentPage";
 
 
 function stringShortener(str:string):string {
@@ -191,7 +189,7 @@ export const MainVideoPage: React.FC<ReactPlayerProps> = () => {
 
          })
 
-         
+         // TODO: think about adding changes to user state when changes are implemented in the system 
       }
   }
   },[videoId])
@@ -279,27 +277,13 @@ export const MainVideoPage: React.FC<ReactPlayerProps> = () => {
        </div>
 
        {
-        // comment section make a comment section page and comment section component 
+        // props to be sent here are 
+        // videoId ,
+        // should take below out from redux toolkit state 
+        // userId , userName , userAvatar 
       }
-       <div className=" w-[95%] dark:bg-[#272727] rounded-md my-4 bg-[#f1f1f1] text-left px-4 py-4">
-          <p className="text-xl font-bold">{(data.commentsCount as number)?.toLocaleString("en-US")} Comments</p>
-          <div className="my-4 flex items-center ">
-            <img src={
-              //data?.userAvatar 
-               "https://res.cloudinary.com/dviowskng/image/upload/v1683962024/samples/food/pot-mussels.jpg"} className="h-12 w-12 rounded-full "/>
-          
-            <InputPost placeholder="comment" className="w-[80%] ml-6 border-b"/>
-          </div>
-        {/*iterate over comments build a different component page*/}
-          <CommentCard/>
-          <CommentCard/>
-          <CommentCard/>
-          <CommentCard/>
-          <CommentCard/>
-          <CommentCard/>
-          <CommentCard/>
-          <CommentCard/>
-        </div>
+      
+        <CommentPage videoId={videoId as string}/>
         
       </div>
     

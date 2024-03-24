@@ -11,7 +11,7 @@ export const InputSearch:React.FC<InputProps>= ({ className }) => {
   const [search, setSearch] = React.useState<string | undefined>("");
   const [isFocus, setIsFocus] = React.useState<boolean | undefined>(false);
   // add clear button and search button in this after learning about forward ref
-  //
+  // TODO: do all the search work with useEffect here only 
 
   return (
     <div
@@ -40,6 +40,7 @@ export const InputSearch:React.FC<InputProps>= ({ className }) => {
           setSearch && setSearch(e.target.value);
         }}
         value={search}
+        autoComplete="off"
       />
 
       <button

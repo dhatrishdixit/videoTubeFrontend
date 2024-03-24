@@ -2,7 +2,14 @@ import React from 'react';
 import { Button } from '../ui/button';
 import { PiThumbsUpDuotone } from "react-icons/pi";
 import { PiThumbsUpFill } from "react-icons/pi";
-
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 //what you will want commentId and userId along with that ownerID avatar and channel fullname
 
 const data = {
