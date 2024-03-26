@@ -1,7 +1,5 @@
 import ReactPlayer,{ ReactPlayerProps } from "react-player";
 import React from "react";
-
-
 import BsPlayFill from "./PlayIcon";
 export const Player: React.FC<ReactPlayerProps> = (props: ReactPlayerProps) => {
    const {url,thumbnail} = props;

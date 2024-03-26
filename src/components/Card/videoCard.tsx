@@ -133,7 +133,7 @@ export const VideoCardMain = React.forwardRef<HTMLDivElement, VideoPropsMain>(
                 // navigate('/channel/:channelId');
               }}
             >
-              {props.channel}
+              {props.channelFullName}
             </p>
             <p className="mb -1 font-normal text-gray-700 dark:text-gray-400">
               {' '}

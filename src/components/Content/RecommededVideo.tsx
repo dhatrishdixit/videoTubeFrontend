@@ -13,7 +13,7 @@ type RecommendedVideoProps = {
 export const RecommendedVideo:React.FC<RecommendedVideoProps> = ({channelId}) => {
   const { toast } = useToast();
   const [pageNum, setPageNum] = useState(0);
-  const { isLoading, isError, error, results, hasNextPage } = usePosts(pageNum,3,`userId=${channelId}`);
+  const { isLoading, isError, error, results, hasNextPage } = usePosts(pageNum,6,`userId=${channelId}`);
   const intObserver = useRef<IntersectionObserver | null>(null);
   
   const lastPostRef = useCallback(
@@ -67,6 +67,7 @@ export const RecommendedVideo:React.FC<RecommendedVideoProps> = ({channelId}) =>
           <SkeletonCardRecommended/>
           <SkeletonCardRecommended/>
           <SkeletonCardRecommended/>
+       
      
          </>
        

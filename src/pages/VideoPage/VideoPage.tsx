@@ -92,7 +92,7 @@ export const MainVideoPage: React.FC<ReactPlayerProps> = () => {
  // remember updating subscriber count when subcribed by the user
   const [collapse,setCollapse] = useState<boolean>(true) ;
   const location = useLocation();
-  console.log(location.state);
+  //console.log(location.state);
 
   const { toast } = useToast();
   const [data,setData] = useState<VideoPageSchema>({});
@@ -104,7 +104,7 @@ export const MainVideoPage: React.FC<ReactPlayerProps> = () => {
   const currentLikeState = useRef<boolean|undefined>(undefined);
   const currentSubscribeState = useRef<boolean|undefined>(undefined);
   const currentChannelId = useRef<string|undefined>(undefined);
-  const [recommmendedVideoChannel,setRecommenedVideoChannel] = useState<string>("");
+ 
   useEffect(()=>{
   
      axios
@@ -140,7 +140,7 @@ export const MainVideoPage: React.FC<ReactPlayerProps> = () => {
     return () =>{
      
       if(initialLikeState.current !== currentLikeState.current) {
-         console.log("toggle like through api call");
+         //console.log("toggle like through api call");
         
          axios
         .post(`${import.meta.env.VITE_BASE_URL}/api/v1/likes/toggle/v/${videoId}`,null,{
@@ -164,7 +164,7 @@ export const MainVideoPage: React.FC<ReactPlayerProps> = () => {
          })
       }
       if(initialSubscribeState.current!== currentSubscribeState.current) {
-         console.log("toggle subscribe through api call");
+        // console.log("toggle subscribe through api call");
         
          axios
          .post(`${import.meta.env.VITE_BASE_URL}/api/v1/subscriptions/c/${currentChannelId.current}`,null,{
@@ -196,11 +196,7 @@ export const MainVideoPage: React.FC<ReactPlayerProps> = () => {
 
 
   
-  useEffect(()=>{
-    
-    setRecommenedVideoChannel(data.channelId as string);
 
-  },[data])
 
   return (
     <div className="mx-4 my-2 grid grid-cols-10 h-[90vh] overflow-y-scroll scrollbar-thin dark:scrollbar-track-[#09090b] scrollbar-track-white scrollbar-thumb-red-600">
@@ -283,7 +279,7 @@ export const MainVideoPage: React.FC<ReactPlayerProps> = () => {
         // userId , userName , userAvatar 
       }
       
-        <CommentPage videoId={videoId as string}/>
+        <CommentPage videoId={videoId as string} commentsCount={data.commentsCount as number}/>
         
       </div>
     
