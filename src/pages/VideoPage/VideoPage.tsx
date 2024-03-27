@@ -11,6 +11,7 @@ import { formatDate } from "@/utils/DateFormat";
 import { useToast } from "@/components/ui/use-toast";
 import { RecommendedVideo } from "@/components/Content/RecommededVideo";
 import { CommentPage } from "../CommentPage/CommentPage";
+import { formatCount } from "@/utils/CountFormat";
 
 
 function stringShortener(str:string):string {
@@ -164,19 +165,12 @@ export const MainVideoPage: React.FC<ReactPlayerProps> = () => {
          })
       }
       if(initialSubscribeState.current!== currentSubscribeState.current) {
-        // console.log("toggle subscribe through api call");
-        
          axios
          .post(`${import.meta.env.VITE_BASE_URL}/api/v1/subscriptions/c/${currentChannelId.current}`,null,{
        
           withCredentials:true
         })
          .then(res=> {
-          // toast({
-          //   variant:"success",
-          //   type:"foreground",
-          //   description:res.data.message
-          // })
           console.log(res.data.message);
          })
          .catch(err=>{
@@ -188,8 +182,6 @@ export const MainVideoPage: React.FC<ReactPlayerProps> = () => {
           console.log(err)
 
          })
-
-         // TODO: think about adding changes to user state when changes are implemented in the system 
       }
   }
   },[videoId])
@@ -246,10 +238,10 @@ export const MainVideoPage: React.FC<ReactPlayerProps> = () => {
            });
        }}> 
        {
-        // change this also
+        
         !liked.liked?<PiThumbsUpDuotone className="scale-150"/>:<PiThumbsUpFill className="scale-150"/>
        }
-        <p className="ml-4">{liked.likedCount}</p>
+        <p className="ml-4">{formatCount(liked.likedCount as number)}</p>
         </Button>
       
        </div>

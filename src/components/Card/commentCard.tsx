@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { formatDate } from '@/utils/DateFormat';
-import { CountFormat } from '@/utils/CountFormat';
+import { formatCount } from '@/utils/CountFormat';
 //what you will want commentId and userId along with that ownerID avatar and channel fullname
 
 
@@ -96,7 +96,7 @@ export const CommentCard  = ((
          >{props.isLiked ? <PiThumbsUpFill className='scale-150'/> : <PiThumbsUpDuotone className='scale-150'/> 
          // use this button to toggle
 
-         }</Button> <p className='mt-1'>{props.likes}</p>
+         }</Button> <p className='mt-1'>{formatCount(props.likes)}</p>
          </div>
          <span className="h-[0.1rem] w-max bg-gray-400 my-2"></span>
         </div>

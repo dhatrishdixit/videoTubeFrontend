@@ -1,4 +1,4 @@
-export function CountFormat(count: number) {
+export function formatCount(count: number) {
     if (count > 1000) {
         const formattedCount = (count / 1000).toFixed(1);
         return formattedCount.endsWith('.0') ? `${formattedCount.slice(0, -2)}K` : `${formattedCount}K`;
