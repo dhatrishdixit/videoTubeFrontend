@@ -9,7 +9,7 @@ export interface CommentSchema {
     content : string;
     video?: string;
     // think of adding Comment(for nesting) and Tweet to add comments to it 
-    createdAt : string;
+    createdAt : Date;
     owner : string;
     ownerUsername : string;
     ownerAvatar : string;
@@ -22,15 +22,15 @@ export function usePaginate(itemCount:number=0,limit:number=20,url:string="/comm
    // url = {{localServer}}/comments/:videoId?page=1
    // /comments/${videoId}
    const { toast } = useToast();
-   const totalPages = itemCount / limit ;
-   const [pageNum,setPageNum] = React.useState<number>(0);
+   const totalPages = Math.ceil(itemCount / limit) ;
+   const [pageNum,setPageNum] = React.useState<number>(1);
    const [isLoading,setIsLoading] = React.useState<boolean>(false);
    const [result,setResult] = React.useState<CommentSchema[]>([]);
    
 
    React.useEffect(()=>{
         setIsLoading(true);
-        let URL = `${import.meta.env.VITE_BASE_URL}/api/v1${url}?page=${pageNum}&limit=${limit}` ;
+        let URL = `${import.meta.env.VITE_BASE_URL}/api/v1${url}?page=${pageNum-1}&limit=${limit}` ;
 
         if(query){
             URL += `&${query}`
@@ -44,7 +44,11 @@ export function usePaginate(itemCount:number=0,limit:number=20,url:string="/comm
             setIsLoading(false);
         })
         .catch(err =>{
-            toast
+            toast({
+               variant:"destructive",
+               type:"foreground",
+               description: err.response.data.message
+            })
         })
         
    },[pageNum])
@@ -54,7 +58,7 @@ export function usePaginate(itemCount:number=0,limit:number=20,url:string="/comm
 
    
    function switchToNextPage(){
-     if(pageNum >= totalPages - 1){
+     if(pageNum >= totalPages){
         return "disabled" ;
      }
       setPageNum(prev => prev+1);
@@ -62,7 +66,7 @@ export function usePaginate(itemCount:number=0,limit:number=20,url:string="/comm
    }
 
    function switchToPreviousPage(){
-    if(pageNum <=  0){
+    if(pageNum <=  1){
        return "disabled" ;
     }
      setPageNum(prev => prev-1);
@@ -70,10 +74,10 @@ export function usePaginate(itemCount:number=0,limit:number=20,url:string="/comm
   }
 
    function moveToLastPage(){
-     if(pageNum == totalPages -1 || pageNum == totalPages - 2){
+     if(pageNum == totalPages){
         return "hidden";
      }
-     setPageNum(totalPages-1);
+     setPageNum(totalPages);
      return null ;
    }
 
@@ -81,7 +85,7 @@ export function usePaginate(itemCount:number=0,limit:number=20,url:string="/comm
      if(pageNum <= 1){
         return "hidden";
      }
-     setPageNum(0);
+     setPageNum(1);
      return null ;
    }
 
@@ -99,7 +103,8 @@ export function usePaginate(itemCount:number=0,limit:number=20,url:string="/comm
     moveToRandomPage,
     isLoading,
     setPageNum,
-    result
+    result,
+    pageNum
   }
    
 }

@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { formatDate } from '@/utils/DateFormat';
+import { CountFormat } from '@/utils/CountFormat';
 //what you will want commentId and userId along with that ownerID avatar and channel fullname
 
 
@@ -41,12 +42,24 @@ export const CommentCard  = ((
   
   const [hover,setHover] = useState<boolean>(false);
   const [collapse,setCollapse] = useState<boolean>(true) ;
+  const [currentLikes,setCurrentLiked] = useState<number>()
   function stringShortener(str:string):string {
        return str?.substring(0,119);
   }
     // we will get userId and videoId then we will have to query fot comments having same videoId,
+    //{{localServer}}/likes/toggle/c/:commentId
 
+       
+   useEffect(()=>{
     
+    // runs on mount or when dependency array updates
+    
+    return () => {
+      // runs on unmount
+    }
+
+   },[])
+
 
     
     return(
@@ -85,7 +98,7 @@ export const CommentCard  = ((
 
          }</Button> <p className='mt-1'>{props.likes}</p>
          </div>
-         <span className="h-[0.1rem] w-full bg-gray-400 my-2"></span>
+         <span className="h-[0.1rem] w-max bg-gray-400 my-2"></span>
         </div>
         </div>
         {

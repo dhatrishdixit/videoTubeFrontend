@@ -6,15 +6,26 @@ import axios from "axios";
 import { RootState } from "@/app/store";
 import { useSelector } from "react-redux";
 import { usePaginate } from "@/hooks/Pagination";
+import { BiDotsHorizontalRounded } from "react-icons/bi";
+
+import {
+    Pagination,
+    PaginationContent,
+    PaginationItem,
+    PaginationLink,
+    PaginationNext,
+    PaginationPrevious,
+  } from "@/components/ui/pagination"
+  
 
 export interface CommentCardSchema {
     _id: string;
     content: string;
     video: string;
-    owner: string;
     createdAt: Date;
-    ownerAvatar: string;
+    owner: string;
     ownerUsername: string;
+    ownerAvatar: string;
     likes: number,
     isEditable: boolean,
     isLiked: boolean
@@ -41,43 +52,38 @@ export const CommentPage:React.FC<CommentPageSchema> = ({videoId,commentsCount})
 
     const {_id,username,avatar} = useSelector((state:RootState) => state.authorization.userData)
     const { toast } = useToast();
-    const [commentData,setCommentData] = useState<CommentCardSchema[]>([]);
-    const [loading,setLoading] = useState<boolean>(false);
+ 
     const [post,setPost] = useState();
-    const [apiCall,setApiCall] = useState<number>(0);
+    const [apiCall,setApiCall] = useState<boolean>(false);
     // changes this everytime there is any update to get the comments 
-    const cardRef = useRef<HTMLDivElement>();
-    useEffect(()=>{
+    const [query,setQuery] = useState<string>("");
+    const {
+        totalPages,
+        switchToNextPage,
+        switchToPreviousPage,
+        moveToLastPage,
+        moveToFirstPage,
+        moveToRandomPage,
+        isLoading,
+        setPageNum,
+        result,
+        pageNum
+    } = usePaginate(commentsCount,20,`/comments/${videoId}`);
+ 
+
+  
+    const isPreviousPageAvailable = Boolean(pageNum !== 1)  ;
+    const isNextPageAvailable = pageNum < totalPages ;
+
+ 
        // use this to get all the comments 
        //{{localServer}}/comments/:videoId
    
 
-      axios.get(`${import.meta.env.VITE_BASE_URL}/api/v1/comments/${videoId}`,{
-        withCredentials:true
-      })
-      .then((res)=>{
-           setCommentData(res.data.data);
-           console.log("commentData: ",res.data.data)
-      })
-      .catch(err=>{
-        console.log(err);
-        toast({
-          variant:"destructive",
-          type:"foreground",
-          description:err.response.data.message
-        })
-      })
-
-    },[videoId,apiCall]);
-
-    useEffect(()=>{
-   
-    },[])
     
     const inputRef = React.createRef<HTMLInputElement>();
 
     const postComment = async () =>{
-          setLoading(true);
    
 
     }
@@ -89,9 +95,84 @@ export const CommentPage:React.FC<CommentPageSchema> = ({videoId,commentsCount})
 
     <InputPost placeholder="comment" className="w-[80%] ml-6 border-b" ref={inputRef} postComment={postComment}/>
   </div>
+   {
+      result.map((commentData,index) => {
+        return(
+          <CommentCard key={index} {...commentData as CommentCardSchema}/>
+        )
+      })
+   }
 
-<CommentCard {...commentData[0]}/>
-
+  
+   <Pagination className="cursor-pointer">
+    <PaginationContent>
+        <PaginationItem>
+            <PaginationPrevious className={`border  ${isPreviousPageAvailable? "hover:border-white":"cursor-not-allowed"}`} onClick={(e)=>{
+                e.preventDefault();
+                switchToPreviousPage();
+            }}/>
+        </PaginationItem>
+        <PaginationItem>
+             <PaginationLink className={`${isPreviousPageAvailable  && pageNum - 1 !== 1  ?  "": "hidden" }`}
+             onClick={(e)=>{
+                e.preventDefault();
+                moveToFirstPage();
+             }}
+             >1</PaginationLink>
+        </PaginationItem>
+        <PaginationItem >
+             <BiDotsHorizontalRounded 
+             className={`${isPreviousPageAvailable && pageNum - 1 !== 1 && pageNum - 2 !== 1 ? "": "hidden" }`} 
+              /> 
+        </PaginationItem>
+        <PaginationItem>
+            <PaginationLink 
+            className={`${isPreviousPageAvailable ? "": "hidden" }`}
+            onClick={(e) => {
+                   e.preventDefault();
+                   switchToPreviousPage();
+            }}
+            >{pageNum - 1}</PaginationLink>
+        </PaginationItem>
+        <PaginationItem>
+            <PaginationLink
+            onClick={(e)=>{
+                e.preventDefault();
+            }} 
+            isActive>{pageNum}</PaginationLink>
+        </PaginationItem>
+        <PaginationItem>
+            <PaginationLink 
+            className={`${isNextPageAvailable ? "": "hidden" }`}
+            onClick={(e)=>{
+                 e.preventDefault();
+                 switchToNextPage();
+            }}
+            >{pageNum+1}</PaginationLink>
+        </PaginationItem>
+        <PaginationItem>
+            <BiDotsHorizontalRounded className={`${isNextPageAvailable && pageNum + 2 !== totalPages && pageNum + 1 !== totalPages ? "": "hidden" }`}/> 
+        </PaginationItem>
+        <PaginationItem>
+            <PaginationLink 
+            className={`${isNextPageAvailable && pageNum + 1 !== totalPages ? "": "hidden" }`}
+            onClick={(e)=>{
+                 e.preventDefault();
+                 moveToLastPage();
+            }}
+            >{totalPages}</PaginationLink>
+        </PaginationItem>
+        <PaginationItem>
+            <PaginationNext 
+             className={`border ${isNextPageAvailable ? "hover:border-white":"cursor-not-allowed"}`}
+             onClick={(e:React.MouseEvent<HTMLAnchorElement, MouseEvent>) =>{
+                e.preventDefault();
+                switchToNextPage();
+             }}
+            />
+        </PaginationItem>
+    </PaginationContent>
+   </Pagination>
 </div>
 
     )
