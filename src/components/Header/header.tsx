@@ -69,7 +69,7 @@ export const Navbar = () => {
         }}
       >
         <Logo />
-        <p className="text-red-600 font-bold text-xl">VideoTube</p>
+        <p className="text-red-600 font-bold text-2xl">ClipSync</p>
       </div>
       <div className="col-span-1">
         <FilterBtn />
