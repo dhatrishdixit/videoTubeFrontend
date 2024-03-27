@@ -4,12 +4,11 @@ import { Player } from "@/components/CustomVideoPlayer/Player";
 import { Button } from "@/components/ui/button";
 import { PiThumbsUpDuotone } from "react-icons/pi";
 import { PiThumbsUpFill } from "react-icons/pi";
-import { VideoCardRecommendation, VideoCardSearch } from "@/components/Card/videoCard";
 import { useLocation, useParams } from "react-router-dom";
 import axios from "axios";
 import { formatDate } from "@/utils/DateFormat";
 import { useToast } from "@/components/ui/use-toast";
-import { RecommendedVideo } from "@/components/Content/RecommededVideo";
+import { RecommendedVideo } from "@/components/Content/RecommendedVideo";
 import { CommentPage } from "../CommentPage/CommentPage";
 import { formatCount } from "@/utils/CountFormat";
 
@@ -79,22 +78,9 @@ interface SubscribedSchema{
 }
 
 export const MainVideoPage: React.FC<ReactPlayerProps> = () => {
-  // this is my strategy to deal with main page
-  // make a fetch request based on the video Id
-  // update backend to check for whether the user has liked the video or not on that basis have a variable to store that
-  // also use useEffect to track like on video
 
-  // then for comments have a comment section for that you need whole lot of info
-  // comment section will have arrays of comments for each of them you have to check whether liked by user or not for that also make a separate comment component
-  // and use smart data fetching techniques for this
-  //fetch request from here for the video
-  // add toggle subscription also 
-  // also should get user id from fetch request
- // remember updating subscriber count when subcribed by the user
   const [collapse,setCollapse] = useState<boolean>(true) ;
   const location = useLocation();
-  //console.log(location.state);
-
   const { toast } = useToast();
   const [data,setData] = useState<VideoPageSchema>({});
   const { videoId } = useParams() ;
@@ -141,18 +127,12 @@ export const MainVideoPage: React.FC<ReactPlayerProps> = () => {
     return () =>{
      
       if(initialLikeState.current !== currentLikeState.current) {
-         //console.log("toggle like through api call");
         
          axios
         .post(`${import.meta.env.VITE_BASE_URL}/api/v1/likes/toggle/v/${videoId}`,null,{
           withCredentials:true
         })
         .then(res => {
-          // toast({
-          //   variant:"success",
-          //   type:"foreground",
-          //   description:res.data.message
-          // })
           console.log(res.data.message);
         })
         .catch(err=>{
@@ -225,7 +205,7 @@ export const MainVideoPage: React.FC<ReactPlayerProps> = () => {
              })
          }}
           >
-         {subscribed.subscribed?"subcribed":"subcribe"}
+         {subscribed.subscribed?"subscribed":"subscribe"}
          </Button>
        </div>
        <Button className="w-max" variant="secondary" onClick={()=>{
@@ -263,13 +243,6 @@ export const MainVideoPage: React.FC<ReactPlayerProps> = () => {
 
    
        </div>
-
-       {
-        // props to be sent here are 
-        // videoId ,
-        // should take below out from redux toolkit state 
-        // userId , userName , userAvatar 
-      }
       
         <CommentPage videoId={videoId as string} commentsCount={data.commentsCount as number}/>
         
