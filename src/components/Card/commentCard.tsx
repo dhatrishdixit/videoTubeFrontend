@@ -16,6 +16,7 @@ import { formatCount } from '@/utils/CountFormat';
 import axios from "axios";
 import { usePageNumContext } from '@/hooks/PagenumContext';
 import { useToast } from '../ui/use-toast';
+import { useParams } from 'react-router-dom';
 //what you will want commentId and userId along with that ownerID avatar and channel fullname
 
 
@@ -48,6 +49,7 @@ interface CurrentLikeStatusSchema {
 export const CommentCard  = ((
     props:CommentCardSchema
 ) => { 
+  const { videoId } = useParams();
   const {toast} = useToast();
   const [hover,setHover] = useState<boolean>(false);
   const [collapse,setCollapse] = useState<boolean>(true) ;
@@ -90,7 +92,7 @@ export const CommentCard  = ((
     
     }
 
-   },[pageNum])
+   },[pageNum,videoId])
 
 
     

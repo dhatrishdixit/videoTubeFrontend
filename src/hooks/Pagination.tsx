@@ -18,7 +18,7 @@ export interface CommentSchema {
     isLiked : boolean;
 }
 
-export function usePaginate(itemCount:number=0,limit:number=20,url:string="/comments",query:string=""){
+export function usePaginate(itemCount:number=0,limit:number=20,url:string="/comments",query:string="",refresh:number){
   
    const { toast } = useToast();
    const totalPages = Math.ceil(itemCount / limit) ;
@@ -50,7 +50,7 @@ export function usePaginate(itemCount:number=0,limit:number=20,url:string="/comm
             })
         })
         
-   },[pageNum,url,query])
+   },[pageNum,url,query,refresh])
    // remember 1 thing ki page start hoga zero se apne server mei 
    // lekin apne ko show karna hai ki start ho rha hai 1 se bas 
    // TODO: think of adding comments inside comments 

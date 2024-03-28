@@ -3,13 +3,39 @@ import React from "react";
 import { X } from "lucide-react";
 import { IoMdSend } from "react-icons/io";
 import { InputProps } from "./input";
+import axios from "axios";
+import { useToast } from "./use-toast";
+import { useParams } from "react-router-dom";
 
-export const InputPost = React.forwardRef<HTMLInputElement,InputProps>(({ className,...props },ref) => {
-  // add debouncing to this also
-  // add lazy loading to this also
+type InputPost = (InputProps 
+  & {
+    className?:string,
+    setRefresh?:React.Dispatch<React.SetStateAction<number>>
+  })
+
+export const InputPost = (({ className,setRefresh,...props }:InputPost) => {
+  const { toast } = useToast();
+  const { videoId } = useParams();
   const [post, setPost] = React.useState<string | undefined>("");
   const [isFocus, setIsFocus] = React.useState<boolean | undefined>(false);
   // add clear button and post button in this after learning about forward ref
+  const postComment = async () =>{
+
+    await axios.post(`${import.meta.env.VITE_BASE_URL}/api/v1/comments/${videoId}`,{
+        content:post
+    },{
+        withCredentials:true
+    })
+
+    setPost("");
+    toast({
+      variant:"success",
+      type:"foreground",
+      description:"comment posted successfully"
+    })
+    if(setRefresh) setRefresh(Math.random())
+   
+}
 
   return (
     <div
@@ -39,12 +65,11 @@ export const InputPost = React.forwardRef<HTMLInputElement,InputProps>(({ classN
         value={post}
         autoComplete="off"
         {...props}
-        ref={ref}
+
       />
 
       <button
-        onClick={(e) => {
-          e.preventDefault();
+        onClick={() => {
           setPost("");
         }}
         className={`
@@ -55,9 +80,8 @@ export const InputPost = React.forwardRef<HTMLInputElement,InputProps>(({ classN
       </button>
 
       <button
-        onClick={(e) => {
-          e.preventDefault();
-          // call backend for post
+        onClick={() => {
+           postComment();
         }}
         className={`
             px-3  rounded-r-md 
@@ -69,4 +93,4 @@ export const InputPost = React.forwardRef<HTMLInputElement,InputProps>(({ classN
   );
 })
 
-InputPost.displayName = "Input Post";
+

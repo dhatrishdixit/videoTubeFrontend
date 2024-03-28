@@ -15,8 +15,6 @@ import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
     DropdownMenuTrigger,
   } from "@/components/ui/dropdown-menu";
 import {
@@ -65,14 +63,9 @@ export const CommentPage:React.FC<CommentPageSchema> = ({videoId,commentsCount})
     // TODO: for mostLiked query send the query = &ascending=true
 
     const {_id,username,avatar} = useSelector((state:RootState) => state.authorization.userData)
-    const { toast } = useToast();
- 
-    const [post,setPost] = useState();
-    const [apiCall,setApiCall] = useState<boolean>(false);
-    // changes this everytime there is any update to get the comments 
-     const [query,setQuery] = useState<queryType>("Top");
-     const Query = query == "Top" ? "" : "&ascending=true" ;
- 
+    const [query,setQuery] = useState<queryType>("Top");
+    const Query = query == "Top" ? "" : "&ascending=true" ;
+    const [refresh,setRefresh] = useState<number>(0);
     const {
         totalPages,
         switchToNextPage,
@@ -83,24 +76,12 @@ export const CommentPage:React.FC<CommentPageSchema> = ({videoId,commentsCount})
         setPageNum,
         result,
         pageNum
-    } = usePaginate(commentsCount,20,`/comments/${videoId}`,Query);
+    } = usePaginate(commentsCount,20,`/comments/${videoId}`,Query,refresh);
 
   
     const isPreviousPageAvailable = Boolean(pageNum !== 1)  ;
     const isNextPageAvailable = pageNum < totalPages ;
-
- 
-       // use this to get all the comments 
-       //{{localServer}}/comments/:videoId
-     
-
-    
-    const inputRef = React.createRef<HTMLInputElement>();
-
-    const postComment = async () =>{
    
-
-    }
     return(
     <PageNumContextProvider pageNum={pageNum}>
    <div className={` w-[95%] dark:bg-[#272727] rounded-md my-4 bg-[#f1f1f1] ${isLoading ? "flex justify-center items-center" : "text-left"} px-4 py-4`}>
@@ -135,14 +116,14 @@ export const CommentPage:React.FC<CommentPageSchema> = ({videoId,commentsCount})
             onSelect={() => setQuery("Recent")}
             className={`${query === "Recent" ? "bg-red-600" : ""}`}
             >Recent</DropdownMenuItem>
-         </DropdownMenuContent>
+         </DropdownMenuContent> 
         </DropdownMenu>
        
 </p>
         <div className="my-4 flex items-center ">
         <img src={avatar} className="h-12 w-12 rounded-full "/>
     
-        <InputPost placeholder="comment" className="w-[80%] ml-6 border-b" ref={inputRef} postComment={postComment}/>
+        <InputPost placeholder="comment" className="w-[80%] ml-6 border-b" setRefresh={setRefresh}/>
       </div>
        {
           result.map((commentData,index) => {
