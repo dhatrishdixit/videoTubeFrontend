@@ -1,9 +1,6 @@
 import { CommentCard } from "@/components/Card/commentCard"
 import { InputPost } from "@/components/ui/inputPost"
-import React,{ useEffect, useRef, useState } from "react" ;
-// two things to pass in useContext - pageNum and reload type ??
-import { useToast } from "@/components/ui/use-toast";
-import axios from "axios";
+import React,{ useState } from "react" ;
 import { RootState } from "@/app/store";
 import { useSelector } from "react-redux";
 import { usePaginate } from "@/hooks/Pagination";
@@ -49,20 +46,8 @@ interface CommentPageSchema {
 
 type queryType  = "Top" | "Recent" ;
 export const CommentPage:React.FC<CommentPageSchema> = ({videoId,commentsCount}) =>{
-    //{{localServer}}/comments/:videoId
-    //TODO: block send button while loading
-    // similar like implementation as in videos as in videos , implement directly in comment card  
-    // add edit functionality and delete functionality to with respect to input card for all the comment card 
-    // maintain a varible based on which which refresh comment section 
-    // one variable for firing a api call for all comments again 
-    //TODO: comments limit per page == 20 
-    // FIXME: remember using pageNum + 1 to show the page number 
-    // FIXME: pass this through url of usePagination = /comments/${videoId}
-    // TODO: initially sort on the basis of most liked 
-    // make it bg to something like white 
-    // TODO: for mostLiked query send the query = &ascending=true
 
-    const {_id,username,avatar} = useSelector((state:RootState) => state.authorization.userData)
+    const {avatar} = useSelector((state:RootState) => state.authorization.userData)
     const [query,setQuery] = useState<queryType>("Top");
     const Query = query == "Top" ? "" : "&ascending=true" ;
     const [refresh,setRefresh] = useState<number>(0);
@@ -73,7 +58,6 @@ export const CommentPage:React.FC<CommentPageSchema> = ({videoId,commentsCount})
         moveToLastPage,
         moveToFirstPage,
         isLoading,
-        setPageNum,
         result,
         pageNum
     } = usePaginate(commentsCount,20,`/comments/${videoId}`,Query,refresh);

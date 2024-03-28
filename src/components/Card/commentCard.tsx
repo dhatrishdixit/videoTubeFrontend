@@ -17,13 +17,6 @@ import axios from "axios";
 import { usePageNumContext } from '@/hooks/PagenumContext';
 import { useToast } from '../ui/use-toast';
 import { useParams } from 'react-router-dom';
-//what you will want commentId and userId along with that ownerID avatar and channel fullname
-
-
-//TODO: i have an idea instead of updating and making server requests every time why dont we maintain an array of changes or an object whatever 
-
-// TODO: write interface for props write now i am doing just 
-// add Props to this also 
 
 
 
@@ -69,17 +62,19 @@ export const CommentCard  = ((
     // runs on mount or when dependency array updates
     
     return () => {
+      // runs on unmount or when dependency array updates 
       if(currentLikeStatus.isLiked !== props.isLiked){
         axios
         .post(`${import.meta.env.VITE_BASE_URL}/api/v1/likes/toggle/c/${props._id}`,null,{
           withCredentials:true
         })
         .then(res => 
-              toast({
-                variant:"success",
-                type:"foreground",
-                description:res.data.message
-              })
+              // toast({
+              //   variant:"success",
+              //   type:"foreground",
+              //   description:res.data.message
+              // })
+              console.log(res.data.message)
           )
         .catch(err => 
               toast({

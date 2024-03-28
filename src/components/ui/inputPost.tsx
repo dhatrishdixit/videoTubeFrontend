@@ -18,7 +18,6 @@ export const InputPost = (({ className,setRefresh,...props }:InputPost) => {
   const { videoId } = useParams();
   const [post, setPost] = React.useState<string | undefined>("");
   const [isFocus, setIsFocus] = React.useState<boolean | undefined>(false);
-  // add clear button and post button in this after learning about forward ref
   const postComment = async () =>{
 
     await axios.post(`${import.meta.env.VITE_BASE_URL}/api/v1/comments/${videoId}`,{
