@@ -3,23 +3,30 @@ import React,{ useContext,createContext } from "react";
 type PageNumContextProviderProps = {
     children:React.ReactNode;
     pageNum:number;
+    setRefresh:React.Dispatch<React.SetStateAction<number>>
 }
 
-type PageNumContextValue = number
+type PageNumContextValue = {
+    pageNum:number,
+    setRefresh:React.Dispatch<React.SetStateAction<number>>
+}
 
 export const PageNumContext = createContext<PageNumContextValue|null>(null);
 
 
-export const PageNumContextProvider = ({children,pageNum}:PageNumContextProviderProps) =>{
+export const PageNumAndRefreshContextProvider = ({children,pageNum,setRefresh}:PageNumContextProviderProps) =>{
     return (
          <PageNumContext.Provider 
-          value = {pageNum}
+          value = {{
+            pageNum:pageNum,
+            setRefresh:setRefresh
+          }}
          >{children}
          </PageNumContext.Provider>
     )
 }
 
-export const usePageNumContext = () => {
+export const usePageNumAndRefreshContext = () => {
     const context = useContext(PageNumContext);
     if (!context) throw new Error("useContext is used outside of PageNumContext.Provider")
 

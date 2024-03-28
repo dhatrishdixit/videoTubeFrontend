@@ -164,7 +164,7 @@ export const MainVideoPage: React.FC<ReactPlayerProps> = () => {
          })
       }
   }
-  },[videoId])
+  },[videoId,location])
 
 
   

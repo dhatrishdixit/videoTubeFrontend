@@ -1,12 +1,12 @@
 import { CommentCard } from "@/components/Card/commentCard"
 import { InputPost } from "@/components/ui/inputPost"
-import React,{ useState } from "react" ;
+import React,{ useState,useRef } from "react" ;
 import { RootState } from "@/app/store";
 import { useSelector } from "react-redux";
 import { usePaginate } from "@/hooks/Pagination";
 import { BiDotsHorizontalRounded } from "react-icons/bi";
 import { Comment } from "react-loader-spinner";
-import {PageNumContextProvider } from "@/hooks/PagenumContext";
+import {PageNumAndRefreshContextProvider } from "@/hooks/PageNumAndRefreshContext";
 import { HiOutlineMenuAlt2 } from "react-icons/hi";
 import {
     DropdownMenu,
@@ -46,7 +46,7 @@ interface CommentPageSchema {
 
 type queryType  = "Top" | "Recent" ;
 export const CommentPage:React.FC<CommentPageSchema> = ({videoId,commentsCount}) =>{
-
+    
     const {avatar} = useSelector((state:RootState) => state.authorization.userData)
     const [query,setQuery] = useState<queryType>("Top");
     const Query = query == "Top" ? "" : "&ascending=true" ;
@@ -65,9 +65,9 @@ export const CommentPage:React.FC<CommentPageSchema> = ({videoId,commentsCount})
   
     const isPreviousPageAvailable = Boolean(pageNum !== 1)  ;
     const isNextPageAvailable = pageNum < totalPages ;
-   
+    const inputRef = useRef<HTMLInputElement>(null);
     return(
-    <PageNumContextProvider pageNum={pageNum}>
+    <PageNumAndRefreshContextProvider pageNum={pageNum} setRefresh={setRefresh}>
    <div className={` w-[95%] dark:bg-[#272727] rounded-md my-4 bg-[#f1f1f1] ${isLoading ? "flex justify-center items-center" : "text-left"} px-4 py-4`}>
     {
       isLoading ? (
@@ -91,23 +91,34 @@ export const CommentPage:React.FC<CommentPageSchema> = ({videoId,commentsCount})
               <span className="font-medium text-lg">sortBy</span>
             </DropdownMenuTrigger>
          <DropdownMenuContent>
-            <DropdownMenuItem inset 
+            <DropdownMenuItem 
+            inset 
             onSelect={() => setQuery("Top")}
             className={`${query === "Top" ? "bg-red-600" : ""}`}
             >Top</DropdownMenuItem>
 
-            <DropdownMenuItem inset
+            <DropdownMenuItem 
+            inset
             onSelect={() => setQuery("Recent")}
             className={`${query === "Recent" ? "bg-red-600" : ""}`}
             >Recent</DropdownMenuItem>
          </DropdownMenuContent> 
         </DropdownMenu>
        
-</p>
-        <div className="my-4 flex items-center ">
-        <img src={avatar} className="h-12 w-12 rounded-full "/>
+        </p>
+        <div 
+        className="my-4 flex items-center ">
+        <img 
+        src={avatar} 
+        className="h-12 w-12 rounded-full "/>
     
-        <InputPost placeholder="comment" className="w-[80%] ml-6 border-b" setRefresh={setRefresh}/>
+        <InputPost 
+        placeholder="comment" 
+        className="w-[80%] ml-6 border-b" 
+        setRefresh={setRefresh}
+        id="input"
+        ref={inputRef}
+        />
       </div>
        {
           result.map((commentData,index) => {
@@ -190,7 +201,7 @@ export const CommentPage:React.FC<CommentPageSchema> = ({videoId,commentsCount})
        </>
       )
     }
-</div></PageNumContextProvider>
+</div></PageNumAndRefreshContextProvider>
 
     )
 }

@@ -13,7 +13,10 @@ type InputPost = (InputProps
     setRefresh?:React.Dispatch<React.SetStateAction<number>>
   })
 
-export const InputPost = (({ className,setRefresh,...props }:InputPost) => {
+export const InputPost = React.forwardRef<HTMLInputElement,InputPost>(({
+  className
+  ,setRefresh
+  ,...props },ref) => {
   const { toast } = useToast();
   const { videoId } = useParams();
   const [post, setPost] = React.useState<string | undefined>("");
@@ -64,7 +67,7 @@ export const InputPost = (({ className,setRefresh,...props }:InputPost) => {
         value={post}
         autoComplete="off"
         {...props}
-
+        ref={ref}
       />
 
       <button
