@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { Button } from '../ui/button';
 import { PiThumbsUpDuotone } from "react-icons/pi";
 import { PiThumbsUpFill } from "react-icons/pi";
@@ -13,6 +13,9 @@ import {
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { formatDate } from '@/utils/DateFormat';
 import { formatCount } from '@/utils/CountFormat';
+import axios from "axios";
+import { usePageNumContext } from '@/hooks/PagenumContext';
+import { useToast } from '../ui/use-toast';
 //what you will want commentId and userId along with that ownerID avatar and channel fullname
 
 
@@ -36,29 +39,58 @@ interface CommentCardSchema {
    isLiked:boolean
 }
 
+interface CurrentLikeStatusSchema {
+  isLiked:boolean;
+  likesCount:number;
+}
+
+
 export const CommentCard  = ((
     props:CommentCardSchema
-) => {
-  
+) => { 
+  const {toast} = useToast();
   const [hover,setHover] = useState<boolean>(false);
   const [collapse,setCollapse] = useState<boolean>(true) ;
-  const [currentLikes,setCurrentLiked] = useState<number>()
+  const [currentLikeStatus,setCurrentLikeStatus] = useState<CurrentLikeStatusSchema>({
+    isLiked:props.isLiked,
+    likesCount:props.likes
+  })
+ 
   function stringShortener(str:string):string {
        return str?.substring(0,119);
   }
-    // we will get userId and videoId then we will have to query fot comments having same videoId,
-    //{{localServer}}/likes/toggle/c/:commentId
+   const pageNum = usePageNumContext();
 
-       
+
    useEffect(()=>{
     
     // runs on mount or when dependency array updates
     
     return () => {
-      // runs on unmount
+      if(currentLikeStatus.isLiked !== props.isLiked){
+        axios
+        .post(`${import.meta.env.VITE_BASE_URL}/api/v1/likes/toggle/c/${props._id}`,null,{
+          withCredentials:true
+        })
+        .then(res => 
+              toast({
+                variant:"success",
+                type:"foreground",
+                description:res.data.message
+              })
+          )
+        .catch(err => 
+              toast({
+                variant:"destructive",
+                type:"foreground",
+                description:err?.response?.data?.message
+              })
+          )
+      }
+    
     }
 
-   },[])
+   },[pageNum])
 
 
     
@@ -92,11 +124,20 @@ export const CommentCard  = ((
           onClick={()=>{
                 // use this to toggle likes 
                 // or update that array 
+                setCurrentLikeStatus(prev =>
+                     {
+                       return {
+                          isLiked:!prev.isLiked,
+                          likesCount: prev.isLiked == true ? prev.likesCount as number - 1 : prev.likesCount as number + 1 ,
+                       }
+                     }
+                  );
             }}
-         >{props.isLiked ? <PiThumbsUpFill className='scale-150'/> : <PiThumbsUpDuotone className='scale-150'/> 
-         // use this button to toggle
-
-         }</Button> <p className='mt-1'>{formatCount(props.likes)}</p>
+         >{
+          currentLikeStatus.isLiked ? <PiThumbsUpFill className='scale-150'/> : <PiThumbsUpDuotone className='scale-150'/> 
+         }</Button> 
+         <p className='mt-1'
+         >{formatCount(currentLikeStatus.likesCount)}</p>
          </div>
          <span className="h-[0.1rem] w-max bg-gray-400 my-2"></span>
         </div>

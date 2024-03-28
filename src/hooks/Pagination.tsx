@@ -17,16 +17,15 @@ export interface CommentSchema {
     isEditable : boolean;
     isLiked : boolean;
 }
+
 export function usePaginate(itemCount:number=0,limit:number=20,url:string="/comments",query:string=""){
-   // here itemCount is = CommentCount
-   // url = {{localServer}}/comments/:videoId?page=1
-   // /comments/${videoId}
+  
    const { toast } = useToast();
    const totalPages = Math.ceil(itemCount / limit) ;
    const [pageNum,setPageNum] = React.useState<number>(1);
    const [isLoading,setIsLoading] = React.useState<boolean>(false);
    const [result,setResult] = React.useState<CommentSchema[]>([]);
-   
+
 
    React.useEffect(()=>{
         setIsLoading(true);
@@ -35,7 +34,7 @@ export function usePaginate(itemCount:number=0,limit:number=20,url:string="/comm
         if(query){
             URL += `&${query}`
         }
-
+        console.log(URL);
         axios.get(URL,{
             withCredentials:true
         })
@@ -51,7 +50,7 @@ export function usePaginate(itemCount:number=0,limit:number=20,url:string="/comm
             })
         })
         
-   },[pageNum])
+   },[pageNum,url,query])
    // remember 1 thing ki page start hoga zero se apne server mei 
    // lekin apne ko show karna hai ki start ho rha hai 1 se bas 
    // TODO: think of adding comments inside comments 
@@ -92,6 +91,8 @@ export function usePaginate(itemCount:number=0,limit:number=20,url:string="/comm
    function moveToRandomPage(page:number){
       if(page >=1 && page <= pageNum) setPageNum(page-1);
    }
+
+   // TODO: make a function to reload the whole pagination area 
 
 
   return {

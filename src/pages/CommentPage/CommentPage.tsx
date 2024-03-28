@@ -1,6 +1,7 @@
 import { CommentCard } from "@/components/Card/commentCard"
 import { InputPost } from "@/components/ui/inputPost"
-import React, { useEffect, useRef, useState } from "react" ;
+import React,{ useEffect, useRef, useState } from "react" ;
+// two things to pass in useContext - pageNum and reload type ??
 import { useToast } from "@/components/ui/use-toast";
 import axios from "axios";
 import { RootState } from "@/app/store";
@@ -8,7 +9,16 @@ import { useSelector } from "react-redux";
 import { usePaginate } from "@/hooks/Pagination";
 import { BiDotsHorizontalRounded } from "react-icons/bi";
 import { Comment } from "react-loader-spinner";
-
+import {PageNumContextProvider } from "@/hooks/PagenumContext";
+import { HiOutlineMenuAlt2 } from "react-icons/hi";
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+  } from "@/components/ui/dropdown-menu";
 import {
     Pagination,
     PaginationContent,
@@ -17,6 +27,7 @@ import {
     PaginationNext,
     PaginationPrevious,
   } from "@/components/ui/pagination"
+
   
 
 export interface CommentCardSchema {
@@ -37,6 +48,8 @@ interface CommentPageSchema {
     videoId:string
     commentsCount:number
 }
+
+type queryType  = "Top" | "Recent" ;
 export const CommentPage:React.FC<CommentPageSchema> = ({videoId,commentsCount}) =>{
     //{{localServer}}/comments/:videoId
     //TODO: block send button while loading
@@ -57,20 +70,20 @@ export const CommentPage:React.FC<CommentPageSchema> = ({videoId,commentsCount})
     const [post,setPost] = useState();
     const [apiCall,setApiCall] = useState<boolean>(false);
     // changes this everytime there is any update to get the comments 
-    const [query,setQuery] = useState<string>("");
+     const [query,setQuery] = useState<queryType>("Top");
+     const Query = query == "Top" ? "" : "&ascending=true" ;
+ 
     const {
         totalPages,
         switchToNextPage,
         switchToPreviousPage,
         moveToLastPage,
         moveToFirstPage,
-        moveToRandomPage,
         isLoading,
         setPageNum,
         result,
         pageNum
-    } = usePaginate(commentsCount,20,`/comments/${videoId}`);
- 
+    } = usePaginate(commentsCount,20,`/comments/${videoId}`,Query);
 
   
     const isPreviousPageAvailable = Boolean(pageNum !== 1)  ;
@@ -79,7 +92,7 @@ export const CommentPage:React.FC<CommentPageSchema> = ({videoId,commentsCount})
  
        // use this to get all the comments 
        //{{localServer}}/comments/:videoId
-   
+     
 
     
     const inputRef = React.createRef<HTMLInputElement>();
@@ -89,6 +102,7 @@ export const CommentPage:React.FC<CommentPageSchema> = ({videoId,commentsCount})
 
     }
     return(
+    <PageNumContextProvider pageNum={pageNum}>
    <div className={` w-[95%] dark:bg-[#272727] rounded-md my-4 bg-[#f1f1f1] ${isLoading ? "flex justify-center items-center" : "text-left"} px-4 py-4`}>
     {
       isLoading ? (
@@ -104,7 +118,27 @@ export const CommentPage:React.FC<CommentPageSchema> = ({videoId,commentsCount})
         />
       ) : (
         <>
-        <p className="text-xl font-bold">{(commentsCount as number)?.toLocaleString("en-US")} Comments</p>
+        <p className="text-xl font-bold flex items-center gap-2">{(commentsCount as number)?.toLocaleString("en-US")} Comments
+        <DropdownMenu>
+            <DropdownMenuTrigger 
+            className="flex gap-2 ml-4 items-center">  
+              <HiOutlineMenuAlt2/>
+              <span className="font-medium text-lg">sortBy</span>
+            </DropdownMenuTrigger>
+         <DropdownMenuContent>
+            <DropdownMenuItem inset 
+            onSelect={() => setQuery("Top")}
+            className={`${query === "Top" ? "bg-red-600" : ""}`}
+            >Top</DropdownMenuItem>
+
+            <DropdownMenuItem inset
+            onSelect={() => setQuery("Recent")}
+            className={`${query === "Recent" ? "bg-red-600" : ""}`}
+            >Recent</DropdownMenuItem>
+         </DropdownMenuContent>
+        </DropdownMenu>
+       
+</p>
         <div className="my-4 flex items-center ">
         <img src={avatar} className="h-12 w-12 rounded-full "/>
     
@@ -154,7 +188,7 @@ export const CommentPage:React.FC<CommentPageSchema> = ({videoId,commentsCount})
                 onClick={(e)=>{
                     e.preventDefault();
                 }} 
-                isActive>{pageNum}</PaginationLink>
+                isActive>{`${pageNum}`}</PaginationLink>
             </PaginationItem>
             <PaginationItem>
                 <PaginationLink 
@@ -180,10 +214,10 @@ export const CommentPage:React.FC<CommentPageSchema> = ({videoId,commentsCount})
             <PaginationItem>
                 <PaginationNext 
                  className={`border ${isNextPageAvailable ? "hover:border-white":"cursor-not-allowed"}`}
-                 onClick={(e:React.MouseEvent<HTMLAnchorElement, MouseEvent>) =>{
-                    e.preventDefault();
-                    switchToNextPage();
-                 }}
+                 onClick={(e)=>{
+                  e.preventDefault();
+                  switchToNextPage();
+              }}
                 />
             </PaginationItem>
         </PaginationContent>
@@ -191,7 +225,7 @@ export const CommentPage:React.FC<CommentPageSchema> = ({videoId,commentsCount})
        </>
       )
     }
-</div>
+</div></PageNumContextProvider>
 
     )
 }
