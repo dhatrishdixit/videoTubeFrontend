@@ -1,6 +1,6 @@
 import { CommentCard } from "@/components/Card/commentCard"
 import { InputPost } from "@/components/ui/inputPost"
-import React,{ useState,useRef } from "react" ;
+import React,{ useState,useRef} from "react" ;
 import { RootState } from "@/app/store";
 import { useSelector } from "react-redux";
 import { usePaginate } from "@/hooks/Pagination";
@@ -22,6 +22,7 @@ import {
     PaginationNext,
     PaginationPrevious,
   } from "@/components/ui/pagination"
+
 
   
 
@@ -62,7 +63,6 @@ export const CommentPage:React.FC<CommentPageSchema> = ({videoId,commentsCount})
         pageNum
     } = usePaginate(commentsCount,20,`/comments/${videoId}`,Query,refresh);
 
-  
     const isPreviousPageAvailable = Boolean(pageNum !== 1)  ;
     const isNextPageAvailable = pageNum < totalPages ;
     const inputRef = useRef<HTMLInputElement>(null);
@@ -118,6 +118,7 @@ export const CommentPage:React.FC<CommentPageSchema> = ({videoId,commentsCount})
         setRefresh={setRefresh}
         id="input"
         ref={inputRef}
+
         />
       </div>
        {

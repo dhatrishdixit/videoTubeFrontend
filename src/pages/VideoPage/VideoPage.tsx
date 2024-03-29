@@ -171,7 +171,7 @@ export const MainVideoPage: React.FC<ReactPlayerProps> = () => {
 
 
   return (
-    <div className="mx-4 my-2 grid grid-cols-10 h-[90vh] overflow-y-scroll scrollbar-thin dark:scrollbar-track-[#09090b] scrollbar-track-white scrollbar-thumb-red-600">
+    <div className="mx-4 my-2 grid grid-cols-10 h-[90vh] overflow-y-scroll scrollbar-thin dark:scrollbar-track-[#09090b] scrollbar-track-white scrollbar-thumb-red-600" id="videoPage">
       <div className="col-span-6">
         <Player
           className="react-player"

@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import React from "react";
+import React, { useEffect } from "react";
 import { X } from "lucide-react";
 import { IoMdSend } from "react-icons/io";
 import { InputProps } from "./input";
@@ -11,11 +11,13 @@ type InputPost = (InputProps
   & {
     className?:string,
     setRefresh?:React.Dispatch<React.SetStateAction<number>>
+    editCommentContent?:string
   })
 
 export const InputPost = React.forwardRef<HTMLInputElement,InputPost>(({
   className
   ,setRefresh
+  ,editCommentContent
   ,...props },ref) => {
   const { toast } = useToast();
   const { videoId } = useParams();
@@ -37,7 +39,12 @@ export const InputPost = React.forwardRef<HTMLInputElement,InputPost>(({
     })
     if(setRefresh) setRefresh(Math.random())
    
-}
+}  
+  useEffect(()=>{
+    if(editCommentContent){
+      setPost(editCommentContent)
+    }
+  },[editCommentContent])
 
   return (
     <div

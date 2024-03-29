@@ -18,6 +18,7 @@ import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import { useNavigate } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 import { usePageNumAndRefreshContext } from '@/hooks/PageNumAndRefreshContext';
+import { InputPost } from '../ui/inputPost';
 
 
 
@@ -52,12 +53,12 @@ export const CommentCard  = ((
     isLiked:props.isLiked,
     likesCount:props.likes
   })
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
   function stringShortener(str:string):string {
        return str?.substring(0,119);
   }
    const {pageNum,setRefresh} = usePageNumAndRefreshContext();
-
+   const [isEditing,setIsEditing] = useState(false);
 
    useEffect(()=>{
     
@@ -92,11 +93,8 @@ export const CommentCard  = ((
    },[pageNum,videoId])
 
     function editHandler(){
-       navigate(`/video/${videoId}/#input`,{
-        state:{
-          content:props.content
-        }
-       })
+        setIsEditing(true);
+        
     }
 
     function deleteHandler(){
@@ -125,6 +123,7 @@ export const CommentCard  = ((
     }
     
     return(
+      <div>
         <div className='flex justify-between items-start ' 
         onMouseEnter={()=>{
           setHover(true)
@@ -227,6 +226,8 @@ export const CommentCard  = ((
          </div>
           ):null
         }
+        </div>
+        
         </div>
     )
 })
