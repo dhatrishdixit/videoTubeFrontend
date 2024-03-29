@@ -2,12 +2,6 @@ import {useEffect, useState, useRef } from 'react';
 import { Button } from '../ui/button';
 import { PiThumbsUpDuotone } from "react-icons/pi";
 import { PiThumbsUpFill } from "react-icons/pi";
-// import {
-//   DropdownMenu,
-//   DropdownMenuContent,
-//   DropdownMenuItem,
-//   DropdownMenuTrigger,
-// } from "@/components/ui/dropdown-menu";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { formatDate } from '@/utils/DateFormat';
 import { formatCount } from '@/utils/CountFormat';
@@ -15,10 +9,10 @@ import axios from "axios";
 import { useToast } from '../ui/use-toast';
 import { useParams } from 'react-router-dom';
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
-import { useNavigate } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 import { usePageNumAndRefreshContext } from '@/hooks/PageNumAndRefreshContext';
 import { InputPost } from '../ui/inputPost';
+
 
 
 
@@ -57,7 +51,7 @@ export const CommentCard  = ((
   function stringShortener(str:string):string {
        return str?.substring(0,119);
   }
-   const {pageNum,setRefresh} = usePageNumAndRefreshContext();
+   const {pageNum,setRefresh,refresh} = usePageNumAndRefreshContext();
    const [isEditing,setIsEditing] = useState(false);
 
    useEffect(()=>{
@@ -90,11 +84,10 @@ export const CommentCard  = ((
     
     }
 
-   },[pageNum,videoId])
+   },[pageNum,videoId,refresh])
 
     function editHandler(){
         setIsEditing(true);
-        
     }
 
     function deleteHandler(){
@@ -123,8 +116,8 @@ export const CommentCard  = ((
     }
     
     return(
-      <div>
-        <div className='flex justify-between items-start ' 
+      <div className='w-full'>
+        <div className='flex justify-between items-start w-full' 
         onMouseEnter={()=>{
           setHover(true)
         }}
@@ -135,7 +128,7 @@ export const CommentCard  = ((
         }}
         ref={divRef}
         >
-          <div className='flex'>
+          <div className='flex w-full'>
         <img src={props.ownerAvatar} className='h-12 w-12 rounded-full'/>
         <div className='flex flex-col ml-4'>
         <div className='flex flex-row'> 
@@ -158,8 +151,6 @@ export const CommentCard  = ((
           variant="ghost"
           className='w-fit'
           onClick={()=>{
-                // use this to toggle likes 
-                // or update that array 
                 setCurrentLikeStatus(prev =>
                      {
                        return {
@@ -172,34 +163,26 @@ export const CommentCard  = ((
          >{
           currentLikeStatus.isLiked ? <PiThumbsUpFill className='scale-150'/> : <PiThumbsUpDuotone className='scale-150'/> 
          }</Button> 
+        
          <p className='mt-1'
          >{formatCount(currentLikeStatus.likesCount)}</p>
+     
          </div>
          <span className="h-[0.1rem] w-max bg-gray-400 my-2"></span>
+         {isEditing && 
+         <InputPost 
+         editCommentContent={props.content}
+         setIsEditing={setIsEditing}
+         isEditing={isEditing}
+         setRefresh={setRefresh}
+         commentId={props._id}
+         />}
         </div>
         </div>
         {
           (hover == true) && props.isEditable == true ? (
             <div className='mt-4 cursor-pointer'>
-       
-            {
-              // on clicking edit navigate to input 
-              // navigate(/#input)
-            }
-               {/* <DropdownMenu>
-            <DropdownMenuTrigger onClick={()=>{
-                       
-            }} asChild >  
-              <BsThreeDotsVertical />
-            </DropdownMenuTrigger>
-         <DropdownMenuContent>
-            <DropdownMenuItem inset>Edit</DropdownMenuItem>
-            <DropdownMenuItem inset 
-            className="bg-red-500">Delete</DropdownMenuItem>
-
-            
-         </DropdownMenuContent> 
-        </DropdownMenu> */}
+              
          <DropdownMenu.Root>
           <DropdownMenu.Trigger asChild>
             <button> <BsThreeDotsVertical /></button>

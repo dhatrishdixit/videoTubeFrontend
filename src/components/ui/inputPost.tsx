@@ -11,19 +11,25 @@ type InputPost = (InputProps
   & {
     className?:string,
     setRefresh?:React.Dispatch<React.SetStateAction<number>>
-    editCommentContent?:string
+    editCommentContent?:string,
+    setIsEditing?:React.Dispatch<React.SetStateAction<boolean>>,
+    isEditing?:boolean,
+    commentId?:string
   })
 
 export const InputPost = React.forwardRef<HTMLInputElement,InputPost>(({
   className
   ,setRefresh
   ,editCommentContent
+  ,isEditing
+  ,setIsEditing
+  ,commentId
   ,...props },ref) => {
   const { toast } = useToast();
   const { videoId } = useParams();
   const [post, setPost] = React.useState<string | undefined>("");
   const [isFocus, setIsFocus] = React.useState<boolean | undefined>(false);
-  const postComment = async () =>{
+  const postCommentHandler = async () =>{
 
     await axios.post(`${import.meta.env.VITE_BASE_URL}/api/v1/comments/${videoId}`,{
         content:post
@@ -39,12 +45,42 @@ export const InputPost = React.forwardRef<HTMLInputElement,InputPost>(({
     })
     if(setRefresh) setRefresh(Math.random())
    
-}  
+    }  
+
+  const editCommentHandler = async () => {
+
+
+    //{{localServer}}/comments/cmt/:commentId
+      await axios.patch(`${import.meta.env.VITE_BASE_URL}/api/v1/comments/cmt/${commentId}`,{
+          content:post
+      },{
+          withCredentials:true
+      })
+      .then((res) =>{
+         toast({
+           variant:"success",
+           type:"foreground",
+           description:res.data.message
+         })
+
+         setIsEditing && setIsEditing(prev => !prev);
+         setRefresh && setRefresh(Math.random());
+      })
+      .catch(err =>
+        toast({
+          variant:"destructive",
+          type:"foreground",
+          description:err?.response?.data?.message
+        })
+      )
+
+  }
   useEffect(()=>{
     if(editCommentContent){
       setPost(editCommentContent)
+      
     }
-  },[editCommentContent])
+  },[editCommentContent,isEditing])
 
   return (
     <div
@@ -89,9 +125,9 @@ export const InputPost = React.forwardRef<HTMLInputElement,InputPost>(({
       </button>
 
       <button
-        onClick={() => {
-           postComment();
-        }}
+        onClick={
+          isEditing ? editCommentHandler : postCommentHandler
+        }
         className={`
             px-3  rounded-r-md 
             `}

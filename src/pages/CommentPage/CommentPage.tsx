@@ -67,7 +67,7 @@ export const CommentPage:React.FC<CommentPageSchema> = ({videoId,commentsCount})
     const isNextPageAvailable = pageNum < totalPages ;
     const inputRef = useRef<HTMLInputElement>(null);
     return(
-    <PageNumAndRefreshContextProvider pageNum={pageNum} setRefresh={setRefresh}>
+    <PageNumAndRefreshContextProvider pageNum={pageNum} setRefresh={setRefresh} refresh={refresh}>
    <div className={` w-[95%] dark:bg-[#272727] rounded-md my-4 bg-[#f1f1f1] ${isLoading ? "flex justify-center items-center" : "text-left"} px-4 py-4`}>
     {
       isLoading ? (
