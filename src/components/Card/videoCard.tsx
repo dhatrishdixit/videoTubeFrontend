@@ -128,7 +128,7 @@ export const VideoCardMain = React.forwardRef<HTMLDivElement, VideoPropsMain>(
             <p
               className="mb -1 font-normal text-gray-700 dark:text-gray-400 text-left"
               onClick={() => {
-                navigate(`/channel/${props.channelId}`)
+                navigate(`/channel/${props.channel}`)
               }}
             >
               {props.channelFullName}
@@ -262,7 +262,6 @@ export const VideoCardSearch = () =>
   
 export const VideoCardRecommendation = React.forwardRef<HTMLDivElement,VideoPropsSearch>((props,ref) =>
 {
-
   const [isHover, setHover] = React.useState<boolean>(false);
   const [hoverTimer, setHoverTimer] = React.useState<
     NodeJS.Timeout | undefined
@@ -284,9 +283,7 @@ export const VideoCardRecommendation = React.forwardRef<HTMLDivElement,VideoProp
     <div
       ref={divRef}
       className={` bg-white  ${!isHover ? "rounded-lg" : ""}  dark:bg-[#09090b]   cursor-pointer flex my-2 border p-1`}
-      onClick={() => {
-        navigate(`/video/${props._id}`,{ state: { channelId: props.channelId } });
-      }}
+ 
     >
       <div
         className="h-[15vw] w-[30vw]"
@@ -308,6 +305,9 @@ export const VideoCardRecommendation = React.forwardRef<HTMLDivElement,VideoProp
             playing={true}
             width="100%"
             height="100%"
+            onClick={() => {
+              navigate(`/video/${props._id}`,{ state: { channelId: props.channelId } });
+            }}
           />
         ) : (
           <img
@@ -336,9 +336,10 @@ export const VideoCardRecommendation = React.forwardRef<HTMLDivElement,VideoProp
        
             <p
               className="mb-1 font-normal text-gray-700 dark:text-gray-400 text-left"
-              onClick={() => {
+              onClick={()=>{
+                console.log(props.channel)
                 navigate(`/channel/${props.channelId}`)
-              }}
+            }}
             >
               {props.channelFullName}
             </p>

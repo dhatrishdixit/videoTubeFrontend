@@ -4,7 +4,7 @@ import { Player } from "@/components/CustomVideoPlayer/Player";
 import { Button } from "@/components/ui/button";
 import { PiThumbsUpDuotone } from "react-icons/pi";
 import { PiThumbsUpFill } from "react-icons/pi";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { formatDate } from "@/utils/DateFormat";
 import { useToast } from "@/components/ui/use-toast";
@@ -53,6 +53,7 @@ duration?: number,
 views?: number,
 isPublic?: boolean,
 createdAt?:Date,
+channel?:string,
 channelId?: string,
 channelEmail?: string,
 channelName?: string,
@@ -91,7 +92,7 @@ export const MainVideoPage: React.FC<ReactPlayerProps> = () => {
   const currentLikeState = useRef<boolean|undefined>(undefined);
   const currentSubscribeState = useRef<boolean|undefined>(undefined);
   const currentChannelId = useRef<string|undefined>(undefined);
- 
+  const navigate = useNavigate();
   useEffect(()=>{
   
      axios
@@ -186,11 +187,19 @@ export const MainVideoPage: React.FC<ReactPlayerProps> = () => {
        <div className="mt-2 h-12 grid grid-cols-10 items-center">
        <img 
        src={data.channelAvatar} 
-       className="h-12 w-12 rounded-full  col-span-1"/>
+       className="h-12 w-12 rounded-full  col-span-1 cursor-pointer"
+       onClick={()=>{
+        navigate(`/channel/${data.channel}`)
+       }}
+       />
        <div 
        className="flex col-span-6 items-center gap-4 ml-2" >
         <div>
-        <p className="text-lg text-bold text-left">{data.channelName}</p>
+        <p className="text-lg text-bold text-left cursor-pointer"
+        onClick={()=>{
+            navigate(`/channel/${data.channel}`)
+        }}
+        >{data.channelName}</p>
          <p className="text-slate-500 text-sm text-left">{subscribed.subscribedCount} subscribers</p></div>
          <Button 
          variant="secondary" 
