@@ -79,7 +79,7 @@ export function SideBar() {
   return (
     <div
       className=" h-screen overflow-x-hidden
-        dark:scrollbar-track-[#09090b] scrollbar-thumb-red-600 scrollbar-track-white scrollbar-thin mt-10"
+        dark:scrollbar-track-[#09090b] scrollbar-thumb-red-600 scrollbar-track-white scrollbar-thin mt-4"
     >
       {arr.map((curr,index) => (
         <Button

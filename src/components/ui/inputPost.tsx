@@ -116,6 +116,9 @@ export const InputPost = React.forwardRef<HTMLInputElement,InputPost>(({
       <button
         onClick={() => {
           setPost("");
+          if(isEditing){
+             setIsEditing && setIsEditing(false);
+          }
         }}
         className={`
             px-2  rounded-r-md 

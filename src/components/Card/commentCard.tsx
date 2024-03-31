@@ -12,7 +12,7 @@ import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import { cn } from '@/lib/utils';
 import { usePageNumAndRefreshContext } from '@/hooks/PageNumAndRefreshContext';
 import { InputPost } from '../ui/inputPost';
-
+import { useNavigate } from "react-router-dom"
 
 
 
@@ -38,6 +38,7 @@ interface CurrentLikeStatusSchema {
 export const CommentCard  = ((
     props:CommentCardSchema
 ) => { 
+  const navigate  = useNavigate();
   const { videoId } = useParams();
   const {toast} = useToast();
   const [hover,setHover] = useState<boolean>(false);
@@ -129,10 +130,20 @@ export const CommentCard  = ((
         ref={divRef}
         >
           <div className='flex w-full'>
-        <img src={props.ownerAvatar} className='h-12 w-12 rounded-full'/>
+        <img 
+        src={props.ownerAvatar} 
+        className='h-12 w-12 rounded-full cursor-pointer'
+        onClick={() => {
+          navigate(`/channel/${props.owner}`)
+        }}
+        />
         <div className='flex flex-col ml-4'>
         <div className='flex flex-row'> 
-        <span> @{props.ownerUsername}</span>
+        <span 
+        className='cursor-pointer'
+        onClick={()=>{
+          navigate(`/channel/${props.owner}`)
+        }} > @{props.ownerUsername}</span>
         <span className='text-gray-400 ml-2'>&nbsp;{formatDate(props.createdAt)}</span>
         </div>
         
@@ -168,7 +179,7 @@ export const CommentCard  = ((
          >{formatCount(currentLikeStatus.likesCount)}</p>
      
          </div>
-         <span className="h-[0.1rem] w-max bg-gray-400 my-2"></span>
+         <span className="h-[0.1rem] w-max bg-gray-400 "></span>
          {isEditing && 
          <InputPost 
          editCommentContent={props.content}
@@ -176,6 +187,7 @@ export const CommentCard  = ((
          isEditing={isEditing}
          setRefresh={setRefresh}
          commentId={props._id}
+         className='mb-4'
          />}
         </div>
         </div>

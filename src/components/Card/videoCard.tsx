@@ -128,9 +128,7 @@ export const VideoCardMain = React.forwardRef<HTMLDivElement, VideoPropsMain>(
             <p
               className="mb -1 font-normal text-gray-700 dark:text-gray-400 text-left"
               onClick={() => {
-                console.log('clicked');
-                // direct to channel home page
-                // navigate('/channel/:channelId');
+                navigate(`/channel/${props.channelId}`)
               }}
             >
               {props.channelFullName}
@@ -271,7 +269,7 @@ export const VideoCardRecommendation = React.forwardRef<HTMLDivElement,VideoProp
   >(undefined);
   const navigate = useNavigate();
   const divRef = useRef<HTMLDivElement>(null);
-  // console.log(ref);
+ 
   useEffect(() => {
     if (ref) {
       if (typeof ref === 'function') {
@@ -288,7 +286,6 @@ export const VideoCardRecommendation = React.forwardRef<HTMLDivElement,VideoProp
       className={` bg-white  ${!isHover ? "rounded-lg" : ""}  dark:bg-[#09090b]   cursor-pointer flex my-2 border p-1`}
       onClick={() => {
         navigate(`/video/${props._id}`,{ state: { channelId: props.channelId } });
-        
       }}
     >
       <div
@@ -328,7 +325,6 @@ export const VideoCardRecommendation = React.forwardRef<HTMLDivElement,VideoProp
           <h5
             className="text-xl font-bold tracking-tight text-left text-gray-900 dark:text-white"
             onClick={() => {
-              console.log("clicked");
               navigate(`/video/${props._id}`,{ state: { channelId: props.channelId } });
             }}
           >
@@ -341,9 +337,7 @@ export const VideoCardRecommendation = React.forwardRef<HTMLDivElement,VideoProp
             <p
               className="mb-1 font-normal text-gray-700 dark:text-gray-400 text-left"
               onClick={() => {
-                console.log("clicked");
-                //direct to channel home page
-                // useNavigate from react router dom
+                navigate(`/channel/${props.channelId}`)
               }}
             >
               {props.channelFullName}

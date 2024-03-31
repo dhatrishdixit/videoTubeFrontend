@@ -12,6 +12,7 @@ import { ToastProvider } from "./components/ui/toast.tsx";
 import { Toaster } from "./components/ui/toaster.tsx";
 import { FrontPageContent } from "./components/Content/FrontPageContent.tsx";
 import { MainVideoPage } from "./pages/VideoPage/VideoPage.tsx";
+import ChannelPage from "./pages/ChannelPage/ChannelPage.tsx";
 
 const router = createBrowserRouter([
   {
@@ -35,7 +36,10 @@ const router = createBrowserRouter([
         element:<MainVideoPage/>
       }
     ]
-  },
+  },{
+    path:"/channel/:channelId",
+    element:<ChannelPage/>
+  }
 
 ])
 
