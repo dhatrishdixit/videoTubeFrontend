@@ -338,7 +338,7 @@ export const VideoCardRecommendation = React.forwardRef<HTMLDivElement,VideoProp
               className="mb-1 font-normal text-gray-700 dark:text-gray-400 text-left"
               onClick={()=>{
                 console.log(props.channel)
-                navigate(`/channel/${props.channelId}`)
+                navigate(`/channel/${props.channel}`)
             }}
             >
               {props.channelFullName}

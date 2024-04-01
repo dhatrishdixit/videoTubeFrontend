@@ -148,7 +148,6 @@ export const MainVideoPage: React.FC<ReactPlayerProps> = () => {
       if(initialSubscribeState.current!== currentSubscribeState.current) {
          axios
          .post(`${import.meta.env.VITE_BASE_URL}/api/v1/subscriptions/c/${currentChannelId.current}`,null,{
-       
           withCredentials:true
         })
          .then(res=> {

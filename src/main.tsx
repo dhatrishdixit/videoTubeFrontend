@@ -1,5 +1,5 @@
 import ReactDOM from "react-dom/client";
-import App from "./App.tsx";
+import App, { MainContentPage } from "./App.tsx";
 import "./index.css";
 import { ThemeProvider } from "./components/theme-provider";
 import { Provider } from "react-redux";
@@ -28,22 +28,39 @@ const router = createBrowserRouter([
     children:[
       {
         path:"/",
-        element:<FrontPageContent/>
+        element:<MainContentPage/>,
+        children:[
+          {
+            path:"/",
+            element:<FrontPageContent/>
+          },{
+            path:"video/:videoId",
+            element:<MainVideoPage/>
+          }
+        
+        ]
       },
       {
-        path:"video/:videoId",
-        element:<MainVideoPage/>
+        path:"/channel/:channelUsername",
+        element:<ChannelPage/>
       }
     ]
-  },{
-    path:"/channel/:channelId",
-    element:<ChannelPage/>
-  }
+  },
 
 ])
 
+// children:[
+//   {
+//     path:"/",
+//     element:<FrontPageContent/>
+//   },
+//   {
+//     path:"video/:videoId",
+//     element:<MainVideoPage/>
+//   }
+// ]
+
 ReactDOM.createRoot(document.getElementById("root")!).render(
-   //<React.StrictMode>  
     <Provider store={store}>
       <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
       <ToastProvider>
@@ -52,5 +69,4 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
       </ToastProvider>
       </ThemeProvider>
     </Provider>
-  //</React.StrictMode>,
 );

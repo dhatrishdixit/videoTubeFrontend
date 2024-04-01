@@ -142,7 +142,7 @@ export const CommentCard  = ((
         <span 
         className='cursor-pointer'
         onClick={()=>{
-          navigate(`/channel/${props.owner}`)
+          navigate(`/channel/${props.ownerUsername}`)
         }} > @{props.ownerUsername}</span>
         <span className='text-gray-400 ml-2'>&nbsp;{formatDate(props.createdAt)}</span>
         </div>
