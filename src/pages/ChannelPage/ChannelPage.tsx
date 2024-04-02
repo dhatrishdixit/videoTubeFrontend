@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Outlet, useParams } from 'react-router-dom';
 import axios from 'axios';
 import { useToast } from '@/components/ui/use-toast';
 import { formatCount } from '@/utils/CountFormat';
 import { Button } from '@/components/ui/button';
+import { ChannelPageNavbar } from "@/components/Header/channelPageNavbar";
 
 interface VideoInfoSchema {
   _id: string;
@@ -136,10 +137,9 @@ export function ChannelPage() {
             </span>
            
          </div>
+         <ChannelPageNavbar/>
+         <Outlet/>
          </div>
-         
-
-
     </div>
   )
 }

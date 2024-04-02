@@ -12,6 +12,10 @@ import { Toaster } from "./components/ui/toaster.tsx";
 import { FrontPageContent } from "./components/Content/FrontPageContent.tsx";
 import { MainVideoPage } from "./pages/VideoPage/VideoPage.tsx";
 import { ChannelPage } from "./pages/ChannelPage/ChannelPage.tsx";
+import { ChannelAboutComponent } from "./components/ChannelPageComponents/channelAboutComponent.tsx";
+import { ChannelVideoComponent } from "./components/ChannelPageComponents/channelVideoComponent.tsx";
+import { ChannelPostComponent } from "./components/ChannelPageComponents/channelPostComponent.tsx";
+import { ChannelPlaylistComponent } from "./components/ChannelPageComponents/channelPlaylistComponent.tsx";
 
 const router = createBrowserRouter([
   {
@@ -42,7 +46,22 @@ const router = createBrowserRouter([
       },
       {
         path:"/channel/:channelUsername",
-        element:<ChannelPage/>
+        element:<ChannelPage/>,
+        children:[
+          {
+              path:"videos",
+              element:<ChannelVideoComponent/>
+          },{
+              path:"community",
+              element:<ChannelPostComponent/>
+          },{
+              path:"about",
+              element:<ChannelAboutComponent/>
+          },{
+              path:"playlists",
+              element:<ChannelPlaylistComponent/>
+          }
+        ]
       }
     ]
   },
