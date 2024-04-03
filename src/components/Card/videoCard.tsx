@@ -38,11 +38,11 @@ export interface VideoPropsMain {
 }
 
 function manageString(str: string): string {
-  if (str.length <= 70) {
+  if (str?.length <= 70) {
     return str;
   }
 
-  return str.slice(0, 69) + '....';
+  return str?.slice(0, 69) + '....';
 }
 
 export const VideoCardMain = React.forwardRef<HTMLDivElement, VideoPropsMain>(
@@ -66,9 +66,9 @@ export const VideoCardMain = React.forwardRef<HTMLDivElement, VideoPropsMain>(
       <div
         ref={divRef}
         className={`w-[55vh] bg-white ${!isHover ? 'rounded-lg' : ''} dark:bg-[#09090b] h-[60vh] p-2 cursor-pointer`}
-        onClick={() => {
-           navigate(`/video/${props._id}`,{ state: { channelId: props.channelId } });
-        }}
+        // onClick={() => {
+        //    navigate(`/video/${props._id}`,{ state: { channelId: props.channelId } });
+        // }}
       >
         <div
           onMouseEnter={() => {
@@ -160,22 +160,29 @@ export const VideoCardMain = React.forwardRef<HTMLDivElement, VideoPropsMain>(
     channelId:string
   }
 
-export const VideoCardSearch = () =>
-  // props:videoPropsSearch
+export const VideoCardSearch = React.forwardRef<HTMLDivElement,VideoPropsSearch>((props,ref) =>
   {
+    const navigate  = useNavigate();
     const [isHover, setHover] = React.useState<boolean>(false);
     const [hoverTimer, setHoverTimer] = React.useState<
       NodeJS.Timeout | undefined
     >(undefined);
+    const divRef = useRef<HTMLDivElement>(null);
+    useEffect(() => {
+      if (ref) {
+        if (typeof ref === 'function') {
+          ref(divRef.current);
+        } else {
+          ref.current = divRef.current;
+        }
+      }
+    }, [ref]);
 
     return (
       <div
+        ref={divRef}
         className={` bg-white  ${!isHover ? "rounded-lg" : ""}  dark:bg-[#09090b]   cursor-pointer flex my-2 border p-1`}
-        onClick={() => {
-          console.log("clicked");
-          //direct to video
-          // useNavigate from react router dom
-        }}
+    
       >
         <div
           onMouseEnter={() => {
@@ -196,6 +203,9 @@ export const VideoCardSearch = () =>
               playing={true}
               width="30vw"
               height="15vw"
+              onClick={()=>{
+                navigate(`/video/${props._id}`,{ state: { channelId: props.channelId } });
+              }}
             />
           ) : (
             <img
@@ -203,9 +213,7 @@ export const VideoCardSearch = () =>
               src={props.thumbnail}
               alt={props.title}
               onClick={() => {
-                console.log("clicked");
-                //direct to video
-                // useNavigate from react router dom
+                navigate(`/video/${props._id}`,{ state: { channelId: props.channelId } });
               }}
             />
           )}
@@ -215,9 +223,7 @@ export const VideoCardSearch = () =>
             <h5
               className="text-xl font-bold tracking-tight text-left text-gray-900 dark:text-white"
               onClick={() => {
-                console.log("clicked");
-                //direct to video
-                // useNavigate from react router dom
+                navigate(`/video/${props._id}`,{ state: { channelId: props.channelId } });
               }}
             >
               {props.title}
@@ -233,17 +239,13 @@ export const VideoCardSearch = () =>
                 src={props.channelAvatar}
                 className="h-8 w-8 rounded-full"
                 onClick={() => {
-                  console.log("clicked");
-                  //direct to channel home page
-                  // useNavigate from react router dom
+                  navigate(`/channel/${props.channel}`)
                 }}
               />
               <p
                 className="mb-1 font-normal text-gray-700 dark:text-gray-400 text-left"
                 onClick={() => {
-                  console.log("clicked");
-                  //direct to channel home page
-                  // useNavigate from react router dom
+                  navigate(`/channel/${props.channel}`)
                 }}
               >
                 {props.channelFullName}
@@ -256,7 +258,7 @@ export const VideoCardSearch = () =>
         </div>
       </div>
     );
-  };
+  })
 
 
   
@@ -337,7 +339,7 @@ export const VideoCardRecommendation = React.forwardRef<HTMLDivElement,VideoProp
             <p
               className="mb-1 font-normal text-gray-700 dark:text-gray-400 text-left"
               onClick={()=>{
-                console.log(props.channel)
+             
                 navigate(`/channel/${props.channel}`)
             }}
             >

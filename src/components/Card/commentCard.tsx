@@ -134,7 +134,7 @@ export const CommentCard  = ((
         src={props.ownerAvatar} 
         className='h-12 w-12 rounded-full cursor-pointer'
         onClick={() => {
-          navigate(`/channel/${props.owner}`)
+          navigate(`/channel/${props.ownerUsername}`)
         }}
         />
         <div className='flex flex-col ml-4'>

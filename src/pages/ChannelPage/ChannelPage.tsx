@@ -5,21 +5,11 @@ import { useToast } from '@/components/ui/use-toast';
 import { formatCount } from '@/utils/CountFormat';
 import { Button } from '@/components/ui/button';
 import { ChannelPageNavbar } from "@/components/Header/channelPageNavbar";
+import { ChannelStateContextProvider } from '@/hooks/ChannelState';
+import { TailSpin } from 'react-loader-spinner';
+import { useLocation } from 'react-router-dom';
 
-interface VideoInfoSchema {
-  _id: string;
-  videoFile: string;
-  thumbnail: string;
-  owner: string;
-  title: string;
-  description: string;
-  duration: number;
-  views: number;
-  isPublic: boolean;
-  createdAt: string;
-  updatedAt: string;
-  __v: number;
-}
+
 
 interface ChannelInfoSchema {
   _id: string;
@@ -28,7 +18,7 @@ interface ChannelInfoSchema {
   fullName: string;
   avatar: string;
   coverImage: string;
-  videos: VideoInfoSchema[];
+  videos: number;
   subscriberCount: number;
   subscribedToCount: number;
   isSubscribed: boolean;
@@ -38,13 +28,26 @@ interface SubscriptionSchema {
   isSubscribed: boolean;
   subscriberCount: number ;
 }
+
+export interface ChannelCountSchema {
+  videoCount:number;
+  tweetCount:number;
+  playlistCount:number;
+  
+}
 export function ChannelPage() {
+  const location = useLocation();
+  console.log(location)
+  const [loading,setLoading] = useState<boolean>(false);
   const { toast } = useToast();
   const { channelUsername } = useParams();
   const [channelInfo, setChannelInfo] = useState<ChannelInfoSchema | null>(null);
   const [subscribeState,setSubscribeState] = useState<SubscriptionSchema|null>(null);
+  const [channelCount,setChannelCount] = useState<ChannelCountSchema|null>(null);
+ // const [render,reRender] = useState<number>(0); TODO: think  about this better  
 
   useEffect(()=>{
+    setLoading(true);
      axios
      .get(`${import.meta.env.VITE_BASE_URL}/api/v1/users/c/${channelUsername}`
      ,{
@@ -56,13 +59,22 @@ export function ChannelPage() {
         isSubscribed:res.data.data.isSubscribed,
         subscriberCount:res.data.data.subscriberCount
       })
+      setChannelCount({
+        videoCount:res.data.data.videos,
+        tweetCount:res.data.data.tweets,
+        playlistCount:res.data.data.playlists
+      })
+      setLoading(false);
+      console.log(loading)
     })
      .catch(err => {
+         setLoading(false);
          toast({
            variant:"destructive",
            type:"foreground",
            description:err?.response?.data?.message
          })
+         
      })
 
      return () => {
@@ -87,60 +99,72 @@ export function ChannelPage() {
      }
      
   },[channelUsername]);
-  // right now only think videos , playlist , channel subscribed to and posts 
-  //video recent watch 
-  //videos all with three filters - recent , old , top(most viewed) and most liked 
-  //playlist
-  //tweet 
-  // TODO: think of adding location to this also 
-  return (
-    <div className='w-[100vw] flex justify-center'>
-         <div className='w-[80vw]'>
-         <img src={channelInfo?.coverImage || "https://flowbite.com/docs/images/examples/image-1@2x.jpg"} className='w-[80vw] h-[40vh] bg-cover rounded-sm pt-4'/>
-         <div 
-         className="flex pt-4"
-         >
-           <img src={channelInfo?.avatar}
-                className="h-36 w-36 rounded-full"
-                
-            />
-            <span className='p-4'>
-              <p className='font-bold text-4xl'>
-              {
-                channelInfo?.fullName
-              }
-              </p>
-              <p>
-              {
-                `@${channelInfo?.username} • ${formatCount(subscribeState?.subscriberCount as number)} subscribers • ${channelInfo?.videos.length} videos`
-              }
-              </p>
-              <div className='pt-2'>
-                <Button 
-                variant="ghost" 
-                className={`rounded-3xl ${
-                  subscribeState?.isSubscribed? "bg-secondary/80" : "bg-red-600"
-                } `}
-                onClick={()=>{
-                  setSubscribeState(prev =>{
-                    return {
-                      isSubscribed:!prev?.isSubscribed,
-                      subscriberCount: prev?.isSubscribed == true ? (prev.subscriberCount as number - 1) : (prev?.subscriberCount as number + 1)
-                    }
-                  })
-                }}
-                >{
-                  subscribeState?.isSubscribed ? "subscribed" : "subscribe"
-                }</Button>
-              </div>
+
+  return  loading ? <div className='w-[100vw] flex justify-center items-center h-[90vh]'>
+    <TailSpin
+  visible={true}
+  height="80"
+  width="80"
+  color="#272727"
+  ariaLabel="tail-spin-loading"
+  radius="1"
+  wrapperStyle={{}}
+  wrapperClass=""
+  /> 
+  </div> :
+  ( <div className='w-[100vw] h-[90vh] flex justify-center overflow-y-scroll dark:scrollbar-track-[#09090b] scrollbar-thumb-red-600 scrollbar-track-white scrollbar-thin pt-4 mb-4'>
+   <div className='w-[80vw]'>
+   <img src={channelInfo?.coverImage || "https://flowbite.com/docs/images/examples/image-1@2x.jpg"} className='w-[80vw] h-[40vh] bg-cover rounded-sm pt-4'/>
+   <div 
+   className="flex pt-4"
+   >
+     <img src={channelInfo?.avatar}
+          className="h-36 w-36 rounded-full"
           
-            </span>
-           
-         </div>
-         <ChannelPageNavbar/>
-         <Outlet/>
-         </div>
-    </div>
-  )
+      />
+      <span className='p-4'>
+        <p className='font-bold text-4xl'>
+        {
+          channelInfo?.fullName
+        }
+        </p>
+        <p>
+        {
+          `@${channelInfo?.username} • ${formatCount(subscribeState?.subscriberCount as number)} subscribers • ${channelInfo?.videos} videos`
+        }
+        </p>
+        <div className='pt-2'>
+          <Button 
+          variant="ghost" 
+          className={`rounded-3xl ${
+            subscribeState?.isSubscribed? "bg-secondary/80" : "bg-red-600"
+          } `}
+          onClick={()=>{
+            setSubscribeState(prev =>{
+              return {
+                isSubscribed:!prev?.isSubscribed,
+                subscriberCount: prev?.isSubscribed == true ? (prev.subscriberCount as number - 1) : (prev?.subscriberCount as number + 1)
+              }
+            })
+          }}
+          >{
+            subscribeState?.isSubscribed ? "subscribed" : "subscribe"
+          }</Button>
+        </div>
+    
+      </span>
+     
+   </div>
+   <ChannelStateContextProvider 
+   videoCount={channelCount?.videoCount as number}
+   tweetCount={channelCount?.tweetCount as number}
+   playlistCount={channelCount?.playlistCount as number}
+   >
+   <ChannelPageNavbar />
+   <Outlet/>
+   </ChannelStateContextProvider>
+   </div>
+</div>
+)
 }
 

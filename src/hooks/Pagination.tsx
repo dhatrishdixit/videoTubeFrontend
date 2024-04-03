@@ -1,8 +1,7 @@
 import React from "react";
 import axios from "axios";
 import { useToast } from "@/components/ui/use-toast";
-
-
+import { VideoPropsSearch } from "@/components/Card/videoCard";
 
 export interface CommentSchema {
     _id : string;
@@ -18,18 +17,20 @@ export interface CommentSchema {
     isLiked : boolean;
 }
 
-export function usePaginate(itemCount:number=0,limit:number=20,url:string="/comments",query:string="",refresh:number){
+export function usePaginate(itemCount:number=0,limit:number=20,url:string="/comments",query:string="",refresh:number,urlHasSomeBasicQuery:boolean=false){
   
    const { toast } = useToast();
    const totalPages = Math.ceil(itemCount / limit) ;
    const [pageNum,setPageNum] = React.useState<number>(1);
    const [isLoading,setIsLoading] = React.useState<boolean>(false);
-   const [result,setResult] = React.useState<CommentSchema[]>([]);
+   const [result,setResult] = React.useState<CommentSchema[] | VideoPropsSearch[]>([]);
 
 
    React.useEffect(()=>{
         setIsLoading(true);
         let URL = `${import.meta.env.VITE_BASE_URL}/api/v1${url}?page=${pageNum-1}&limit=${limit}` ;
+        if(urlHasSomeBasicQuery) URL = `${import.meta.env.VITE_BASE_URL}/api/v1${url}&page=${pageNum-1}&limit=${limit}`
+      
 
         if(query){
             URL += `&${query}`
