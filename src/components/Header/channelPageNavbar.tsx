@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Button } from '../ui/button';
 import { useNavigate } from 'react-router-dom';
-
+import * as React from 'react';
 type NavigationStateType  = "videos" | "community" | "playlist" | "about" ;
 
 export function ChannelPageNavbar(){
@@ -11,7 +11,7 @@ export function ChannelPageNavbar(){
          navigate("videos")
     },[])
     return (
-      <nav className="sticky top-0 z-10 py-4">
+      <nav className=" py-4">
         <div className="w-full flex justify-evenly ">
             <Button 
             
