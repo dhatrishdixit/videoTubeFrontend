@@ -1,6 +1,5 @@
-import { useEffect, useState, useMemo, useRef } from 'react'
+import {  useState, useRef } from 'react'
 import { usePaginate } from '@/hooks/Pagination';
-import { usePageNumAndRefreshContext } from '@/hooks/PageNumAndRefreshContext';
 import {
   Pagination,
   PaginationContent,
@@ -18,16 +17,7 @@ import { Button } from '../ui/button';
 
 
 
-// render(<TailSpin
-//   visible={true}
-//   height="80"
-//   width="80"
-//   color="#4fa94d"
-//   ariaLabel="tail-spin-loading"
-//   radius="1"
-//   wrapperStyle={{}}
-//   wrapperClass=""
-//   />)
+
 
 
 type QueryType = 'Recent' | 'Oldest' | 'Popular' | 'Most liked'
