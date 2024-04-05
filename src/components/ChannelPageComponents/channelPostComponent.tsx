@@ -14,18 +14,109 @@ import { useParams } from 'react-router-dom';
 import { VideoCardSearch, VideoPropsSearch } from '../Card/videoCard';
 import { BiDotsHorizontalRounded } from 'react-icons/bi';
 import { Button } from '../ui/button';
-
-
+import { usePaginate } from '@/hooks/Pagination';
+import { TweetCardProps } from '../Card/TweetPostCard';
 export function ChannelPostComponent() {
-  const {channelUsername} = useParams();
-  const {tweetCount} = useChannelStateContext();
-  
+  const { channelUsername } = useParams();
+  const { tweetCount } = useChannelStateContext();
+
   //{{localServer}}/tweets/u/post/:username
+
+  const URL = `/tweets/u/post/${channelUsername}`;
+
+  const {
+    totalPages,
+    switchToNextPage,
+    switchToPreviousPage,
+    moveToLastPage,
+    moveToFirstPage,
+    isLoading,
+    result,
+    pageNum
+} = usePaginate(tweetCount,10,URL,"",2,false);
+const isPreviousPageAvailable = Boolean(pageNum !== 1)  ;
+const isNextPageAvailable = pageNum < totalPages ;
 
   return (
     <div className='py-4'>
       
-      {/* <TweetCard/> */}
+      {
+        result.map(
+          (post)=>(
+            <TweetCard {...post as TweetCardProps} />
+          )
+        )
+      }
+      <Pagination className="cursor-pointer">
+  <PaginationContent>
+      <PaginationItem>
+          <PaginationPrevious className={`border  ${isPreviousPageAvailable? "hover:border-white":"cursor-not-allowed"}`} onClick={(e)=>{
+              e.preventDefault();
+              switchToPreviousPage();
+          }}/>
+      </PaginationItem>
+      <PaginationItem>
+           <PaginationLink className={`${isPreviousPageAvailable  && pageNum - 1 !== 1  ?  "": "hidden" }`}
+           onClick={(e)=>{
+              e.preventDefault();
+              moveToFirstPage();
+           }}
+           >1</PaginationLink>
+      </PaginationItem>
+      <PaginationItem >
+           <BiDotsHorizontalRounded 
+           className={`${isPreviousPageAvailable && pageNum - 1 !== 1 && pageNum - 2 !== 1 ? "": "hidden" }`} 
+            /> 
+      </PaginationItem>
+      <PaginationItem>
+          <PaginationLink 
+          className={`${isPreviousPageAvailable ? "": "hidden" }`}
+          onClick={(e) => {
+                 e.preventDefault();
+                 switchToPreviousPage();
+          }}
+          >{pageNum - 1}</PaginationLink>
+      </PaginationItem>
+      <PaginationItem>
+          <PaginationLink
+          onClick={(e)=>{
+              e.preventDefault();
+          }} 
+          isActive>{`${pageNum}`}</PaginationLink>
+      </PaginationItem>
+      <PaginationItem>
+          <PaginationLink 
+          className={`${isNextPageAvailable ? "": "hidden" }`}
+          onClick={(e)=>{
+               e.preventDefault();
+               switchToNextPage();
+          }}
+          >{pageNum+1}</PaginationLink>
+      </PaginationItem>
+      <PaginationItem>
+          <BiDotsHorizontalRounded className={`${isNextPageAvailable && pageNum + 2 !== totalPages && pageNum + 1 !== totalPages ? "": "hidden" }`}/> 
+      </PaginationItem>
+      <PaginationItem>
+          <PaginationLink 
+          className={`${isNextPageAvailable && pageNum + 1 !== totalPages ? "": "hidden" }`}
+          onClick={(e)=>{
+               e.preventDefault();
+               moveToLastPage();
+          }}
+          >{totalPages}</PaginationLink>
+      </PaginationItem>
+      <PaginationItem>
+          <PaginationNext 
+           className={`border ${isNextPageAvailable ? "hover:border-white":"cursor-not-allowed"}`}
+           onClick={(e)=>{
+            e.preventDefault();
+            switchToNextPage();
+        }}
+          />
+      </PaginationItem>
+  </PaginationContent>
+ </Pagination>
+
       
       </div>
   )

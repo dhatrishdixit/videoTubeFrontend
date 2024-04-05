@@ -14,7 +14,7 @@ import { formatDate } from "@/utils/DateFormat";
 //     createdAt: "2 days ago"
 // }
  
-interface TweetCardProps {
+export interface TweetCardProps {
     ownerAvatar: string;
     ownerFullname: string;
     content: string;
@@ -55,7 +55,7 @@ export function TweetCard(props:TweetCardProps){
         }</div><p onClick={()=>{
             setIsLiked(prev => !prev)
         }}
-        className="flex"
+        className="flex mt-2"
         >{
              <div>{isLiked ? <PiThumbsUpFill scale="300" className="mb-2 text-xl"/> : <PiThumbsUpDuotone scale="300" className="mb-2 text-xl"/>}</div>
         }<span className="ml-2 font-normal text-sm text-slate-500 select-none">{formatCount(props.likes)}</span></p>
