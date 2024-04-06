@@ -16,6 +16,7 @@ import { ChannelAboutComponent } from "./components/ChannelPageComponents/channe
 import { ChannelVideoComponent } from "./components/ChannelPageComponents/channelVideoComponent.tsx";
 import { ChannelPostComponent } from "./components/ChannelPageComponents/channelPostComponent.tsx";
 import { ChannelPlaylistComponent } from "./components/ChannelPageComponents/channelPlaylistComponent.tsx";
+import { PlaylistPage } from "./pages/PlaylistPage/PlaylistPage.tsx";
 
 const router = createBrowserRouter([
   {
@@ -40,6 +41,9 @@ const router = createBrowserRouter([
           },{
             path:"video/:videoId",
             element:<MainVideoPage/>
+          },{
+            path:"playlist/:playlistId",
+            element:<PlaylistPage/>
           }
         
         ]
@@ -67,17 +71,6 @@ const router = createBrowserRouter([
   },
 
 ])
-
-// children:[
-//   {
-//     path:"/",
-//     element:<FrontPageContent/>
-//   },
-//   {
-//     path:"video/:videoId",
-//     element:<MainVideoPage/>
-//   }
-// ]
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
     <Provider store={store}>

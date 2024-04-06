@@ -3,7 +3,7 @@ import { IoVideocamSharp } from "react-icons/io5";
 function stringShortener(str: string): string {
   return str?.length >= 50 ? str?.substring(0, 49)+"..." : str;
 }
-
+import { useNavigate } from "react-router-dom";
 
 const defaultImageUrl = "https://flowbite.com/docs/images/examples/image-1@2x.jpg" ;
 
@@ -21,12 +21,16 @@ export interface PlaylistCardProps{
 
 export function PlaylistCard(props:PlaylistCardProps) {
   const [hover, setHover] = useState<boolean>(false);
+  const navigate = useNavigate();
 
   return (
     <div
       className="m-2 relative"
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
+      onClick={()=>{
+          navigate(`/playlist/${props._id}`)
+      }}
     >
       <img
         src={
