@@ -1,4 +1,3 @@
-import React from 'react';
 import { TweetCard } from '../Card/TweetPostCard';
 import {
   Pagination,

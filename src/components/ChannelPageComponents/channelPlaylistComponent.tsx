@@ -1,4 +1,3 @@
-import React from 'react'
 import { PlaylistCard } from '../Card/playlistCard'
 import {
   Pagination,
