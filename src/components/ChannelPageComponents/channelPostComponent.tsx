@@ -11,9 +11,7 @@ import {
 import { TailSpin } from 'react-loader-spinner';
 import { useChannelStateContext } from '@/hooks/ChannelState';
 import { useParams } from 'react-router-dom';
-import { VideoCardSearch, VideoPropsSearch } from '../Card/videoCard';
 import { BiDotsHorizontalRounded } from 'react-icons/bi';
-import { Button } from '../ui/button';
 import { usePaginate } from '@/hooks/Pagination';
 import { TweetCardProps } from '../Card/TweetPostCard';
 export function ChannelPostComponent() {
@@ -37,7 +35,18 @@ export function ChannelPostComponent() {
 const isPreviousPageAvailable = Boolean(pageNum !== 1)  ;
 const isNextPageAvailable = pageNum < totalPages ;
 
-  return (
+return isLoading ? <div className=' flex justify-center items-end'>
+<TailSpin
+visible={true}
+height="80"
+width="80"
+color="#272727"
+ariaLabel="tail-spin-loading"
+radius="1"
+wrapperStyle={{}}
+wrapperClass=""
+/> 
+</div> : (
     <div className='py-4'>
       
       {

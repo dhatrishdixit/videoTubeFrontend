@@ -1,32 +1,25 @@
 import { useState } from "react";
-
+import { IoVideocamSharp } from "react-icons/io5";
 function stringShortener(str: string): string {
-  return str?.length >= 50 ? str?.substring(0, 49) : str;
+  return str?.length >= 50 ? str?.substring(0, 49)+"..." : str;
 }
 
-const props = {
-  video0: {
-    thumbnail:
-      "https://res.cloudinary.com/dviowskng/image/upload/v1683962030/samples/ecommerce/leather-bag-gray.jpg",
-  },
-  video1: {
-    thumbnail:
-      "https://res.cloudinary.com/dviowskng/image/upload/v1683962030/samples/ecommerce/car-interior-design.jpg",
-  },
-  video2: {
-    thumbnail:
-      "https://res.cloudinary.com/dviowskng/image/upload/v1683962021/samples/ecommerce/analog-classic.jpg",
-  },
-  video3: {
-    thumbnail:
-      "https://res.cloudinary.com/dviowskng/image/upload/v1683962033/samples/landscapes/nature-mountains.jpg",
-  },
-  createdAt: "3 days ago",
-  name: "my first playlist",
-  description: "this is my first playlist",
-};
 
-export function PlaylistCard() {
+const defaultImageUrl = "https://flowbite.com/docs/images/examples/image-1@2x.jpg" ;
+
+
+export interface PlaylistCardProps{
+   _id:string;
+   name:string;
+   description:string;
+   ownerId:string;
+   ownerUsername:string;
+   ownerFullname:string;
+   FirstVideoThumbnail?:string;
+   videos:number
+}
+
+export function PlaylistCard(props:PlaylistCardProps) {
   const [hover, setHover] = useState<boolean>(false);
 
   return (
@@ -37,20 +30,28 @@ export function PlaylistCard() {
     >
       <img
         src={
-          "https://res.cloudinary.com/dviowskng/image/upload/v1712173049/ehykw4gut4lrlfdwzinp.png" ||
-          props.video0.thumbnail
+          props.FirstVideoThumbnail || defaultImageUrl
         }
-        className={`w-[240px] h-[128px] transition-all duration-300 ${
+        className={`w-[240px] h-[128px] transition-all duration-300 rounded-sm ${
           hover ? "brightness-75 rounded-2xl blur-sm " : ""
         }`}
         alt="playlist card"
       />
       {hover && (
         <div className="absolute inset-0 flex flex-col justify-between p-2 transition-opacity duration-300 cursor-pointer">
-          <p className="text-slate-200 font-semibold">{props.name}</p>
-          <p className="text-slate-200">{stringShortener(props.description)}</p>
+         
+          <p className="text-slate-200 flex w-full flex-col ">
+            <div>{stringShortener(props.description)}
+            </div>
+            <div className="flex items-center gap-2 flex-end">{props.videos}<IoVideocamSharp /></div>
+
+          </p>
+         
+         
+
         </div>
       )}
+       <p className="text-slate-200 font-semibold">{props.name}</p>
     </div>
   );
 }

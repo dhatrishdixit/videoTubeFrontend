@@ -3,6 +3,7 @@ import axios from "axios";
 import { useToast } from "@/components/ui/use-toast";
 import { VideoPropsSearch } from "@/components/Card/videoCard";
 import { TweetCardProps } from "@/components/Card/TweetPostCard";
+import { PlaylistCardProps } from "@/components/Card/playlistCard";
 
 export interface CommentSchema {
     _id : string;
@@ -24,7 +25,7 @@ export function usePaginate(itemCount:number=0,limit:number=20,url:string="/comm
    const totalPages = Math.ceil(itemCount / limit) ;
    const [pageNum,setPageNum] = React.useState<number>(1);
    const [isLoading,setIsLoading] = React.useState<boolean>(false);
-   const [result,setResult] = React.useState<CommentSchema[] | VideoPropsSearch[]| TweetCardProps[]>([]);
+   const [result,setResult] = React.useState<CommentSchema[] | VideoPropsSearch[] | TweetCardProps[] | PlaylistCardProps[]>([]);
 
 
    React.useEffect(()=>{
