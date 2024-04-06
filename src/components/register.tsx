@@ -15,6 +15,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import {SubmitHandler,useForm} from "react-hook-form";
 import axios,{AxiosError} from "axios";
 import { useToast } from "./ui/use-toast";
+import { ReloadIcon } from "@radix-ui/react-icons";
 
 
 
@@ -191,7 +192,10 @@ export const Register:React.FC = () => {
       </CardContent>
       <CardFooter className="flex justify-center flex-col">
         <Button size="lg" className="mb-4" form="registerForm" disabled={isSubmitting}>
-          Register
+        {
+            isSubmitting ? ( <> <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
+            Please wait</>) : "Register"
+          }
         </Button>
         {
           errors.root && <p className="text-red-600">

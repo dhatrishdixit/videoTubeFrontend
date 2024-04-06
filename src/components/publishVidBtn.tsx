@@ -17,6 +17,7 @@ import {SubmitHandler,useForm} from "react-hook-form";
 import axios,{AxiosError} from "axios";
 import { useToast } from "./ui/use-toast";
 import React from "react";
+import { ReloadIcon } from "@radix-ui/react-icons";
 
 export const PublishedBtn = () => {
  
@@ -176,7 +177,10 @@ export const PublishedBtn = () => {
             errors.root.message
           }</p>}
           <Button variant="outline" className="hover:bg-red-600" type="submit" disabled={isSubmitting}>
-            Publish Video
+          {
+            isSubmitting ? ( <> <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
+            Please wait</>) : "Publish Video"
+          }
           </Button>
         </DialogFooter>
         </form>

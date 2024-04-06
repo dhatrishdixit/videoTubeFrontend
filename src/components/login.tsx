@@ -18,6 +18,7 @@ import {AppDispatch } from "@/app/store";
 import { useDispatch } from "react-redux";
 import { UserState } from "@/features/authentication/auth.slice";
 import { logIn } from "@/features/authentication/auth.slice";
+import { ReloadIcon } from "@radix-ui/react-icons";
 export const Login:React.FC = () => {
   // use loading to make it disabled
   // ref and use react hook form
@@ -142,7 +143,10 @@ export const Login:React.FC = () => {
           </div>
          <div className="w-full flex align-middle justify-center">
          <Button size="lg" className="mt-6 mb-4" disabled={isSubmitting}>
-          Login
+          {
+            isSubmitting ? ( <> <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
+            Please wait</>) : "Login"
+          }
         </Button>
          </div>
      
