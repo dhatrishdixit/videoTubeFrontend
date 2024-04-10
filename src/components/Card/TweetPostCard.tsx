@@ -5,15 +5,6 @@ import { PiThumbsUpFill } from "react-icons/pi";
 import { formatCount } from "@/utils/CountFormat";
 import { formatDate } from "@/utils/DateFormat";
 
-// const props = {
-//     ownerAvatar: "https://res.cloudinary.com/dviowskng/image/upload/v1683962023/samples/food/fish-vegetables.jpg",
-//     ownerFullname:"checking this",
-//     content:"Lorem ipsum dolor sit amet, consectetur adipiscing elit. ",
-//     isLiked:true,
-//     likes:100,
-//     createdAt: "2 days ago"
-// }
- 
 export interface TweetCardProps {
     ownerAvatar: string;
     ownerFullname: string;
@@ -31,7 +22,7 @@ function stringShortener(str:string):string {
 export function TweetCard(props:TweetCardProps){
     const [collapse,setCollapse] = useState<boolean>(true);
     const [isLiked,setIsLiked] = useState<boolean>(props.isLiked);
-
+    //TODO: implement like state properly 
 
     
 
