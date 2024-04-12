@@ -22,7 +22,8 @@ function stringShortener(str:string):string {
 export function TweetCard(props:TweetCardProps){
     const [collapse,setCollapse] = useState<boolean>(true);
     const [isLiked,setIsLiked] = useState<boolean>(props.isLiked);
-    //TODO: implement like state properly 
+    //TODO: implement like state properly and try to look for refreshing whole comments page when changing anything 
+    // TODO: add download button to video and make backend for it 
 
     
 
