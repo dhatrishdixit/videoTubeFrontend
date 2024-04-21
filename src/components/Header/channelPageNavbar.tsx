@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState,useContext,createContext } from "react";
 import { Button } from '../ui/button';
 import { useNavigate } from 'react-router-dom';
-import * as React from 'react';
 type NavigationStateType  = "videos" | "community" | "playlist" | "about" ;
 
 export function ChannelPageNavbar(){
     const [navigationState,setNavigationState] = useState<NavigationStateType>("videos");
+    const channelPageContext = createContext<string|null>(null);
     const navigate = useNavigate();
     useEffect(()=>{
          navigate("videos")

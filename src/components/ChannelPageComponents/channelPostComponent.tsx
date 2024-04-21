@@ -17,7 +17,6 @@ export function ChannelPostComponent() {
   const { channelUsername } = useParams();
   const { tweetCount } = useChannelStateContext();
 
-  //{{localServer}}/tweets/u/post/:username
 
   const URL = `/tweets/u/post/${channelUsername}`;
 

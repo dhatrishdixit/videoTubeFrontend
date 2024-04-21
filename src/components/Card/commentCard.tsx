@@ -48,6 +48,7 @@ export const CommentCard  = ((
     isLiked:props.isLiked,
     likesCount:props.likes
   })
+  const likeRef = useRef<boolean>(props.isLiked);
   //const navigate = useNavigate();
   function stringShortener(str:string):string {
        return str?.substring(0,119);
@@ -61,17 +62,12 @@ export const CommentCard  = ((
     
     return () => {
       // runs on unmount or when dependency array updates 
-      if(currentLikeStatus.isLiked !== props.isLiked){
+      if(likeRef.current !== props.isLiked){
         axios
         .post(`${import.meta.env.VITE_BASE_URL}/api/v1/likes/toggle/c/${props._id}`,null,{
           withCredentials:true
         })
         .then(res => 
-              // toast({
-              //   variant:"success",
-              //   type:"foreground",
-              //   description:res.data.message
-              // })
               console.log(res.data.message)
           )
         .catch(err => 
@@ -162,6 +158,7 @@ export const CommentCard  = ((
           variant="ghost"
           className='w-fit'
           onClick={()=>{
+                likeRef.current = !likeRef.current;
                 setCurrentLikeStatus(prev =>
                      {
                        return {

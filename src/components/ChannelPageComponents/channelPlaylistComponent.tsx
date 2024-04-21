@@ -19,7 +19,6 @@ export function ChannelPlaylistComponent() {
   const { channelUsername } = useParams();
   const { playlistCount } = useChannelStateContext();
 
-  //{{localServer}}/playlist/u/:ownerUsername
 
   const URL = `/playlist/u/${channelUsername}`;
   const {

@@ -12,7 +12,7 @@ import { MainVideoPage } from "./pages/VideoPage/VideoPage";
 
 function App() {
   const dispatch = useDispatch<AppDispatch>() ;
-  React.useEffect(()=>{ 
+  React.useEffect(()=>{     
     axios.get(`${import.meta.env.VITE_BASE_URL}/api/v1/users/get-current-user`,{
      withCredentials:true
     })
