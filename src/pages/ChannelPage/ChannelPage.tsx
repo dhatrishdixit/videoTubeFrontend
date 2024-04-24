@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Outlet, useParams } from 'react-router-dom';
 import axios from 'axios';
 import { useToast } from '@/components/ui/use-toast';
@@ -44,9 +44,12 @@ export function ChannelPage() {
   const [channelInfo, setChannelInfo] = useState<ChannelInfoSchema | null>(null);
   const [subscribeState,setSubscribeState] = useState<SubscriptionSchema|null>(null);
   const [channelCount,setChannelCount] = useState<ChannelCountSchema|null>(null);
- // const [render,reRender] = useState<number>(0); TODO: think  about this better  
+  const currentIsSubscribed = useRef<boolean|null>(null);
+  const initialIsSubscribed = useRef<boolean|null>(null);
+  const channelId = useRef<string|null>(null);
 
   useEffect(()=>{
+  
     setLoading(true);
      axios
      .get(`${import.meta.env.VITE_BASE_URL}/api/v1/users/c/${channelUsername}`
@@ -65,7 +68,9 @@ export function ChannelPage() {
         playlistCount:res.data.data.playlists
       })
       setLoading(false);
-      console.log(loading)
+      initialIsSubscribed.current = res.data.data.isSubscribed;
+      initialIsSubscribed.current = res.data.data.isSubscribed;
+      channelId.current = res.data.data._id;
     })
      .catch(err => {
          setLoading(false);
@@ -78,9 +83,10 @@ export function ChannelPage() {
      })
 
      return () => {
-        if(subscribeState?.isSubscribed !== channelInfo?.isSubscribed){
+     
+        if(currentIsSubscribed.current !== initialIsSubscribed.current){
           axios
-          .post(`${import.meta.env.VITE_BASE_URL}/api/v1/subscriptions/c/${channelInfo?._id as string}`,null,{
+          .post(`${import.meta.env.VITE_BASE_URL}/api/v1/subscriptions/c/${channelId?.current as string}`,null,{
            withCredentials:true
          })
           .then(res=> {
@@ -98,7 +104,7 @@ export function ChannelPage() {
         }
      }
      
-  },[channelUsername]);
+  },[]);
 
   return  loading ? <div className='w-[100vw] flex justify-center items-center h-[90vh]'>
     <TailSpin
@@ -140,6 +146,7 @@ export function ChannelPage() {
             subscribeState?.isSubscribed? "bg-secondary/80" : "bg-red-600"
           } `}
           onClick={()=>{
+            currentIsSubscribed.current = !currentIsSubscribed.current
             setSubscribeState(prev =>{
               return {
                 isSubscribed:!prev?.isSubscribed,

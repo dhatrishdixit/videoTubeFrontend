@@ -1,4 +1,4 @@
-export function formatDate (date:Date):string{
+export function formatDate (date:Date|string):string{
     const currentDate:Date = new Date();
     const dateConverted = new Date(date);
     const diff:number = currentDate.getTime() - dateConverted.getTime() ;

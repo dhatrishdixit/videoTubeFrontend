@@ -261,6 +261,107 @@ export const VideoCardSearch = React.forwardRef<HTMLDivElement,VideoPropsSearch>
   })
 
 
+
+  export const VideoCardPlaylist = React.forwardRef<HTMLDivElement,VideoPropsSearch&{owner:string}>((props,ref) =>
+    {
+      const navigate  = useNavigate();
+      const [isHover, setHover] = React.useState<boolean>(false);
+      const [hoverTimer, setHoverTimer] = React.useState<
+        NodeJS.Timeout | undefined
+      >(undefined);
+      const divRef = useRef<HTMLDivElement>(null);
+      useEffect(() => {
+        if (ref) {
+          if (typeof ref === 'function') {
+            ref(divRef.current);
+          } else {
+            ref.current = divRef.current;
+          }
+        }
+      }, [ref]);
+  
+      return (
+        <div
+          ref={divRef}
+          className={` bg-white  ${!isHover ? "rounded-lg" : ""}  dark:bg-[#09090b]   cursor-pointer flex my-2 border p-1`}
+      
+        >
+          <div
+            onMouseEnter={() => {
+              const timeOutId = setTimeout(() => {
+                setHover(true);
+              }, 500);
+              setHoverTimer(timeOutId);
+            }}
+            onMouseLeave={() => {
+              clearTimeout(hoverTimer);
+              setHover(false);
+            }}
+          >
+            {isHover ? (
+              <ReactPlayer
+                className="react-player"
+                url={props.videoFile}
+                playing={true}
+                width="30vw"
+                height="15vw"
+                onClick={()=>{
+                  navigate(`/video/${props._id}`,{ state: { channelId: props.channelId } });
+                }}
+              />
+            ) : (
+              <img
+                className="rounded-lg h-[15vw] w-[30vw] "
+                src={props.thumbnail}
+                alt={props.title}
+                onClick={() => {
+                  navigate(`/video/${props._id}`,{ state: { channelId: props.channelId } });
+                }}
+              />
+            )}
+          </div>
+          <div className="flex py-2 px-2 gap-4 pl-6">
+            <div className="flex flex-col">
+              <h5
+                className="text-xl font-bold tracking-tight text-left text-gray-900 dark:text-white"
+                onClick={() => {
+                  navigate(`/video/${props._id}`,{ state: { channelId: props.channelId } });
+                }}
+              >
+                {props.title}
+              </h5>
+  
+              <p className="mb -1 font-normal text-gray-700 dark:text-gray-400 text-left">
+                {" "}
+                {props.views} views • {/*TODO: here use created at  */}3 months
+                ago
+              </p>
+              <div className="mt-2 flex gap-6">
+                <img
+                  src={props.channelAvatar}
+                  className="h-8 w-8 rounded-full"
+                  onClick={() => {
+                    navigate(`/channel/${props.channel}`)
+                  }}
+                />
+                <p
+                  className="mb-1 font-normal text-gray-700 dark:text-gray-400 text-left"
+                  onClick={() => {
+                    navigate(`/channel/${props.channel}`)
+                  }}
+                >
+                  {props.channelFullName}
+                </p>
+              </div>
+              <p className="mt-6 font-normal text-gray-700 dark:text-gray-400 text-left">
+                {manageString(props.description)}
+              </p>
+            </div>
+          </div>
+        </div>
+      );
+    })
+
   
 export const VideoCardRecommendation = React.forwardRef<HTMLDivElement,VideoPropsSearch>((props,ref) =>
 {

@@ -46,12 +46,12 @@ export function TweetCard(props:TweetCardProps){
                 axios.post(`${import.meta.env.VITE_BASE_URL}/api/v1/likes/toggle/t/${props._id}`,null,{
                     withCredentials:true
                 })
-                .then(res => toast({
-                    variant:"success",
-                    type:"foreground",
-                    description:res.data.message
+                .then(res => console.log(res.data.message))
+                .catch(err => toast({
+                     variant:"destructive",
+                     type:"foreground",
+                     description:err?.response?.data?.message
                 }))
-                .catch(err => console.log(err.response.data))
               }
             }
         )

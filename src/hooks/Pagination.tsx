@@ -37,7 +37,7 @@ export function usePaginate(itemCount:number=0,limit:number=20,url:string="/comm
         if(query){
             URL += `&${query}`
         }
-        console.log(URL);
+    
         axios.get(URL,{
             withCredentials:true
         })
@@ -51,6 +51,7 @@ export function usePaginate(itemCount:number=0,limit:number=20,url:string="/comm
                type:"foreground",
                description: err.response.data.message
             })
+            setIsLoading(false);
         })
         
    },[pageNum,url,query,refresh])

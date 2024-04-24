@@ -57,11 +57,8 @@ export const CommentCard  = ((
    const [isEditing,setIsEditing] = useState(false);
 
    useEffect(()=>{
-    
-    // runs on mount or when dependency array updates
-    
+        
     return () => {
-      // runs on unmount or when dependency array updates 
       if(likeRef.current !== props.isLiked){
         axios
         .post(`${import.meta.env.VITE_BASE_URL}/api/v1/likes/toggle/c/${props._id}`,null,{
