@@ -17,6 +17,7 @@ import { ChannelVideoComponent } from "./components/ChannelPageComponents/channe
 import { ChannelPostComponent } from "./components/ChannelPageComponents/channelPostComponent.tsx";
 import { ChannelPlaylistComponent } from "./components/ChannelPageComponents/channelPlaylistComponent.tsx";
 import { PlaylistPage } from "./pages/PlaylistPage/PlaylistPage.tsx";
+import { ContentSearch } from "./components/Content/SearchContent.tsx";
 
 const router = createBrowserRouter([
   {
@@ -44,6 +45,9 @@ const router = createBrowserRouter([
           },{
             path:"playlist/:playlistId",
             element:<PlaylistPage/>
+          },{
+            path:"videos/search",
+            element:<ContentSearch/>
           }
         
         ]
