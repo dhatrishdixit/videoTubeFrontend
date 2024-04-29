@@ -82,7 +82,7 @@ export const InputSearch: React.FC<InputProps> = ({ className }) => {
         <Search size={18} />
       </button>
       {openRecommendation && (
-        <div className="absolute mt-12 w-full max-w-[calc(100%-2rem)] rounded-md border border-input bg-popover text-popover-foreground shadow-md bg-slate-900">
+        <div className="absolute mt-12 w-full max-w-[calc(100%-2rem)] rounded-md border border-input bg-popover text-popover-foreground shadow-md ">
           {searchSuggestions.map((suggestion, index) => (
             <div
               key={index}
