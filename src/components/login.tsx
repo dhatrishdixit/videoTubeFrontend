@@ -113,9 +113,10 @@ export const Login:React.FC = () => {
               <Label htmlFor="email">Email</Label>
               <Input
                 id="email"
+                autoComplete="off"
                 placeholder="Email"
                 type="email"
-                autoComplete="off"
+              
                 {...register("email")}
               />
             {
