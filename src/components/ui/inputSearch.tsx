@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Search, X } from "lucide-react";
 import { InputProps } from "./input";
 import axios from "axios";
+import { IoIosClose } from "react-icons/io";
 
 interface SearchSuggestionSchema {
   _id: string;
@@ -13,7 +14,7 @@ export const InputSearch: React.FC<InputProps> = ({ className }) => {
   const [search, setSearch] = useState<string | undefined>("");
   const [isFocus, setIsFocus] = useState<boolean | undefined>(false);
   const [openRecommendation, setOpenRecommendation] = useState<boolean>(false);
-  const [searchSuggestions, setSearchSuggestions] = useState<SearchSuggestionSchema[]>([]);
+  const [searchSuggestions, setSearchSuggestions] = useState<SearchSuggestionSchema[]|string>([]);
 
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
@@ -64,10 +65,12 @@ export const InputSearch: React.FC<InputProps> = ({ className }) => {
           setIsFocus && setIsFocus(true);
           setOpenRecommendation(true);
         }}
-        onBlur={() => {
-          setIsFocus && setIsFocus(false);
-          setOpenRecommendation(false);
-        }}
+        // onBlur={() => {
+        //   setIsFocus && setIsFocus(false);
+        //   setOpenRecommendation(false);
+        //   console.log("blurred")
+        // }}
+        
         onChange={(e) => {
           setSearch && setSearch(e.target.value);
         }}
@@ -87,22 +90,48 @@ export const InputSearch: React.FC<InputProps> = ({ className }) => {
         onClick={(e) => {
           e.preventDefault();
           // call backend for search
+          // send data to different page i.e. search page from where it will
         }}
         className={`px-3 rounded-r-md `}
       >
         <Search size={18}/>
       </button>
       {openRecommendation && (
-        <div className="absolute mt-12 w-full max-w-[calc(100%-2rem)] rounded-md border border-input bg-popover text-popover-foreground shadow-md dark:bg-black bg-slate-200">
-          {searchSuggestions.map((suggestion, index) => (
-            <div
-              key={index}
-              className="cursor-pointer px-4 py-2 hover:bg-accent hover:text-accent-foreground"
-            >
-              {suggestion.title}
-              
-            </div>
-          ))}
+        <div className={
+          `absolute mt-12 w-full max-w-[calc(100%-2rem)] rounded-md border border-input bg-popover text-popover-foreground shadow-md dark:bg-black bg-slate-200 ${search == undefined ||"" ? "hidden" : ""}`
+        }>
+          {
+            typeof searchSuggestions == "string" ? (
+             
+                <div
+                  className=" px-4 py-2  text-center"
+                >
+                  {searchSuggestions}
+                  
+                </div>
+         
+            ) : (
+              searchSuggestions.map((suggestion, index) => (
+                <div
+                  key={index}
+                  className="cursor-pointer px-4 py-2 hover:bg-accent hover:text-accent-foreground flex justify-between items-center"
+                >
+                  <span>{suggestion.title}</span>
+             
+                  <IoIosClose className="scale-150" onClick={
+                    ()=>{
+                      setSearchSuggestions((prev) =>{
+                        if(typeof prev == "string") return prev ;
+                        return prev.filter((value) => value._id !== suggestion._id)
+                      })
+                      setOpenRecommendation(true)
+                    }
+                  }/>
+
+                </div>
+              ))
+            )
+          }
         </div>
       )}
     </div>
