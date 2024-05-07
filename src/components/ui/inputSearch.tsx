@@ -65,6 +65,7 @@ export const InputSearch: React.FC<InputProps> = ({ className }) => {
           setIsFocus && setIsFocus(true);
           setOpenRecommendation(true);
         }}
+        //TODO: work on implementing and completing this 
         // onBlur={() => {
         //   setIsFocus && setIsFocus(false);
         //   setOpenRecommendation(false);
