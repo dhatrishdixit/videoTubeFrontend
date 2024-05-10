@@ -11,22 +11,20 @@ interface SearchSuggestionSchema {
 }
 
 export const InputSearch: React.FC<InputProps> = ({ className }) => {
-  const [search, setSearch] = useState<string | undefined>("");
+  const [search, setSearch] = useState<string>("");
   const [isFocus, setIsFocus] = useState<boolean | undefined>(false);
   const [openRecommendation, setOpenRecommendation] = useState<boolean>(false);
+  const [onMouseOverSuggestions, setOnMouseOverSuggestions] = useState<boolean>(false);
   const [searchSuggestions, setSearchSuggestions] = useState<SearchSuggestionSchema[]|string>([]);
 
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
       if (search) {
-        // Fetch search suggestions from your backend or API
-        // fetchSearchSuggestions(search)
-        //   .then((suggestions) => setSearchSuggestions(suggestions))
-        //   .catch((error) => console.log(error));
          axios.get(`${import.meta.env.VITE_BASE_URL}/api/v1/videos/s/search?title=${search}`,{
           withCredentials:true
          })
          .then(res => setSearchSuggestions(res.data.data))
+         .catch(err => console.log(err));
       } else {
         setSearchSuggestions([]);
       }
@@ -36,6 +34,7 @@ export const InputSearch: React.FC<InputProps> = ({ className }) => {
   }, [search]);
 
   const fetchSearchSuggestions = async (query: string): Promise<string[]> => {
+    // this simulates fetch  as fetch also returns a promise which resolve or reject 
     // Simulating fetching search suggestions from an API
     return new Promise((resolve) =>
       setTimeout(() => resolve(["suggestion 1", "suggestion 2", "suggestion 3"]), 1000)
@@ -58,24 +57,31 @@ export const InputSearch: React.FC<InputProps> = ({ className }) => {
         "flex h-9 w-full rounded-md bg-transparent px-3 py-1 text-sm shadow-sm focus:outline-none file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50 ",
           openRecommendation && "rounded-b-none"
         )}
+        value={search}
         id="name"
         placeholder="Search"
         type="text"
+        
         onFocus={() => {
           setIsFocus && setIsFocus(true);
           setOpenRecommendation(true);
         }}
-        //TODO: work on implementing and completing this 
-        // onBlur={() => {
-        //   setIsFocus && setIsFocus(false);
-        //   setOpenRecommendation(false);
-        //   console.log("blurred")
-        // }}
+        
+    
+        onBlur={() => {
+          console.log("blurred")
+          if(!onMouseOverSuggestions){
+            setIsFocus && setIsFocus(false);
+          }
+          console.log(onMouseOverSuggestions)
+          if(!onMouseOverSuggestions) setOpenRecommendation(false);
+          
+        }}
         
         onChange={(e) => {
           setSearch && setSearch(e.target.value);
         }}
-        value={search}
+        
         autoComplete="off"
       />
       <button
@@ -99,13 +105,25 @@ export const InputSearch: React.FC<InputProps> = ({ className }) => {
       </button>
       {openRecommendation && (
         <div className={
-          `absolute mt-12 w-full max-w-[calc(100%-2rem)] rounded-md border border-input bg-popover text-popover-foreground shadow-md dark:bg-black bg-slate-200 ${search == undefined ||"" ? "hidden" : ""}`
-        }>
+          `absolute mt-12 w-full max-w-[calc(100%-2rem)] rounded-md border border-input bg-popover text-popover-foreground shadow-md dark:bg-black bg-slate-200 ${search.length == 0 ?  "hidden opacity-0 transition-opacity duration-300"
+          : "opacity-100 transition-opacity duration-300"} `
+        }
+   
+        onMouseEnter={() => {
+          setOnMouseOverSuggestions(false)
+          console.log(onMouseOverSuggestions)
+        }}
+        onMouseLeave={() => {
+          setOnMouseOverSuggestions(true)
+          console.log(onMouseOverSuggestions)
+        }}
+        >
           {
             typeof searchSuggestions == "string" ? (
              
                 <div
                   className=" px-4 py-2  text-center"
+                  onClick={()=>setOpenRecommendation(false)}
                 >
                   {searchSuggestions}
                   
@@ -117,7 +135,12 @@ export const InputSearch: React.FC<InputProps> = ({ className }) => {
                   key={index}
                   className="cursor-pointer px-4 py-2 hover:bg-accent hover:text-accent-foreground flex justify-between items-center"
                 >
-                  <span>{suggestion.title}</span>
+                  <span 
+                    onClick={()=>{
+                      setSearch(suggestion.title)
+                      setOpenRecommendation(false)
+                    }}
+                  >{suggestion.title}</span>
              
                   <IoIosClose className="scale-150" onClick={
                     ()=>{
