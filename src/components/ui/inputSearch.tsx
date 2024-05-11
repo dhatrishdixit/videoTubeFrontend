@@ -39,12 +39,11 @@ export const InputSearch: React.FC<InputProps> = ({ className }) => {
 
   useEffect(()=>{
       const handleClickOutside = (event:MouseEvent) =>{
-            
             if(suggestionRef.current &&
                !suggestionRef.current.contains(event.target as Node) && 
                inputRef.current && 
                !inputRef.current.contains(event.target as Node)){
-                console.log("clicked outside")
+              //  console.log("clicked outside")
                  setOpenRecommendation(false);
               }
              
