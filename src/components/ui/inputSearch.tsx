@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Search, X } from "lucide-react";
 import { InputProps } from "./input";
 import axios from "axios";
@@ -16,6 +16,10 @@ export const InputSearch: React.FC<InputProps> = ({ className }) => {
   const [openRecommendation, setOpenRecommendation] = useState<boolean>(false);
   const [onMouseOverSuggestions, setOnMouseOverSuggestions] = useState<boolean>(false);
   const [searchSuggestions, setSearchSuggestions] = useState<SearchSuggestionSchema[]|string>([]);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const suggestionRef = useRef<HTMLDivElement>(null);
+
+
 
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
@@ -33,13 +37,30 @@ export const InputSearch: React.FC<InputProps> = ({ className }) => {
     return () => clearTimeout(delayDebounceFn);
   }, [search]);
 
-  const fetchSearchSuggestions = async (query: string): Promise<string[]> => {
-    // this simulates fetch  as fetch also returns a promise which resolve or reject 
-    // Simulating fetching search suggestions from an API
-    return new Promise((resolve) =>
-      setTimeout(() => resolve(["suggestion 1", "suggestion 2", "suggestion 3"]), 1000)
-    );
-  };
+  useEffect(()=>{
+      const handleClickOutside = (event:MouseEvent) =>{
+            
+            if(suggestionRef.current &&
+               !suggestionRef.current.contains(event.target as Node) && 
+               inputRef.current && 
+               !inputRef.current.contains(event.target as Node)){
+                console.log("clicked outside")
+                 setOpenRecommendation(false);
+              }
+             
+      }
+
+      document.addEventListener('click',handleClickOutside,{
+          capture:true,
+      });
+      return () =>{
+        document.removeEventListener('click',handleClickOutside,{
+          capture:true,
+        });
+      }
+  },[])
+
+
   // add a cross to remove from search suggestions list
 
   return (
@@ -57,6 +78,7 @@ export const InputSearch: React.FC<InputProps> = ({ className }) => {
         "flex h-9 w-full rounded-md bg-transparent px-3 py-1 text-sm shadow-sm focus:outline-none file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50 ",
           openRecommendation && "rounded-b-none"
         )}
+        ref={inputRef}
         value={search}
         id="name"
         placeholder="Search"
@@ -69,13 +91,7 @@ export const InputSearch: React.FC<InputProps> = ({ className }) => {
         
     
         onBlur={() => {
-          console.log("blurred")
-          if(!onMouseOverSuggestions){
             setIsFocus && setIsFocus(false);
-          }
-          console.log(onMouseOverSuggestions)
-          if(!onMouseOverSuggestions) setOpenRecommendation(false);
-          
         }}
         
         onChange={(e) => {
@@ -109,14 +125,7 @@ export const InputSearch: React.FC<InputProps> = ({ className }) => {
           : "opacity-100 transition-opacity duration-300"} `
         }
    
-        onMouseEnter={() => {
-          setOnMouseOverSuggestions(false)
-          console.log(onMouseOverSuggestions)
-        }}
-        onMouseLeave={() => {
-          setOnMouseOverSuggestions(true)
-          console.log(onMouseOverSuggestions)
-        }}
+        ref={suggestionRef}
         >
           {
             typeof searchSuggestions == "string" ? (
@@ -134,12 +143,14 @@ export const InputSearch: React.FC<InputProps> = ({ className }) => {
                 <div
                   key={index}
                   className="cursor-pointer px-4 py-2 hover:bg-accent hover:text-accent-foreground flex justify-between items-center"
+               
                 >
                   <span 
                     onClick={()=>{
                       setSearch(suggestion.title)
                       setOpenRecommendation(false)
                     }}
+                    className="w-full"
                   >{suggestion.title}</span>
              
                   <IoIosClose className="scale-150" onClick={
