@@ -12,7 +12,6 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ScrollableArea } from "../ScrollableContent";
 import { PublishedBtn } from "../publishVidBtn";
 import { InputSearch } from "../ui/inputSearch";
-import { FilterBtn } from "../filterBtn";
 import { useNavigate } from "react-router-dom";
 import React from "react";
 import axios from "axios";
@@ -71,11 +70,9 @@ export const Navbar = () => {
         <Logo />
         <p className="text-red-600 font-bold text-2xl">ClipSync</p>
       </div>
-      <div className="col-span-1">
-        <FilterBtn />
-      </div>
-      <div className="col-span-4">
-        <InputSearch className="w-full " />
+    
+      <div className="col-span-5 flex justify-center items-center gap-4">
+        <InputSearch  />
       </div>
 
       <div className="col-span-1">

@@ -25,20 +25,7 @@ function App() {
  
   return (
     <div>
-    {/* <div className="grid grid-cols-12 h-screen overflow-y-hidden w-screen">
-      <div className= "col-span-2">
-        <SideBar />
-      </div>
-      <div className=" grid grid-rows-10  col-span-10">
-        <div className="row-span-1">
-          <Navbar />
-        </div>
-        <div className="row-span-9">
-          <Outlet/>
-        </div>
-      </div>
-    </div> */}
-
+   
     
     
    

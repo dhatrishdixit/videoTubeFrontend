@@ -4,21 +4,42 @@ import { Search, X } from "lucide-react";
 import { InputProps } from "./input";
 import axios from "axios";
 import { IoIosClose } from "react-icons/io";
+import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuPortal,
+  DropdownMenuSeparator,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+
+import { SlidersHorizontal } from "lucide-react";
 
 interface SearchSuggestionSchema {
   _id: string;
   title:string;
 }
 
+type sortTypeType = "descending" | "ascending";
+type sortByType = "createdAt" | "likes" | "duration" | "views" ;
+
 export const InputSearch: React.FC<InputProps> = ({ className }) => {
   const [search, setSearch] = useState<string>("");
   const [isFocus, setIsFocus] = useState<boolean | undefined>(false);
   const [openRecommendation, setOpenRecommendation] = useState<boolean>(false);
-  const [onMouseOverSuggestions, setOnMouseOverSuggestions] = useState<boolean>(false);
   const [searchSuggestions, setSearchSuggestions] = useState<SearchSuggestionSchema[]|string>([]);
   const inputRef = useRef<HTMLInputElement>(null);
   const suggestionRef = useRef<HTMLDivElement>(null);
-
+  const [sortType,setSortType] = useState<sortTypeType>("descending");
+  const [sortBy,setSortBy] = useState<sortByType>("views");
+  const [loading,setLoading] = useState<boolean>(false);
+  
 
 
   useEffect(() => {
@@ -63,6 +84,85 @@ export const InputSearch: React.FC<InputProps> = ({ className }) => {
   // add a cross to remove from search suggestions list
 
   return (
+    <div className="w-full flex justify-center items-center gap-4">
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="outline" size="icon">
+          <SlidersHorizontal />
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className="w-40">
+        <DropdownMenuLabel>Filter</DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        <DropdownMenuSub>
+          <DropdownMenuSubTrigger>Order</DropdownMenuSubTrigger>
+          <DropdownMenuPortal>
+            <DropdownMenuSubContent>
+            <DropdownMenuItem
+                 onClick={()=>{
+                  setSortType("descending");
+                }}
+                className = {
+                  sortType == "descending" ? "bg-white text-[#09090b]" :""
+                }
+              >Descending</DropdownMenuItem>
+              <DropdownMenuItem
+               onClick={()=>{
+                setSortType("ascending");
+              }}
+              className = {
+                sortType == "ascending" ? "bg-white text-[#09090b]" :""
+              }
+              >Ascending</DropdownMenuItem>
+            </DropdownMenuSubContent>
+          </DropdownMenuPortal>
+        </DropdownMenuSub>
+        <DropdownMenuGroup>
+          <DropdownMenuSub>
+            <DropdownMenuSubTrigger>By</DropdownMenuSubTrigger>
+            <DropdownMenuPortal>
+              <DropdownMenuSubContent>
+                <DropdownMenuItem 
+                onClick={()=>{
+                  setSortBy("duration");
+                }}
+                className = {
+                  sortBy == "duration" ? "bg-white text-[#09090b]" :""
+                }
+                >Duration</DropdownMenuItem>
+                <DropdownMenuItem
+                 onClick={()=>{
+                  setSortBy("views");
+                }}
+                className = {
+                  sortBy == "views" ? "bg-white text-[#09090b]" :""
+                }
+                >Views
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                 onClick={()=>{
+                  setSortBy("createdAt");
+                }}
+                className = {
+                  sortBy == "createdAt" ? "bg-white text-[#09090b]" :""
+                }
+                >Published Date</DropdownMenuItem>
+                <DropdownMenuItem
+                 onClick={()=>{
+                  setSortBy("likes");
+                }}
+                className = {
+                  sortBy == "likes" ? "bg-white text-[#09090b]" :""
+                }
+                >likes</DropdownMenuItem>
+              </DropdownMenuSubContent>
+            </DropdownMenuPortal>
+          </DropdownMenuSub>
+        </DropdownMenuGroup>
+      </DropdownMenuContent>
+    </DropdownMenu>
+ 
+
     <div
       className={cn(
         "flex flex-row w-full rounded-md border border-input bg-transparent text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium relative",
@@ -168,7 +268,7 @@ export const InputSearch: React.FC<InputProps> = ({ className }) => {
           }
         </div>
       )}
-    </div>
+    </div></div>
   );
 };
 
