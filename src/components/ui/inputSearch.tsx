@@ -18,8 +18,8 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-
 import { SlidersHorizontal } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 interface SearchSuggestionSchema {
   _id: string;
@@ -38,9 +38,9 @@ export const InputSearch: React.FC<InputProps> = ({ className }) => {
   const suggestionRef = useRef<HTMLDivElement>(null);
   const [sortType,setSortType] = useState<sortTypeType>("descending");
   const [sortBy,setSortBy] = useState<sortByType>("views");
-  const [loading,setLoading] = useState<boolean>(false);
-  
-
+  const [url,setUrl] = useState<string>("");
+  //TODO: if now url.length == 1 dont use url then directly send the query or add query to url as well think of it 
+  const navigate = useNavigate();
 
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
@@ -79,8 +79,11 @@ export const InputSearch: React.FC<InputProps> = ({ className }) => {
         });
       }
   },[])
-
-
+  
+  useEffect(()=>{
+       setUrl(`?sortType=${sortType}&sortBy=${sortBy}&query=${search}`)
+  },[sortType,sortBy,search])
+  //TODO: think of passing reRender or something like that cant understand right now 
   // add a cross to remove from search suggestions list
 
   return (
@@ -101,6 +104,7 @@ export const InputSearch: React.FC<InputProps> = ({ className }) => {
             <DropdownMenuItem
                  onClick={()=>{
                   setSortType("descending");
+                
                 }}
                 className = {
                   sortType == "descending" ? "bg-white text-[#09090b]" :""
@@ -213,8 +217,10 @@ export const InputSearch: React.FC<InputProps> = ({ className }) => {
           e.preventDefault();
           // call backend for search
           // send data to different page i.e. search page from where it will
+          navigate(`/videos/results${url}`);
         }}
         className={`px-3 rounded-r-md `}
+        disabled={search.length == 0}
       >
         <Search size={18}/>
       </button>
@@ -246,8 +252,9 @@ export const InputSearch: React.FC<InputProps> = ({ className }) => {
                 >
                   <span 
                     onClick={()=>{
-                      setSearch(suggestion.title)
-                      setOpenRecommendation(false)
+                      setSearch(suggestion.title);
+                      setOpenRecommendation(false);
+                      navigate(`/videos/results${url}`);
                     }}
                     className="w-full"
                   >{suggestion.title}</span>

@@ -88,9 +88,7 @@ export const Navbar = () => {
           <HoverCard>
             <HoverCardTrigger>
               <AvatarImage
-                //TODO:add actual image url here
                 src={userInfo?.avatar}
-                //fetch these images from avatar
                 onClick={() => {
                   navigate("/")
                 }}

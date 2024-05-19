@@ -33,18 +33,20 @@ export const getPostsPage = async (pageParam = 0,limit = 9,params:string|null = 
     }
     console.log("url: ",url);
     const response = await api.get(url, options)
-    // console.log(response.data.data);
+    console.log("response :",response.data.data);
     if(digDeep) return response.data[digDeep] 
     return response.data.data
 }
 
-const usePosts = (pageNum = 0,limit=9,params:string|null = null,URL:string="/videos",digDeep:string="") => {
+const usePosts = (pageNum = 0,limit=9,params:string|null = null,URL:string="/videos",reRender:number = 0,digDeep:string="") => {
     const [results, setResults] = useState<VideoPropsMain[]|VideoPropsSearch[]|CommentCardSchema[]>([])
     const [isLoading, setIsLoading] = useState(false)
     const [isError, setIsError] = useState(false)
     const [error, setError] = useState<ErrorSchema>({})
     const [hasNextPage, setHasNextPage] = useState(false)
+    console.log("reRender inside lazy loading ",reRender)
     useEffect(() => {
+        //setResults([]);
         setIsLoading(true)
         setIsError(false)
         setError({})
@@ -68,7 +70,7 @@ const usePosts = (pageNum = 0,limit=9,params:string|null = null,URL:string="/vid
 
         return () => controller.abort()
 
-    }, [pageNum])
+    }, [pageNum,reRender])
 
     return { isLoading, isError, error, results, hasNextPage }
 }

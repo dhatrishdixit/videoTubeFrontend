@@ -46,10 +46,9 @@ const router = createBrowserRouter([
             path:"playlist/:playlistId",
             element:<PlaylistPage/>
           },{
-            path:"videos/search",
+            path:"videos/results",
             element:<ContentSearch/>
           }
-        
         ]
       },
       {
