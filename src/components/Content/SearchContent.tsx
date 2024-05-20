@@ -14,6 +14,7 @@ export const ContentSearch = () => {
     const query = queryParams.get('query');
     const [backendUrl,setBackendUrl] = useState<string>("");
     const [reRender,setReRender] = useState<number>(0);
+    
     const { toast } = useToast();
     const [pageNum, setPageNum] = useState(0);
     const { isLoading, isError, error, results, hasNextPage } = usePosts(pageNum,10,backendUrl,"/videos",reRender);

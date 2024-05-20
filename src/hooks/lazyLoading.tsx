@@ -70,7 +70,7 @@ const usePosts = (pageNum = 0,limit=9,params:string|null = null,URL:string="/vid
 
         return () => controller.abort()
 
-    }, [pageNum,reRender])
+    }, [pageNum,reRender,params])
 
     return { isLoading, isError, error, results, hasNextPage }
 }

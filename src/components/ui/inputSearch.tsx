@@ -225,11 +225,7 @@ export const InputSearch: React.FC<InputProps> = ({ className }) => {
         <Search size={18}/>
       </button>
       {openRecommendation && (
-        <div className={
-          `absolute mt-12 w-full max-w-[calc(100%-2rem)] rounded-md border border-input bg-popover text-popover-foreground shadow-md dark:bg-black bg-slate-200 ${search.length == 0 ?  "hidden opacity-0 transition-opacity duration-300"
-          : "opacity-100 transition-opacity duration-300"} `
-        }
-   
+        <div className={`absolute mt-12 w-full max-w-[calc(100%-2rem)] rounded-md border border-input bg-popover text-popover-foreground shadow-md dark:bg-black bg-slate-200  ${search.length == 0 ? "hidden opacity-0 transition-opacity duration-300" : "opacity-100 transition-opacity duration-300"} ${typeof searchSuggestions == "string" ? "" : "overflow-y-scroll max-h-[80vh] scrollbar-thin scrollbar-thumb-red-600 dark:scrollbar-track-[#09090b] scrollbar-track-white"}`} 
         ref={suggestionRef}
         >
           {
