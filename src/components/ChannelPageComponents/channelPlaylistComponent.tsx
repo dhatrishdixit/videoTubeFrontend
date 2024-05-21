@@ -47,7 +47,12 @@ wrapperStyle={{}}
 wrapperClass=""
 /> 
 </div> : (
-   <div>
+    result.length == 0 ? (
+        <div className='text-center font-semibold h-[40vh]'>
+        No Public Playlists By @{channelUsername}
+      </div>
+    ) : (
+        <div>
     <div className='grid md:grid-cols-4 grid-cols-2'>
        {
            result.map(playlistProps => (
@@ -127,6 +132,8 @@ wrapperClass=""
       </Pagination>
     </div>
   </div>
+    )
+   
   )
 }
 

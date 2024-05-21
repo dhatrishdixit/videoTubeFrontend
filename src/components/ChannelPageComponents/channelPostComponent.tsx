@@ -45,7 +45,13 @@ wrapperStyle={{}}
 wrapperClass=""
 /> 
 </div> : (
-    <div className='py-4'>
+    
+    result.length == 0 ? (
+      <div className='text-center font-semibold h-[40vh]'>
+        No Community Posts By @{channelUsername}
+      </div>
+    ) : (
+      <div className='py-4'>
       
       {
         result.map(
@@ -126,6 +132,8 @@ wrapperClass=""
 
       
       </div>
+    )
+   
   )
 }
 
