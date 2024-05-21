@@ -250,9 +250,10 @@ export const InputSearch: React.FC<InputProps> = ({ className }) => {
                 >
                   <span 
                     onClick={()=>{
+                      console.log(suggestion.title);
                       setSearch(suggestion.title);
                       setOpenRecommendation(false);
-                      navigate(`/videos/results${url}`);
+                      navigate(`/videos/results?sortType=${sortType}&sortBy=${sortBy}&query=${suggestion.title}`);
                     }}
                     className="w-full"
                   >{suggestion.title}</span>

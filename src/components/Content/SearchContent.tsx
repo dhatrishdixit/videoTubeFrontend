@@ -94,8 +94,8 @@ export const ContentSearch = () => {
         </>
        
         ) : (
-        <>
-        
+        <div>
+           <p className="text-3xl font-bold">Search Results for "{query}"</p>
            {
             result.map((videoData) => <VideoCardSearch key={videoData._id} {...videoData as VideoPropsSearch} />)
           }
@@ -168,7 +168,7 @@ export const ContentSearch = () => {
             </PaginationItem>
         </PaginationContent>
        </Pagination>
-        </>
+        </div>
          
         )
 }
