@@ -9,7 +9,6 @@ export interface CommentSchema {
     _id : string;
     content : string;
     video?: string;
-    // think of adding Comment(for nesting) and Tweet to add comments to it 
     createdAt : Date;
     owner : string;
     ownerUsername : string;

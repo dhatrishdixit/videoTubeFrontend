@@ -39,6 +39,7 @@ export const InputSearch: React.FC<InputProps> = ({ className }) => {
   const [sortType,setSortType] = useState<sortTypeType>("descending");
   const [sortBy,setSortBy] = useState<sortByType>("views");
   const [url,setUrl] = useState<string>("");
+  const [refresh,setRefresh] = useState<number>(0);
   //TODO: if now url.length == 1 dont use url then directly send the query or add query to url as well think of it 
   const navigate = useNavigate();
 
@@ -217,7 +218,8 @@ export const InputSearch: React.FC<InputProps> = ({ className }) => {
           e.preventDefault();
           // call backend for search
           // send data to different page i.e. search page from where it will
-          navigate(`/videos/results${url}`);
+          setRefresh(Math.random());
+          navigate(`/videos/results${url}`,{state:refresh});
         }}
         className={`px-3 rounded-r-md `}
         disabled={search.length == 0}

@@ -1,10 +1,25 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import {  useEffect, useRef, useState } from "react";
 import { SkeletonCardSearch } from "../Card/skeletonCard";
 import { VideoCardSearch, VideoPropsSearch } from "../Card/videoCard";
 import { useLocation } from "react-router-dom";
-import usePosts from "@/hooks/lazyLoading";
 import { useToast } from "../ui/use-toast";
-
+import { usePaginate } from "@/hooks/Pagination";
+import { BiDotsHorizontalRounded } from "react-icons/bi";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination"
+import axios from "axios";
 
 export const ContentSearch = () => {
     const location = useLocation();
@@ -14,13 +29,35 @@ export const ContentSearch = () => {
     const query = queryParams.get('query');
     const [backendUrl,setBackendUrl] = useState<string>("");
     const [reRender,setReRender] = useState<number>(0);
-    
     const { toast } = useToast();
-    const [pageNum, setPageNum] = useState(0);
-    const { isLoading, isError, error, results, hasNextPage } = usePosts(pageNum,10,backendUrl,"/videos",reRender);
+   
     const intObserver = useRef<IntersectionObserver | null>(null);
+    const [videoCount,setVideoCount]= useState<number>(0);
     
+    //{{localServer}}/videos/result/counts?query=hey
 
+    useEffect(()=>{
+         axios.get(`${import.meta.env.VITE_BASE_URL}/api/v1/videos/result/counts?query=${query}`,{
+            withCredentials:true,
+         })
+         .then(res => setVideoCount(res.data.data[0].totalCount as number)
+         )
+    },[query]);
+   
+
+    const {
+      totalPages,
+      switchToNextPage,
+      switchToPreviousPage,
+      moveToLastPage,
+      moveToFirstPage,
+      isLoading,
+      result,
+      pageNum
+  } = usePaginate(videoCount,20,`/videos`,backendUrl,reRender);
+    console.log("result",result)
+  const isPreviousPageAvailable = Boolean(pageNum !== 1)  ;
+  const isNextPageAvailable = pageNum < totalPages ;
 
     useEffect(()=>{
         setBackendUrl(`query=${query}&sortBy=${sortBy}&sortType=${sortType}`);
@@ -30,76 +67,114 @@ export const ContentSearch = () => {
     },[query,sortBy,sortType]);
     
  
-    const lastPostRef = useCallback(
-      (post: HTMLDivElement | null) => {
-        if (isLoading) return;
-        if (intObserver.current) intObserver.current.disconnect();
-  
-        intObserver.current = new IntersectionObserver(
-          (entries: IntersectionObserverEntry[]) => {
-            if (entries[0].isIntersecting && hasNextPage) {
-              console.log("We are near the last post!");
-              setPageNum((prev) => prev + 1);
-            }
-          },
-          { root: null }
-        );
-  
-        if (post) intObserver.current.observe(post);
-      },
-      [isLoading, hasNextPage]
-    );
-    console.log(results);
-    const content = results.map((post, i) => {
-      if (results.length === i + 1) {
-        return (
-          <VideoCardSearch
-            ref={lastPostRef}
-            key={Math.random()}
-            {...(post as VideoPropsSearch)}
-          />
-        );
-      }
+ 
 
-      return (
-        <VideoCardSearch key={Math.random()} {...(post as VideoPropsSearch)} />
-      );
-    });
-    if (isError) {
-      toast({
-        variant: "destructive",
-        type: "foreground",
-        description: error?.message,
-      });
-    }
 
     return (
       <div
-        key={reRender}
         className="mx-2 h-[90vh] overflow-y-scroll scrollbar-thin  scrollbar-thumb-red-600 
              scrollbar-track-white
              dark:scrollbar-track-[#09090b]
             "
       >
-  {isLoading ? (
-   
-   <>
-   {...content}
-   <SkeletonCardSearch />
-   <SkeletonCardSearch />
-   <SkeletonCardSearch />
-   <SkeletonCardSearch />
-   <SkeletonCardSearch />
-   <SkeletonCardSearch />
-   <SkeletonCardSearch />
-   <SkeletonCardSearch />
-   <SkeletonCardSearch />
-   <SkeletonCardSearch />
- </>
+      {
+        isLoading ?  (
+          <>
 
-) : (
- content
-)}
+          <SkeletonCardSearch />
+          <SkeletonCardSearch />
+          <SkeletonCardSearch />
+          <SkeletonCardSearch />
+          <SkeletonCardSearch />
+          <SkeletonCardSearch />
+          <SkeletonCardSearch />
+          <SkeletonCardSearch />
+          <SkeletonCardSearch />
+          <SkeletonCardSearch />
+        </>
+       
+        ) : (
+        <>
+        
+           {
+            result.map((videoData) => <VideoCardSearch key={videoData._id} {...videoData as VideoPropsSearch} />)
+          }
+           <Pagination className="cursor-pointer pb-2">
+        <PaginationContent>
+            <PaginationItem>
+                <PaginationPrevious className={`border  ${isPreviousPageAvailable? "hover:border-white":"cursor-not-allowed"}`} onClick={(e)=>{
+                    e.preventDefault();
+                    switchToPreviousPage();
+                }}/>
+            </PaginationItem>
+            <PaginationItem>
+                 <PaginationLink className={`${isPreviousPageAvailable  && pageNum - 1 !== 1  ?  "": "hidden" }`}
+                 onClick={(e)=>{
+                    e.preventDefault();
+                    moveToFirstPage();
+                 }}
+                 >1</PaginationLink>
+            </PaginationItem>
+            <PaginationItem >
+                 <BiDotsHorizontalRounded 
+                 className={`${isPreviousPageAvailable && pageNum - 1 !== 1 && pageNum - 2 !== 1 ? "": "hidden" }`} 
+                  /> 
+            </PaginationItem>
+            <PaginationItem>
+                <PaginationLink 
+                className={`${isPreviousPageAvailable ? "": "hidden" }`}
+                onClick={(e) => {
+                       e.preventDefault();
+                       switchToPreviousPage();
+                }}
+                >{pageNum - 1}</PaginationLink>
+            </PaginationItem>
+            <PaginationItem>
+                <PaginationLink
+                onClick={(e)=>{
+                    e.preventDefault();
+                }} 
+                isActive>{`${pageNum}`}</PaginationLink>
+            </PaginationItem>
+            <PaginationItem>
+                <PaginationLink 
+                className={`${isNextPageAvailable ? "": "hidden" }`}
+                onClick={(e)=>{
+                     e.preventDefault();
+                     switchToNextPage();
+                }}
+                >{pageNum+1}</PaginationLink>
+            </PaginationItem>
+            <PaginationItem>
+                <BiDotsHorizontalRounded className={`${isNextPageAvailable && pageNum + 2 !== totalPages && pageNum + 1 !== totalPages ? "": "hidden" }`}/> 
+            </PaginationItem>
+            <PaginationItem>
+                <PaginationLink 
+                className={`${isNextPageAvailable && pageNum + 1 !== totalPages ? "": "hidden" }`}
+                onClick={(e)=>{
+                     e.preventDefault();
+                     moveToLastPage();
+                }}
+                >{totalPages}</PaginationLink>
+            </PaginationItem>
+            <PaginationItem>
+                <PaginationNext 
+                 className={`border ${isNextPageAvailable ? "hover:border-white":"cursor-not-allowed"}`}
+                 onClick={(e)=>{
+                  e.preventDefault();
+                  switchToNextPage();
+              }}
+                />
+            </PaginationItem>
+        </PaginationContent>
+       </Pagination>
+        </>
+         
+        )
+}
+ 
+   
+ 
       </div>
     );
   };
