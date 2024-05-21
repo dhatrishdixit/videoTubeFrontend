@@ -80,7 +80,6 @@ export const ContentSearch = () => {
       {
         isLoading ?  (
           <>
-
           <SkeletonCardSearch />
           <SkeletonCardSearch />
           <SkeletonCardSearch />
@@ -94,7 +93,11 @@ export const ContentSearch = () => {
         </>
        
         ) : (
-        <div>
+          result.length == 0 ? (
+          <div className="flex items-center justify-center h-full text-4xl font-bold">
+              No Result Found for: "{query}"
+          </div>) : (
+            <div>
            <p className="text-3xl font-bold">Search Results for "{query}"</p>
            {
             result.map((videoData) => <VideoCardSearch key={videoData._id} {...videoData as VideoPropsSearch} />)
@@ -169,6 +172,7 @@ export const ContentSearch = () => {
         </PaginationContent>
        </Pagination>
         </div>
+          ) 
          
         )
 }
