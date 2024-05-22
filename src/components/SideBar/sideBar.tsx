@@ -1,7 +1,5 @@
 import { Button } from "../ui/button";
 import axios from "axios";
-
-
 import { AiOutlineMenuUnfold } from "react-icons/ai";
 import { AiOutlineMenuFold } from "react-icons/ai";
 import { useSidebar } from "@/hooks/offCanvasSideBarContext";
@@ -11,7 +9,7 @@ import { GoHistory } from "react-icons/go";
 import { AiOutlineLike } from "react-icons/ai";
 import { MdOutlinePlaylistPlay } from "react-icons/md";
 
-
+// if no use for useSideBar than remove it 
 
 import {
   Sheet,
@@ -26,6 +24,7 @@ import {
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 
 // in place of this have user info
@@ -103,7 +102,10 @@ const arr: btnTypes[] = [
   },
 ];
 
+type selectTypes = "home" | "settings" | "watchHistory" | "like" | "playlist";
+
 export function SideBar() {
+  const [select,setSelect] = useState<selectTypes>("home");
   const navigate = useNavigate();
   return (
     <div
@@ -143,32 +145,34 @@ export function SideBar() {
           </SheetContent>
         </Sheet>
 
-    <Button variant="outline" onClick={
-      ()=>{
+    <Button variant={select == "home" ? "default":"outline"} onClick={()=>{
+        setSelect("home");
         navigate("/");
-      }
-    }>  
+      }}>  
     <MdOutlineHome className='scale-150'/>
     </Button>
-    <Button variant="outline"
+    <Button variant={select == "settings" ? "default":"outline"}
     onClick={()=>{
+      setSelect("settings");
       navigate("/settings");
-    }}
-    >  
+    }}>  
     <IoSettingsOutline className='scale-150'/>
     </Button>
-    <Button variant="outline" onClick={()=>{
+    <Button variant={select == "watchHistory" ? "default":"outline"} onClick={()=>{
+       setSelect("watchHistory");
        navigate("/watchHistory");
     }}>  
     <GoHistory className='scale-150'/>
     </Button>
-    <Button variant="outline" onClick={()=>{
+    <Button variant={select == "like" ? "default":"outline"} onClick={()=>{
+      setSelect("like");
       navigate("/liked");
     }}>  
     <AiOutlineLike  className='scale-150'/>
     </Button>
-    <Button variant="outline" onClick={()=>{
-      navigate("/userPlaylist")
+    <Button variant={select == "playlist" ? "default":"outline"} onClick={()=>{
+      setSelect("playlist");
+      navigate("/userPlaylist");
     }}>
      <MdOutlinePlaylistPlay className='scale-150'/>
      </Button>  
