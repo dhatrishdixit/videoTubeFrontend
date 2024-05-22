@@ -1,5 +1,15 @@
 import { Button } from "../ui/button";
 import axios from "axios";
+
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet"
+
 // in place of this have user info
 type btnTypes = {
   name: string;

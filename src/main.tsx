@@ -1,5 +1,5 @@
 import ReactDOM from "react-dom/client";
-import App, { MainContentPage } from "./App.tsx";
+import App from "./App.tsx";
 import "./index.css";
 import { ThemeProvider } from "./components/theme-provider";
 import { Provider } from "react-redux";
@@ -18,6 +18,7 @@ import { ChannelPostComponent } from "./components/ChannelPageComponents/channel
 import { ChannelPlaylistComponent } from "./components/ChannelPageComponents/channelPlaylistComponent.tsx";
 import { PlaylistPage } from "./pages/PlaylistPage/PlaylistPage.tsx";
 import { ContentSearch } from "./components/Content/SearchContent.tsx";
+import { MainContentPage } from "./pages/MainContentPage/MainContentPage.tsx";
 
 const router = createBrowserRouter([
   {
