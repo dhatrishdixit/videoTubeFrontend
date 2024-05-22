@@ -19,6 +19,9 @@ import { ChannelPlaylistComponent } from "./components/ChannelPageComponents/cha
 import { PlaylistPage } from "./pages/PlaylistPage/PlaylistPage.tsx";
 import { ContentSearch } from "./components/Content/SearchContent.tsx";
 import { MainContentPage } from "./pages/MainContentPage/MainContentPage.tsx";
+import { SettingsPage } from "./pages/UserSettings/SettingsPage.tsx";
+import { WatchHistoryPage } from "./components/Content/WatchHistoryPage.tsx";
+
 
 const router = createBrowserRouter([
   {
@@ -49,6 +52,12 @@ const router = createBrowserRouter([
           },{
             path:"videos/results",
             element:<ContentSearch/>
+          },{
+            path:"/settings",
+            element:<SettingsPage/>
+          },{
+            path:"/watchHistory",
+            element:<WatchHistoryPage/>
           }
         ]
       },
@@ -75,7 +84,6 @@ const router = createBrowserRouter([
   },
 
 ])
-
 ReactDOM.createRoot(document.getElementById("root")!).render(
     <Provider store={store}>
       <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">

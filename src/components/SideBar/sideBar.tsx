@@ -1,14 +1,32 @@
 import { Button } from "../ui/button";
 import axios from "axios";
 
+
+import { AiOutlineMenuUnfold } from "react-icons/ai";
+import { AiOutlineMenuFold } from "react-icons/ai";
+import { useSidebar } from "@/hooks/offCanvasSideBarContext";
+import { IoSettingsOutline } from "react-icons/io5";
+import { MdOutlineHome } from "react-icons/md";
+import { GoHistory } from "react-icons/go";
+import { AiOutlineLike } from "react-icons/ai";
+import { MdOutlinePlaylistPlay } from "react-icons/md";
+
+
+
 import {
   Sheet,
+  SheetClose,
   SheetContent,
   SheetDescription,
+  SheetFooter,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet"
+import { Label } from "../ui/label";
+import { Input } from "../ui/input";
+import { useNavigate } from "react-router-dom";
+
 
 // in place of this have user info
 type btnTypes = {
@@ -86,11 +104,80 @@ const arr: btnTypes[] = [
 ];
 
 export function SideBar() {
+  const navigate = useNavigate();
   return (
     <div
       className=" h-screen overflow-x-hidden
-        dark:scrollbar-track-[#09090b] scrollbar-thumb-red-600 scrollbar-track-white scrollbar-thin mt-4"
+        dark:scrollbar-track-[#09090b] scrollbar-thumb-red-600 scrollbar-track-white scrollbar-thin mt-4 flex flex-col gap-4 items-center"
     >
+       <Sheet>
+          <SheetTrigger asChild>
+            <Button variant="outline">     <AiOutlineMenuUnfold className='scale-150'/></Button>
+          </SheetTrigger>
+          <SheetContent side={"left"}>
+            <SheetHeader>
+              <SheetTitle>Edit profile</SheetTitle>
+              <SheetDescription>
+                Make changes to your profile here. Click save when you're done.
+              </SheetDescription>
+            </SheetHeader>
+            <div className="grid gap-4 py-4">
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="name" className="text-right">
+                  Name
+                </Label>
+                <Input id="name" value="Pedro Duarte" className="col-span-3" />
+              </div>
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="username" className="text-right">
+                  Username
+                </Label>
+                <Input id="username" value="@peduarte" className="col-span-3" />
+              </div>
+            </div>
+            <SheetFooter>
+              <SheetClose asChild>
+                <Button type="submit">Save changes</Button>
+              </SheetClose>
+            </SheetFooter>
+          </SheetContent>
+        </Sheet>
+
+    <Button variant="outline" onClick={
+      ()=>{
+        navigate("/");
+      }
+    }>  
+    <MdOutlineHome className='scale-150'/>
+    </Button>
+    <Button variant="outline"
+    onClick={()=>{
+      navigate("/settings");
+    }}
+    >  
+    <IoSettingsOutline className='scale-150'/>
+    </Button>
+    <Button variant="outline" onClick={()=>{
+       navigate("/watchHistory");
+    }}>  
+    <GoHistory className='scale-150'/>
+    </Button>
+    <Button variant="outline">  
+    <AiOutlineLike  className='scale-150'/>
+    </Button>
+    <Button variant="outline">
+
+     <MdOutlinePlaylistPlay className='scale-150'/>
+     </Button>  
+    
+      {/*
+  
+
+import { MdOutlinePlaylistPlay } from "react-icons/md";
+      
+      
+      
+      
       {arr.map((curr,index) => (
         <Button
           variant={curr.variant}
@@ -100,7 +187,7 @@ export function SideBar() {
         >
           {curr.name}
         </Button>
-      ))}
+      ))} */}
     </div>
   );
 }
