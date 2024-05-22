@@ -162,11 +162,14 @@ export function SideBar() {
     }}>  
     <GoHistory className='scale-150'/>
     </Button>
-    <Button variant="outline">  
+    <Button variant="outline" onClick={()=>{
+      navigate("/liked");
+    }}>  
     <AiOutlineLike  className='scale-150'/>
     </Button>
-    <Button variant="outline">
-
+    <Button variant="outline" onClick={()=>{
+      navigate("/userPlaylist")
+    }}>
      <MdOutlinePlaylistPlay className='scale-150'/>
      </Button>  
     

@@ -21,6 +21,8 @@ import { ContentSearch } from "./components/Content/SearchContent.tsx";
 import { MainContentPage } from "./pages/MainContentPage/MainContentPage.tsx";
 import { SettingsPage } from "./pages/UserSettings/SettingsPage.tsx";
 import { WatchHistoryPage } from "./components/Content/WatchHistoryPage.tsx";
+import { UserPlaylistPage } from "./pages/PlaylistPage/UserPlaylistPage.tsx";
+import { LikedVideosPage } from "./components/Content/LikedVideosPage.tsx";
 
 
 const router = createBrowserRouter([
@@ -58,6 +60,12 @@ const router = createBrowserRouter([
           },{
             path:"/watchHistory",
             element:<WatchHistoryPage/>
+          },{
+            path:"/userPlaylist",
+            element:<UserPlaylistPage/>
+          },{
+            path:"/liked",
+            element:<LikedVideosPage/>
           }
         ]
       },
@@ -84,6 +92,7 @@ const router = createBrowserRouter([
   },
 
 ])
+// dashboard is still left 
 ReactDOM.createRoot(document.getElementById("root")!).render(
     <Provider store={store}>
       <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
