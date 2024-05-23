@@ -27,7 +27,7 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
 
-// in place of this have user info
+// in place of this have userInfo
 type btnTypes = {
   name: string;
   clickHandler: () => void;
@@ -151,14 +151,14 @@ export function SideBar() {
       }}>  
     <MdOutlineHome className='scale-150'/>
     </Button>
-    <Button variant={select == "settings" ? "default":"outline"}
+    <Button variant={select == "settings" ? "secondary":"outline"}
     onClick={()=>{
       setSelect("settings");
       navigate("/settings");
     }}>  
     <IoSettingsOutline className='scale-150'/>
     </Button>
-    <Button variant={select == "watchHistory" ? "default":"outline"} onClick={()=>{
+    <Button variant={select == "watchHistory" ? "secondary":"outline"} onClick={()=>{
        setSelect("watchHistory");
        navigate("/watchHistory");
     }}>  
