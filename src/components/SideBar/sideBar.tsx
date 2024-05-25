@@ -27,7 +27,7 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
 
-// in place of this have userInfo
+// in place of this have userInfo about user
 type btnTypes = {
   name: string;
   clickHandler: () => void;
