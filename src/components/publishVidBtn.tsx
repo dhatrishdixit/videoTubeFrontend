@@ -122,6 +122,9 @@ export const PublishedBtn = () => {
             }
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
+            {
+              //TODO: think of adding text area for description
+            }
             <Label htmlFor="description" className="text-right">
               Description
             </Label>

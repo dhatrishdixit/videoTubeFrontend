@@ -8,6 +8,13 @@ import { MdOutlineHome } from "react-icons/md";
 import { GoHistory } from "react-icons/go";
 import { AiOutlineLike } from "react-icons/ai";
 import { MdOutlinePlaylistPlay } from "react-icons/md";
+import { Logo } from "../logo/logo";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion"
 
 // if no use for useSideBar than remove it 
 
@@ -27,138 +34,125 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
 
-// in place of this have userInfo about user
-type btnTypes = {
-  name: string;
-  clickHandler: () => void;
-  variant:
-    | "outline"
-    | "secondary"
-    | "destructive"
-    | "link"
-    | "default"
-    | "ghost"
-    | null
-    | undefined;
-};
-const arr: btnTypes[] = [
-  {
-    name: "Home",
-    clickHandler: function () {
-      // navigate to home page
-    },
-    variant: "outline",
-  
-  },
-  {
-    name: "Subscriptions",
-    clickHandler: function () {
-      // direct to subscription page
-    },
-    variant: "outline",
-  },
-  {
-    name: "History",
-    clickHandler: function () {
-      //direct to watch history page
-    },
-    variant: "outline",
-  },
-  {
-    name: "Playlists",
-    clickHandler: function () {
-      // direct to all the playlists
-    },
-    variant: "outline",
-  },
-  {
-    name: "Liked Videos",
-    clickHandler: function () {
-      //direct to all the liked videos
-    },
-    variant: "outline",
-  },
-  {
-    name:"Settings",
-    clickHandler:function(){
-      // open settings page 
-    },
-    variant:"outline"
-  },
-
-  {
-    name: "Logout",
-    clickHandler: function () {
-      // call logout route
-    },
-    variant: "secondary",
-  },
-  {
-    name: "Delete account",
-    clickHandler: function () {
-      // firstgive out a pop up window to confirm and once confirmed delete the account of the user
-    },
-    variant: "destructive",
-  },
-];
 
 type selectTypes = "home" | "settings" | "watchHistory" | "like" | "playlist";
 
 export function SideBar() {
   const [select,setSelect] = useState<selectTypes>("home");
+  const [open,onOpenChange] = useState<boolean>(false);
   const navigate = useNavigate();
   return (
     <div
       className=" h-screen overflow-x-hidden
         dark:scrollbar-track-[#09090b] scrollbar-thumb-red-600 scrollbar-track-white scrollbar-thin mt-4 flex flex-col gap-4 items-center"
     >
-       <Sheet>
+       <Sheet open={open} onOpenChange={onOpenChange}>
           <SheetTrigger asChild>
-            <Button variant="outline">     <AiOutlineMenuUnfold className='scale-150'/></Button>
+            <Button variant="outline"><AiOutlineMenuUnfold className='scale-150'/></Button>
           </SheetTrigger>
-          <SheetContent side={"left"}>
-            <SheetHeader>
-              <SheetTitle>Edit profile</SheetTitle>
-              <SheetDescription>
-                Make changes to your profile here. Click save when you're done.
-              </SheetDescription>
+          <SheetContent side={"left"} className="w-screen sm:w-[25vw] h-[100vh] overflow-y-scroll scrollbar-thin  scrollbar-thumb-red-600 
+             scrollbar-track-white
+             dark:scrollbar-track-[#09090b]">
+            <SheetHeader className="flex flex-row gap-2 cursor-pointer"
+            onClick={()=>{
+              setSelect("home");
+              navigate("/");
+              onOpenChange(false);
+            }}
+            >
+              <Logo/><span className="text-red-600 font-bold text-2xl">ClipSync</span>
+
             </SheetHeader>
             <div className="grid gap-4 py-4">
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="name" className="text-right">
-                  Name
-                </Label>
-                <Input id="name" value="Pedro Duarte" className="col-span-3" />
-              </div>
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="username" className="text-right">
-                  Username
-                </Label>
-                <Input id="username" value="@peduarte" className="col-span-3" />
-              </div>
+    <Button variant={select == "home" ? "default":"outline"} 
+    onClick={()=>{
+        setSelect("home");
+        navigate("/");
+        onOpenChange(false);
+      }}
+      className="grid grid-cols-10"
+      >  
+    <MdOutlineHome className='scale-150 col-span-2'/>
+    <span className="text-center col-span-5">Home</span>
+    </Button>
+
+    <Button variant={select == "watchHistory" ? "default":"outline"} 
+    onClick={()=>{
+       setSelect("watchHistory");
+       navigate("/watchHistory");
+       onOpenChange(false);
+    }}
+    className="grid grid-cols-10"
+    >  
+    <GoHistory className='scale-150 col-span-2'/>
+    <span className="text-center col-span-5">Watch History</span>
+    </Button>
+    <Button variant={select == "like" ? "default":"outline"} 
+    onClick={()=>{
+      setSelect("like");
+      navigate("/liked");
+      onOpenChange(false);
+    }}
+    className="grid grid-cols-10"
+    >  
+    <AiOutlineLike  className='scale-150 col-span-2'/>
+    <span className="text-center col-span-5">Liked Video</span>
+    </Button>
+    <Accordion type="single" collapsible className="w-full">
+      <AccordionItem value="item-1">
+        <AccordionContent>
+          Yes. It adheres to the WAI-ARIA design pattern.
+        </AccordionContent>
+      </AccordionItem>
+      <AccordionItem value="item-2">
+        <AccordionTrigger> <Button variant="ghost" 
+    onClick={()=>{
+      setSelect("playlist");
+    }}
+    className="grid grid-cols-10"
+    >
+     <MdOutlinePlaylistPlay className='scale-150 col-span-2'/>
+     <span className="text-center col-span-5">Playlists</span>
+     </Button></AccordionTrigger>
+        <AccordionContent>
+          Yes. It comes with default styles that matches the other
+          components&apos; aesthetic.
+        </AccordionContent>
+      </AccordionItem>
+      </Accordion>
+      <Button variant={select == "settings" ? "default":"outline"}
+    onClick={()=>{
+      setSelect("settings");
+      navigate("/settings");
+      onOpenChange(false);
+    }}
+    className="grid grid-cols-10">  
+    <IoSettingsOutline className='scale-150 col-span-2'/>
+    <span className="text-center col-span-5">Settings</span>
+    </Button>
+   
             </div>
             <SheetFooter>
-              <SheetClose asChild>
-                <Button type="submit">Save changes</Button>
-              </SheetClose>
+              <p>made by <a href="https://github.com/dhatrishdixit" className=" text-blue-500">@dhatrishDixit</a></p>
             </SheetFooter>
           </SheetContent>
         </Sheet>
 
-    <Button variant={select == "home" ? "default":"outline"} onClick={()=>{
+    <Button variant={select == "home" ? "default":"outline"} 
+    onClick={()=>{
         setSelect("home");
         navigate("/");
       }}>  
     <MdOutlineHome className='scale-150'/>
     </Button>
-    <Button variant={select == "settings" ? "secondary":"outline"}
+    <Button variant={select == "settings" ? "default":"outline"}
     onClick={()=>{
       setSelect("settings");
       navigate("/settings");
     }}>  
     <IoSettingsOutline className='scale-150'/>
     </Button>
-    <Button variant={select == "watchHistory" ? "secondary":"outline"} onClick={()=>{
+    <Button variant={select == "watchHistory" ? "default":"outline"} onClick={()=>{
        setSelect("watchHistory");
        navigate("/watchHistory");
     }}>  
@@ -170,7 +164,8 @@ export function SideBar() {
     }}>  
     <AiOutlineLike  className='scale-150'/>
     </Button>
-    <Button variant={select == "playlist" ? "default":"outline"} onClick={()=>{
+    <Button variant={select == "playlist" ? "default":"outline"} 
+    onClick={()=>{
       setSelect("playlist");
       navigate("/userPlaylist");
     }}>
@@ -180,7 +175,7 @@ export function SideBar() {
       {/*
   
 
-import { MdOutlinePlaylistPlay } from "react-icons/md";
+
       
       
       
