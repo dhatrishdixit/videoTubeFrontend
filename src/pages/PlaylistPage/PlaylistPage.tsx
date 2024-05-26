@@ -2,10 +2,8 @@ import { useParams } from "react-router-dom";
 import {useState,useEffect} from "react";
 import { useToast } from "@/components/ui/use-toast";
 import { VideoCardSearch } from "@/components/Card/videoCard";
-import { Label } from "@/components/ui/label"
-import { Switch } from "@/components/ui/switch"
 import { VideoPropsSearch } from "@/components/Card/videoCard";
-import { SkeletonCardMain, SkeletonCardSearch } from "@/components/Card/skeletonCard";
+import { SkeletonCardSearch } from "@/components/Card/skeletonCard";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { formatDate } from "@/utils/DateFormat";

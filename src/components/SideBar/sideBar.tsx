@@ -49,7 +49,7 @@ export function SideBar() {
   const [select,setSelect] = useState<selectTypes>("home");
   const [open,onOpenChange] = useState<boolean>(false);
   const navigate = useNavigate();
-  const userId = useSelector((state:RootState) => state.authorization.userData._id);
+  const userId = useSelector((state:RootState) => state.authorization!.userData._id);
   const [userPlaylist,setUserPlaylist] = useState<userPlaylistSchema[]>([]);
   const [playlistId,setPlaylistId] = useState<string>("");
   const location = useLocation();

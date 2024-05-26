@@ -11,6 +11,8 @@ import { useToast } from "@/components/ui/use-toast";
 import { RecommendedVideo } from "@/components/Content/RecommendedVideo";
 import { CommentPage } from "../CommentPage/CommentPage";
 import { formatCount } from "@/utils/CountFormat";
+import { TailSpin } from "react-loader-spinner";
+import { ToastAction } from "@/components/ui/toast";
 
 
 function stringShortener(str:string):string {
@@ -92,9 +94,10 @@ export const MainVideoPage: React.FC<ReactPlayerProps> = () => {
   const currentLikeState = useRef<boolean|undefined>(undefined);
   const currentSubscribeState = useRef<boolean|undefined>(undefined);
   const currentChannelId = useRef<string|undefined>(undefined);
+  const [loading,setLoading] = useState<boolean>(false);
   const navigate = useNavigate();
   useEffect(()=>{
-  
+     setLoading(true);
      axios
      .get(`${import.meta.env.VITE_BASE_URL}/api/v1/videos/w/${videoId}`,{
       withCredentials:true
@@ -114,6 +117,7 @@ export const MainVideoPage: React.FC<ReactPlayerProps> = () => {
       currentLikeState.current = response.data.data.isLiked;
       currentSubscribeState.current = response.data.data.isSubscribed;
       currentChannelId.current = response.data.data.channelId;
+      setLoading(false);
      })
      .catch(err => {
       toast({
@@ -151,7 +155,19 @@ export const MainVideoPage: React.FC<ReactPlayerProps> = () => {
           withCredentials:true
         })
          .then(res=> {
-          console.log(res.data.message);
+          toast({
+            variant: "success",
+            type: "foreground",
+            description: `channel ${currentSubscribeState.current ? "subscribed" : "unsubscribed"}`,
+            action : <ToastAction altText="undo" onClick={()=>{
+              axios
+              .post(`${import.meta.env.VITE_BASE_URL}/api/v1/subscriptions/c/${currentChannelId.current}`,null,{
+               withCredentials:true
+             })
+              .then(res => console.log(res))
+              .catch(err => console.log(err));
+            }}>undo</ToastAction>,
+          });
          })
          .catch(err=>{
           toast({
@@ -160,17 +176,28 @@ export const MainVideoPage: React.FC<ReactPlayerProps> = () => {
             description:err?.response?.data?.message
           })
           console.log(err)
-
          })
       }
   }
-  },[videoId,location])
+  },[videoId,location,location.pathname,toast])
 
 
   
 
-
-  return (
+  return loading == true ? (
+    <div className=' flex justify-center items-center h-[90vh]'>
+    <TailSpin
+    visible={true}
+    height="80"
+    width="80"
+    color="#272727"
+    ariaLabel="tail-spin-loading"
+    radius="1"
+    wrapperStyle={{}}
+    wrapperClass=""
+    /> 
+    </div>
+  ) : (
     <div className="mx-4 my-2 grid grid-cols-10 h-[90vh] overflow-y-scroll scrollbar-thin dark:scrollbar-track-[#09090b] scrollbar-track-white scrollbar-thumb-red-600" id="videoPage">
       <div className="col-span-6">
         <Player
@@ -266,5 +293,6 @@ export const MainVideoPage: React.FC<ReactPlayerProps> = () => {
 
 
     </div>
-  );
+  )
+ 
 };
