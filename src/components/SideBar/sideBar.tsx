@@ -2,8 +2,6 @@ import { Button } from "../ui/button";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { AiOutlineMenuUnfold } from "react-icons/ai";
-import { AiOutlineMenuFold } from "react-icons/ai";
-import { useSidebar } from "@/hooks/offCanvasSideBarContext";
 import { IoSettingsOutline } from "react-icons/io5";
 import { MdOutlineHome } from "react-icons/md";
 import { GoHistory } from "react-icons/go";
@@ -23,10 +21,8 @@ import {
   Sheet,
   SheetClose,
   SheetContent,
-  SheetDescription,
   SheetFooter,
   SheetHeader,
-  SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet"
 import { useNavigate } from "react-router-dom";
@@ -135,7 +131,7 @@ export function SideBar() {
     <AiOutlineLike  className='scale-150 col-span-2'/>
     <span className="text-center col-span-5">Liked Video</span>
     </Button>
-    <Accordion type="single" collapsible className="w-full text-primary-foreground shadow">
+    <Accordion type="single" collapsible className="w-full dark:text-primary-foreground shadow">
       <AccordionItem value="item-1" className="border rounded-md ">
         <AccordionTrigger className="hover:no-underline	mr-2"> 
      <MdOutlinePlaylistPlay className='scale-150 col-span-2 ml-4'/>
@@ -206,6 +202,7 @@ export function SideBar() {
     onClick={()=>{
       setSelect("playlist");
       navigate("/userPlaylist");
+      //TODO: direct to channel page or use that page content for this user playlist page get it 
     }}>
      <MdOutlinePlaylistPlay className='scale-150'/>
      </Button>  
