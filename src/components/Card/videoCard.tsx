@@ -144,7 +144,6 @@ export const VideoCardMain = React.forwardRef<HTMLDivElement, VideoPropsMain>(
   }
 );
   export interface VideoPropsSearch {
-
     _id: string;
     videoFile: string;
     thumbnail: string;
@@ -231,8 +230,7 @@ export const VideoCardSearch = React.forwardRef<HTMLDivElement,VideoPropsSearch>
 
             <p className="mb -1 font-normal text-gray-700 dark:text-gray-400 text-left">
               {" "}
-              {props.views} views • {/*TODO: here use created at  */}3 months
-              ago
+              {props.views} views • {formatDate(props.createdAt)}
             </p>
             <div className="mt-2 flex gap-6">
               <img
@@ -260,7 +258,126 @@ export const VideoCardSearch = React.forwardRef<HTMLDivElement,VideoPropsSearch>
     );
   })
 
-
+  export interface WatchHistorySchema{
+    _id: string,
+    videoFile: string,
+    thumbnail: string,
+    owner: {
+        _id: string,
+        username: string,
+        fullName: string,
+        avatar: string
+    },
+    title: string,
+    description: string,
+    duration: number,
+    views: number,
+    isPublic: boolean,
+    createdAt: string,
+    updatedAt: string,
+    __v: number,
+    thumbnailPublicId: string,
+    videoFilePublicId: string
+  }
+  export const VideoCardWatchHistory = React.forwardRef<HTMLDivElement,WatchHistorySchema>((props,ref) =>
+    {
+      const navigate  = useNavigate();
+      const [isHover, setHover] = React.useState<boolean>(false);
+      const [hoverTimer, setHoverTimer] = React.useState<
+        NodeJS.Timeout | undefined
+      >(undefined);
+      const divRef = useRef<HTMLDivElement>(null);
+      useEffect(() => {
+        if (ref) {
+          if (typeof ref === 'function') {
+            ref(divRef.current);
+          } else {
+            ref.current = divRef.current;
+          }
+        }
+      }, [ref]);
+  
+      return (
+        <div
+          ref={divRef}
+          className={` bg-white  ${!isHover ? "rounded-lg" : ""}  dark:bg-[#09090b]   cursor-pointer flex my-2 border p-1`}
+      
+        >
+          <div
+            onMouseEnter={() => {
+              const timeOutId = setTimeout(() => {
+                setHover(true);
+              }, 500);
+              setHoverTimer(timeOutId);
+            }}
+            onMouseLeave={() => {
+              clearTimeout(hoverTimer);
+              setHover(false);
+            }}
+          >
+            {isHover ? (
+              <ReactPlayer
+                className="react-player"
+                url={props.videoFile}
+                playing={true}
+                width="30vw"
+                height="15vw"
+                onClick={()=>{
+                  navigate(`/video/${props._id}`,{ state: { channelId: props.owner._id } });
+                }}
+              />
+            ) : (
+              <img
+                className="rounded-lg h-[15vw] w-[30vw] "
+                src={props.thumbnail}
+                alt={props.title}
+                onClick={() => {
+                  navigate(`/video/${props._id}`,{ state: { channelId: props.owner._id } });
+                }}
+              />
+            )}
+          </div>
+          <div className="flex py-2 px-2 gap-4 pl-6">
+            <div className="flex flex-col">
+              <h5
+                className="text-xl font-bold tracking-tight text-left text-gray-900 dark:text-white"
+                onClick={() => {
+                  navigate(`/video/${props._id}`,{ state: { channelId: props.owner._id } });
+                }}
+              >
+                {props.title}
+              </h5>
+  
+              <p className="mb -1 font-normal text-gray-700 dark:text-gray-400 text-left">
+                {" "}
+                {props.views} views • {formatDate(props.createdAt)}
+              </p>
+              <div className="mt-2 flex gap-6">
+                <img
+                  src={props.owner.avatar}
+                  className="h-8 w-8 rounded-full"
+                  onClick={() => {
+                    console.log("username : ",props.owner.username)
+                    navigate(`/channel/${props.owner.username}`)
+                  }}
+                />
+                <p
+                  className="mb-1 font-normal text-gray-700 dark:text-gray-400 text-left"
+                  onClick={() => {
+                    navigate(`/channel/${props.owner.username}}`)
+                  }}
+                >
+                  {props.owner.fullName}
+                </p>
+              </div>
+              <p className="mt-6 font-normal text-gray-700 dark:text-gray-400 text-left">
+                {manageString(props.description)}
+              </p>
+            </div>
+          </div>
+        </div>
+      );
+    })
 
   export const VideoCardPlaylist = React.forwardRef<HTMLDivElement,VideoPropsSearch&{owner:string}>((props,ref) =>
     {

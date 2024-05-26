@@ -5,7 +5,7 @@ import { VideoCardSearch } from "@/components/Card/videoCard";
 import { Label } from "@/components/ui/label"
 import { Switch } from "@/components/ui/switch"
 import { VideoPropsSearch } from "@/components/Card/videoCard";
-import { SkeletonCardMain } from "@/components/Card/skeletonCard";
+import { SkeletonCardMain, SkeletonCardSearch } from "@/components/Card/skeletonCard";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { formatDate } from "@/utils/DateFormat";
@@ -109,19 +109,19 @@ export function PlaylistPage(){
       }
       <div className="pt-2">
       {isLoading ? (
-   
           <>
-          <SkeletonCardMain />
-          <SkeletonCardMain />
-          <SkeletonCardMain />
-          <SkeletonCardMain />
-          <SkeletonCardMain />
-          <SkeletonCardMain />
-          <SkeletonCardMain />
-          <SkeletonCardMain />
-          <SkeletonCardMain />
+          <SkeletonCardSearch />
+          <SkeletonCardSearch />
+          <SkeletonCardSearch />
+          <SkeletonCardSearch />
+          <SkeletonCardSearch />
+          <SkeletonCardSearch />
+          <SkeletonCardSearch />
+          <SkeletonCardSearch />
+          <SkeletonCardSearch />
+          <SkeletonCardSearch />
+          <SkeletonCardSearch />
         </>
-       
       ) : (
         
         data?.videos.map((video)=> <VideoCardSearch key={video._id} {...video as VideoPropsSearch} />

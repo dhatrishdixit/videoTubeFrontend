@@ -151,7 +151,7 @@ export function SideBar() {
                             }}
                             >  
                             <MdFeaturedPlayList className='scale-150'/>
-                              <span>{playlist.name}</span>
+                              <span>{playlist.name.length > 27 ? `${playlist.name.substring(0,27)}...` : playlist.name}</span>
                             </Button>
                           ))
                         }      
@@ -171,6 +171,9 @@ export function SideBar() {
     <IoSettingsOutline className='scale-150 col-span-2'/>
     <span className="text-center col-span-5">Settings</span>
     </Button>
+    {
+      //TODO: put a dashboard button 
+    }
    
             </div>
             <SheetFooter className="flex justify-start w-full">
@@ -214,17 +217,7 @@ export function SideBar() {
     <IoSettingsOutline className='scale-150'/>
     </Button>
     
-      {/*
-      {arr.map((curr,index) => (
-        <Button
-          variant={curr.variant}
-          className="w-full mt-2  hover:bg-red-600  "
-          onClick={curr.clickHandler}
-          key={index}
-        >
-          {curr.name}
-        </Button>
-      ))} */}
+
     </div>
   );
 }
