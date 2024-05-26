@@ -7,7 +7,6 @@ import { Button } from '@/components/ui/button';
 import { ChannelPageNavbar } from "@/components/Header/channelPageNavbar";
 import { ChannelStateContextProvider } from '@/hooks/ChannelState';
 import { TailSpin } from 'react-loader-spinner';
-import { useLocation } from 'react-router-dom';
 import { ToastAction } from '@/components/ui/toast';
 
 interface ChannelInfoSchema {
@@ -35,7 +34,6 @@ export interface ChannelCountSchema {
 }
 
 export function ChannelPage() {
-  const location = useLocation();
   const { toast } = useToast();
   const { channelUsername } = useParams();
   const [loading, setLoading] = useState<boolean>(false);
