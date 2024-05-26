@@ -52,7 +52,7 @@ export function PlaylistPage(){
               
           })
         })
-    },[])
+    },[playlistId])
     
 
 

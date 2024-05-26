@@ -1,5 +1,6 @@
 import { Button } from "../ui/button";
 import axios from "axios";
+import { useSelector } from "react-redux";
 import { AiOutlineMenuUnfold } from "react-icons/ai";
 import { AiOutlineMenuFold } from "react-icons/ai";
 import { useSidebar } from "@/hooks/offCanvasSideBarContext";
@@ -28,19 +29,55 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet"
-import { Label } from "../ui/label";
-import { Input } from "../ui/input";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
-
+import { useEffect, useState } from "react";
+import { RootState } from "@/app/store";
+import { MdFeaturedPlayList } from "react-icons/md";
+import { useLocation } from "react-router-dom";
 
 
 type selectTypes = "home" | "settings" | "watchHistory" | "like" | "playlist";
+
+
+interface userPlaylistSchema {
+   _id:string;
+   name:string;
+   description:string;
+   videos:string[];
+   owner:string;
+   createdAt:Date;
+   updatedAt:Date;
+}
 
 export function SideBar() {
   const [select,setSelect] = useState<selectTypes>("home");
   const [open,onOpenChange] = useState<boolean>(false);
   const navigate = useNavigate();
+  const userId = useSelector((state:RootState) => state.authorization.userData._id);
+  const [userPlaylist,setUserPlaylist] = useState<userPlaylistSchema[]>([]);
+  const [playlistId,setPlaylistId] = useState<string>("");
+  const location = useLocation();
+  useEffect(()=>{
+    axios.get(`${import.meta.env.VITE_BASE_URL}/api/v1/playlist/user/${userId}`,{
+      withCredentials:true
+    }).then((res)=>setUserPlaylist(res.data.data));
+  },[userId])
+  console.log("user playlist : ",userPlaylist);
+
+  useEffect(()=>{
+    const url = location?.pathname ?? "";
+
+    if(url){
+       const match  = (url!)?.match(/[^/]+$/);
+       if(match){
+        setPlaylistId(match[0]);
+       }
+    }
+  },[location,location?.pathname])
+
+  
+
+  //TODO: think of adding subscription or may not
   return (
     <div
       className=" h-screen overflow-x-hidden
@@ -98,29 +135,37 @@ export function SideBar() {
     <AiOutlineLike  className='scale-150 col-span-2'/>
     <span className="text-center col-span-5">Liked Video</span>
     </Button>
-    <Accordion type="single" collapsible className="w-full">
-      <AccordionItem value="item-1">
-        <AccordionContent>
-          Yes. It adheres to the WAI-ARIA design pattern.
-        </AccordionContent>
-      </AccordionItem>
-      <AccordionItem value="item-2">
-        <AccordionTrigger> <Button variant="ghost" 
-    onClick={()=>{
-      setSelect("playlist");
-    }}
-    className="grid grid-cols-10"
-    >
-     <MdOutlinePlaylistPlay className='scale-150 col-span-2'/>
+    <Accordion type="single" collapsible className="w-full text-primary-foreground shadow">
+      <AccordionItem value="item-1" className="border rounded-md ">
+        <AccordionTrigger className="hover:no-underline	mr-2"> 
+     <MdOutlinePlaylistPlay className='scale-150 col-span-2 ml-4'/>
      <span className="text-center col-span-5">Playlists</span>
-     </Button></AccordionTrigger>
+     </AccordionTrigger>
         <AccordionContent>
-          Yes. It comes with default styles that matches the other
-          components&apos; aesthetic.
+          {
+            userPlaylist.length == 0 ? (<span className="text-center ml-6">No playlists </span>):(<div>
+                        {
+                          userPlaylist.map(playlist => (
+                            <Button className="flex flex-row gap-4 cursor-pointer border-none w-full px-6 justify-start my-2" variant={`${playlistId == playlist._id ? "secondary" : "outline"}`}
+                            key={playlist._id}
+                            onClick={()=>{
+                              navigate(`/playlist/${playlist._id}`);
+                              onOpenChange(false);
+                              setSelect("playlist");
+                            }}
+                            >  
+                            <MdFeaturedPlayList className='scale-150'/>
+                              <span>{playlist.name}</span>
+                            </Button>
+                          ))
+                        }      
+            </div>)
+          }
+   
         </AccordionContent>
       </AccordionItem>
       </Accordion>
-      <Button variant={select == "settings" ? "default":"outline"}
+    <Button variant={select == "settings" ? "default":"outline"}
     onClick={()=>{
       setSelect("settings");
       navigate("/settings");
@@ -132,8 +177,8 @@ export function SideBar() {
     </Button>
    
             </div>
-            <SheetFooter>
-              <p>made by <a href="https://github.com/dhatrishdixit" className=" text-blue-500">@dhatrishDixit</a></p>
+            <SheetFooter className="flex justify-start w-full">
+              <span>made by <a href="https://github.com/dhatrishdixit" className=" text-blue-500">@dhatrishDixit</a></span>
             </SheetFooter>
           </SheetContent>
         </Sheet>
@@ -144,13 +189,6 @@ export function SideBar() {
         navigate("/");
       }}>  
     <MdOutlineHome className='scale-150'/>
-    </Button>
-    <Button variant={select == "settings" ? "default":"outline"}
-    onClick={()=>{
-      setSelect("settings");
-      navigate("/settings");
-    }}>  
-    <IoSettingsOutline className='scale-150'/>
     </Button>
     <Button variant={select == "watchHistory" ? "default":"outline"} onClick={()=>{
        setSelect("watchHistory");
@@ -171,15 +209,15 @@ export function SideBar() {
     }}>
      <MdOutlinePlaylistPlay className='scale-150'/>
      </Button>  
+     <Button variant={select == "settings" ? "default":"outline"}
+    onClick={()=>{
+      setSelect("settings");
+      navigate("/settings");
+    }}>  
+    <IoSettingsOutline className='scale-150'/>
+    </Button>
     
       {/*
-  
-
-
-      
-      
-      
-      
       {arr.map((curr,index) => (
         <Button
           variant={curr.variant}
