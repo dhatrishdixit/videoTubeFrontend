@@ -23,6 +23,7 @@ import { SettingsPage } from "./pages/UserSettings/SettingsPage.tsx";
 import { WatchHistoryPage } from "./components/Content/WatchHistoryPage.tsx";
 import { UserPlaylistPage } from "./pages/PlaylistPage/UserPlaylistPage.tsx";
 import { LikedVideosPage } from "./components/Content/LikedVideosPage.tsx";
+import { DashBoardPage } from "./pages/DashBoardPage/DashBoardPage.tsx";
 
 
 const router = createBrowserRouter([
@@ -66,6 +67,9 @@ const router = createBrowserRouter([
           },{
             path:"/liked",
             element:<LikedVideosPage/>
+          },{
+            path:"/dashBoard",
+            element:<DashBoardPage/>
           }
         ]
       },

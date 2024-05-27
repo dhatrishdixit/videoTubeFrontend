@@ -1,22 +1,3 @@
-// you will have to pass props in place of this dummy data
-
-const props = {
-  _id: "65b6bf8d5bc50568f33c12b3",
-  videoFile:
-    "https://res.cloudinary.com/dviowskng/video/upload/v1706475402/dblmur3eunms5re2qytm.mp4",
-  thumbnail:
-    "https://res.cloudinary.com/dviowskng/image/upload/v1706475404/by6yqexxdae9bmdqtwgs.png",
-  owner: "65b63db59ea6a235c4b6ece1",
-  title: "first video",
-  duration: 13.504,
-  views: 0,
-  channel: "dhatrish2",
-  channelFullName: "sample1",
-  channelAvatar:
-    "http://res.cloudinary.com/dviowskng/image/upload/v1706442163/degk5k7iklrne5hg5cf4.png",
-  description:
-    "Hello this is my first video how do you like it hey there guys ggkfsdkljgklskjflksdjlkgjdslkjflksdlksjgksjdflkjsdkjlksdjglksdjflksdj ",
-};
 import { formatDate } from '@/utils/DateFormat';
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';

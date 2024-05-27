@@ -7,6 +7,7 @@ import { MdOutlineHome } from "react-icons/md";
 import { GoHistory } from "react-icons/go";
 import { AiOutlineLike } from "react-icons/ai";
 import { MdOutlinePlaylistPlay } from "react-icons/md";
+import { LuLayoutDashboard } from "react-icons/lu";
 import { Logo } from "../logo/logo";
 import {
   Accordion,
@@ -32,7 +33,7 @@ import { MdFeaturedPlayList } from "react-icons/md";
 import { useLocation } from "react-router-dom";
 
 
-type selectTypes = "home" | "settings" | "watchHistory" | "like" | "playlist";
+type selectTypes = "home" | "settings" | "watchHistory" | "like" | "playlist" | "dashBoard";
 
 
 interface userPlaylistSchema {
@@ -171,10 +172,16 @@ export function SideBar() {
     <IoSettingsOutline className='scale-150 col-span-2'/>
     <span className="text-center col-span-5">Settings</span>
     </Button>
-    {
-      //TODO: put a dashboard button 
-    }
-   
+    <Button variant={select == "dashBoard" ? "default":"outline"}
+    onClick={()=>{
+      setSelect("dashBoard");
+      navigate("/dashBoard");
+      onOpenChange(false);
+    }}
+    className="grid grid-cols-10">  
+    <LuLayoutDashboard className='scale-150 col-span-2'/>
+    <span className="text-center col-span-5">DashBoard</span>
+    </Button>
             </div>
             <SheetFooter className="flex justify-start w-full">
               <span>made by <a href="https://github.com/dhatrishdixit" className=" text-blue-500">@dhatrishDixit</a></span>

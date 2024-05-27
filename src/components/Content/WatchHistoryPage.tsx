@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect,useState } from "react";
-import { SkeletonCardMain, SkeletonCardSearch } from "../Card/skeletonCard";
+import { SkeletonCardSearch } from "../Card/skeletonCard";
 import { VideoCardWatchHistory } from "../Card/videoCard";
 import { WatchHistorySchema } from "../Card/videoCard";
 
@@ -54,4 +54,3 @@ export const WatchHistoryPage = () => {
     )
 }
 
-// update authorization store || have separate api calls for watch history

@@ -55,7 +55,7 @@ export const FrontPageContent = () => {
   }
 
   return (
-    <div className="p-2 grid grid-cols-3 overflow-y-scroll h-[90vh] scrollbar-thin dark:scrollbar-track-[#09090b] scrollbar-thumb-red-600 scrollbar-track-white place-items-center" id="top">
+    <div className="p-2 grid md:grid-cols-3 overflow-y-scroll h-[90vh] scrollbar-thin dark:scrollbar-track-[#09090b] scrollbar-thumb-red-600 scrollbar-track-white place-items-center" id="top">
       {isLoading ? (
    
           <>
