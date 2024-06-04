@@ -20,12 +20,12 @@ export const WatchHistoryPage = () => {
         });
     },[]);
     return (
-        <div>
+        <div className="overflow-y-scroll h-[90vh] scrollbar-thin dark:scrollbar-track-[#19191d] scrollbar-thumb-red-600 scrollbar-track-white ">
               <p className="text-pretty font-bold text-3xl mb-2">
             Watch History
             </p>
             <div className="flex flex-col ">
-            <div className="pt-2 overflow-y-scroll h-[90vh] scrollbar-thin dark:scrollbar-track-[#19191d] scrollbar-thumb-red-600 scrollbar-track-white place-items-center">
+            <div className="pt-2 place-items-center">
       {isLoading ? (
    
           <>

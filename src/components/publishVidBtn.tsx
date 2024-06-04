@@ -124,6 +124,7 @@ export const PublishedBtn = () => {
           <div className="grid grid-cols-4 items-center gap-4">
             {
               //TODO: think of adding text area for description
+              //TODO: think of adding type check for file type and size of file 
             }
             <Label htmlFor="description" className="text-right">
               Description

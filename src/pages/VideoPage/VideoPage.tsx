@@ -181,7 +181,7 @@ export const MainVideoPage: React.FC<ReactPlayerProps> = () => {
   }
   },[videoId,location,location.pathname,toast])
 
-
+//TODO: think of adding sooner shadcn instead of normal toast 
   
 
   return loading == true ? (

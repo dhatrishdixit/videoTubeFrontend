@@ -1,4 +1,4 @@
-import React, { useEffect,useState } from 'react';
+import { useEffect,useState } from 'react';
 import axios from 'axios';
 import { VideoCardSearch } from '../Card/videoCard';
 import { SkeletonCardSearch } from '../Card/skeletonCard';
@@ -23,12 +23,12 @@ export function LikedVideosPage() {
   },[]);
 
   return (
-   <div>
+   <div className='overflow-y-scroll h-[90vh] scrollbar-thin dark:scrollbar-track-[#19191d] scrollbar-thumb-red-600 scrollbar-track-white'>
               <p className="text-pretty font-bold text-3xl mb-2">
             Liked Videos
             </p>
             <div className="flex flex-col ">
-            <div className="pt-2 overflow-y-scroll h-[90vh] scrollbar-thin dark:scrollbar-track-[#19191d] scrollbar-thumb-red-600 scrollbar-track-white place-items-center">
+            <div className="pt-2 place-items-center">
       {isLoading ? (
    
           <>
@@ -50,8 +50,7 @@ export function LikedVideosPage() {
         )
       )}
      </div>
-
-            </div>
+        </div>
         </div>
   )
 }
