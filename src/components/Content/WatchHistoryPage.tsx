@@ -15,7 +15,7 @@ export const WatchHistoryPage = () => {
             withCredentials:true
         })
         .then(res=>{
-            setWatchHistory(res.data.data);
+            setWatchHistory(res.data.data.reverse());
             setIsLoading(false);
         });
     },[]);

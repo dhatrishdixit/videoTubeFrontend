@@ -33,7 +33,7 @@ import { MdFeaturedPlayList } from "react-icons/md";
 import { useLocation } from "react-router-dom";
 
 
-type selectTypes = "home" | "settings" | "watchHistory" | "like" | "playlist" | "dashBoard";
+type selectTypes = "home" | "settings" | "watchHistory" | "liked" | "userPlaylist" | "dashBoard";
 
 
 interface userPlaylistSchema {
@@ -59,11 +59,11 @@ export function SideBar() {
       withCredentials:true
     }).then((res)=>setUserPlaylist(res.data.data));
   },[userId])
-  console.log("user playlist : ",userPlaylist);
+
 
   useEffect(()=>{
     const url = location?.pathname ?? "";
-
+    
     if(url){
        const match  = (url!)?.match(/[^/]+$/);
        if(match){
@@ -72,6 +72,15 @@ export function SideBar() {
     }
   },[location,location?.pathname])
 
+  useEffect(()=>{
+      
+      const pathUrl = location?.pathname.split("/")[1];
+      if(pathUrl.length == 0){
+        setSelect("home");
+      }else{
+        setSelect(pathUrl as selectTypes);
+      }
+  },[])
   
 
   //TODO: think of adding subscription or may not
@@ -121,9 +130,9 @@ export function SideBar() {
     <GoHistory className='scale-150 col-span-2'/>
     <span className="text-center col-span-5">Watch History</span>
     </Button>
-    <Button variant={select == "like" ? "default":"outline"} 
+    <Button variant={select == "liked" ? "default":"outline"} 
     onClick={()=>{
-      setSelect("like");
+      setSelect("liked");
       navigate("/liked");
       onOpenChange(false);
     }}
@@ -148,7 +157,7 @@ export function SideBar() {
                             onClick={()=>{
                               navigate(`/playlist/${playlist._id}`);
                               onOpenChange(false);
-                              setSelect("playlist");
+                              setSelect("userPlaylist");
                             }}
                             >  
                             <MdFeaturedPlayList className='scale-150'/>
@@ -202,15 +211,15 @@ export function SideBar() {
     }}>  
     <GoHistory className='scale-150'/>
     </Button>
-    <Button variant={select == "like" ? "default":"outline"} onClick={()=>{
-      setSelect("like");
+    <Button variant={select == "liked" ? "default":"outline"} onClick={()=>{
+      setSelect("liked");
       navigate("/liked");
     }}>  
     <AiOutlineLike  className='scale-150'/>
     </Button>
-    <Button variant={select == "playlist" ? "default":"outline"} 
+    <Button variant={select == "userPlaylist" ? "default":"outline"} 
     onClick={()=>{
-      setSelect("playlist");
+      setSelect("userPlaylist");
       navigate("/userPlaylist");
       //TODO: direct to channel page or use that page content for this user playlist page get it 
     }}>
