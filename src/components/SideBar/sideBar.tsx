@@ -9,7 +9,7 @@ import { AiOutlineLike } from "react-icons/ai";
 import { MdOutlinePlaylistPlay } from "react-icons/md";
 import { LuLayoutDashboard } from "react-icons/lu";
 import { Logo } from "../logo/logo";
-import { VscSignOut } from "react-icons/vsc";
+
 
 import {
   Accordion,
@@ -23,17 +23,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
+
 
 // if no use for useSideBar than remove it 
 
@@ -50,6 +40,7 @@ import { useEffect, useState } from "react";
 import { RootState } from "@/app/store";
 import { MdFeaturedPlayList } from "react-icons/md";
 import { useLocation } from "react-router-dom";
+import { LogoutBtn } from "../logoutBtn";
 
 
 type selectTypes = "home" | "settings" | "watchHistory" | "liked" | "userPlaylist" | "dashBoard";
@@ -72,6 +63,7 @@ export function SideBar() {
   const userId = useSelector((state:RootState) => state.authorization!.userData._id);
   const [userPlaylist,setUserPlaylist] = useState<userPlaylistSchema[]>([]);
   const [playlistId,setPlaylistId] = useState<string>("");
+  
   const location = useLocation();
   useEffect(()=>{
     axios.get(`${import.meta.env.VITE_BASE_URL}/api/v1/playlist/user/${userId}`,{
@@ -79,9 +71,6 @@ export function SideBar() {
     }).then((res)=>setUserPlaylist(res.data.data));
   },[userId])
   
-  const logoutHandler:()=>void = ():void => {
-        
-  }
 
   useEffect(()=>{
     const url = location?.pathname ?? "";
@@ -214,30 +203,7 @@ export function SideBar() {
     <span className="text-center col-span-5">DashBoard</span>
     </Button>
    
-    <AlertDialog>
-      <AlertDialogTrigger asChild>
-      <Button variant="outline"
-    onClick={()=>{
-    
-    }}
-    className="grid grid-cols-10">  
-    <VscSignOut className='scale-150 col-span-2'/>
-    <span className="text-center col-span-5 ">logout</span>
-    </Button>
-      </AlertDialogTrigger>
-      <AlertDialogContent>
-        <AlertDialogHeader>
-          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-          <AlertDialogDescription>
-            This action cannot be undone. This action will log you out of VideoTube and you will have to login again.
-          </AlertDialogDescription>
-        </AlertDialogHeader>
-        <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction onClick={logoutHandler}>Logout</AlertDialogAction>
-        </AlertDialogFooter>
-      </AlertDialogContent>
-    </AlertDialog>
+      <LogoutBtn/>
             </div>
             <SheetFooter className="flex justify-start w-full">
               <span>made by <a href="https://github.com/dhatrishdixit" className=" text-blue-500">@dhatrishDixit</a></span>
