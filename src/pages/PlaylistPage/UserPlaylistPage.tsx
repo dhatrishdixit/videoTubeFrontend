@@ -18,7 +18,6 @@ export function UserPlaylistPage() {
       }
     })
     .then(res=>{
-      console.log(res);
       setPlaylists(res.data.data);
       setLoading(false);
     })

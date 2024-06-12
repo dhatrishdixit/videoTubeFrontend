@@ -9,12 +9,31 @@ import { AiOutlineLike } from "react-icons/ai";
 import { MdOutlinePlaylistPlay } from "react-icons/md";
 import { LuLayoutDashboard } from "react-icons/lu";
 import { Logo } from "../logo/logo";
+import { VscSignOut } from "react-icons/vsc";
+
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "@/components/ui/accordion"
+} from "@/components/ui/accordion";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 // if no use for useSideBar than remove it 
 
@@ -59,7 +78,10 @@ export function SideBar() {
       withCredentials:true
     }).then((res)=>setUserPlaylist(res.data.data));
   },[userId])
-
+  
+  const logoutHandler:()=>void = ():void => {
+        
+  }
 
   useEffect(()=>{
     const url = location?.pathname ?? "";
@@ -191,6 +213,31 @@ export function SideBar() {
     <LuLayoutDashboard className='scale-150 col-span-2'/>
     <span className="text-center col-span-5">DashBoard</span>
     </Button>
+   
+    <AlertDialog>
+      <AlertDialogTrigger asChild>
+      <Button variant="outline"
+    onClick={()=>{
+    
+    }}
+    className="grid grid-cols-10">  
+    <VscSignOut className='scale-150 col-span-2'/>
+    <span className="text-center col-span-5 ">logout</span>
+    </Button>
+      </AlertDialogTrigger>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+          <AlertDialogDescription>
+            This action cannot be undone. This action will log you out of VideoTube and you will have to login again.
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogAction onClick={logoutHandler}>Logout</AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
             </div>
             <SheetFooter className="flex justify-start w-full">
               <span>made by <a href="https://github.com/dhatrishdixit" className=" text-blue-500">@dhatrishDixit</a></span>
