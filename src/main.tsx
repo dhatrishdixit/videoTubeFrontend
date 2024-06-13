@@ -25,6 +25,7 @@ import { UserPlaylistPage } from "./pages/PlaylistPage/UserPlaylistPage.tsx";
 import { LikedVideosPage } from "./components/Content/LikedVideosPage.tsx";
 import { DashBoardPage } from "./pages/DashBoardPage/DashBoardPage.tsx";
 import { VerificationEmailPage } from "./pages/verificationEmailPage/verificationEmailPage.tsx";
+import { ForgotPasswordPage } from "./pages/ForgotPasswordPage/forgotPasswordPage.tsx";
 
 
 const router = createBrowserRouter([
@@ -39,6 +40,10 @@ const router = createBrowserRouter([
   {
     path:"/verifyEmail/:verifyToken",
     element:<VerificationEmailPage/>
+  },
+  {
+    path:"/forgotPassword",
+    element:<ForgotPasswordPage/>
   },
   {
     path:"/",

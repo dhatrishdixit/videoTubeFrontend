@@ -45,14 +45,8 @@ export const Login:React.FC = () => {
   const  { errors, isSubmitting } = formState
 
   const onSubmit:SubmitHandler<formFields> = async (data) =>{
-   //  console.log("clicked");
-  //  console.log(data);
    
     try{
-      // api call
-      // await new Promise((resolve,_)=>{setTimeout(resolve,5000)});
-      // throw new Error("hey there some error")
-   //   console.log(import.meta.env.VITE_BASE_URL)
       const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/api/v1/users/login`,{
         email:data.email,
         password:data.password
@@ -69,13 +63,7 @@ export const Login:React.FC = () => {
         description: "logged in successfully",
       })
 
-      // const userDetails = await axios.get(`${import.meta.env.VITE_BASE_URL}/api/v1/users/get-current-user`,
-      // {
-      //   withCredentials:true
-      // })
-      // console.log(userDetails)
       const userData:UserState = response.data.data.user;
-     // console.log(userData);
       dispatch(logIn(userData));
       setTimeout(()=>{
         navigate("/")
@@ -100,7 +88,8 @@ export const Login:React.FC = () => {
   }
 
   const navigate = useNavigate();
-  
+
+ 
   return (
     <Card className="w-[350px]">
       <CardHeader>
@@ -125,7 +114,12 @@ export const Login:React.FC = () => {
             </div>
 
             <div className="flex flex-col space-y-2">
-              <Label htmlFor="password">Password</Label>
+              <Label htmlFor="password"><div className="flex justify-between">
+              Password
+              <div className="text-sm font-light text-blue-600  dark:text-blue-500 hover:cursor-pointer" onClick={()=>{
+                navigate("/forgotPassword");
+              }}>forgot password ?</div>
+                </div></Label>
               <InputPassword
                autoComplete="off"
                placeholder="Password"
