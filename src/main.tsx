@@ -26,6 +26,7 @@ import { LikedVideosPage } from "./components/Content/LikedVideosPage.tsx";
 import { DashBoardPage } from "./pages/DashBoardPage/DashBoardPage.tsx";
 import { VerificationEmailPage } from "./pages/verificationEmailPage/verificationEmailPage.tsx";
 import { ForgotPasswordPage } from "./pages/ForgotPasswordPage/forgotPasswordPage.tsx";
+import { OtpForm } from "./pages/ForgotPasswordPage/otpForm.tsx";
 
 
 const router = createBrowserRouter([
@@ -44,8 +45,10 @@ const router = createBrowserRouter([
   {
     path:"/forgotPassword",
     element:<ForgotPasswordPage/>
-  },
-  {
+  },{
+    path:"/otpForm",
+    element:<OtpForm/>
+  },{
     path:"/",
     element:<App/>,
     children:[
