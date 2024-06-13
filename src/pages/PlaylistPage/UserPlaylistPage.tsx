@@ -38,9 +38,10 @@ wrapperClass=""
 /> 
 </div> : (
     playlists.length == 0 ? (
-        <div className='text-center font-semibold h-[40vh]'>
-        You haven't created any playlists
-      </div>
+      <div className='flex justify-center items-center w-full h-[90vh]'>
+      <p className='text-pretty font-bold text-3xl mb-2'>You haven't created any playlists yet
+      </p>    
+ </div>
     ) : (
         <div>
     <div className='grid md:grid-cols-4 grid-cols-2'>

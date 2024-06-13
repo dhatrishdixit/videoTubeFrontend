@@ -65,9 +65,8 @@ export const Login:React.FC = () => {
 
       const userData:UserState = response.data.data.user;
       dispatch(logIn(userData));
-      setTimeout(()=>{
-        navigate("/")
-      },1000)
+      navigate("/");
+      
     }
     catch(err){
       if(err instanceof AxiosError){

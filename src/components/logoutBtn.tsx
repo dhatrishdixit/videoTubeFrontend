@@ -44,10 +44,6 @@ export function LogoutBtn(props:{
         })
         dispatch(logOut());
         setLoadingLogoutBtn(false);
-        
-        setTimeout(()=>{
-            setIsOpen(false);
-        },1000)
         navigate("/login");
       })
       .catch(err=>console.log(err));

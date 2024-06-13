@@ -21,7 +21,11 @@ export function LikedVideosPage() {
     })
 
   },[]);
-
+  if(!likedVideos.length){
+    return(<div className='flex justify-center items-center w-full h-[90vh]'>
+               <p className='text-pretty font-bold text-3xl mb-2'>No liked videos</p>    
+          </div>)
+  }
   return (
    <div className='overflow-y-scroll h-[90vh] scrollbar-thin dark:scrollbar-track-[#19191d] scrollbar-thumb-red-600 scrollbar-track-white'>
               <p className="text-pretty font-bold text-3xl mb-2">

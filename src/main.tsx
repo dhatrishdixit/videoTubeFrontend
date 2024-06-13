@@ -27,6 +27,7 @@ import { DashBoardPage } from "./pages/DashBoardPage/DashBoardPage.tsx";
 import { VerificationEmailPage } from "./pages/verificationEmailPage/verificationEmailPage.tsx";
 import { ForgotPasswordPage } from "./pages/ForgotPasswordPage/forgotPasswordPage.tsx";
 import { OtpForm } from "./pages/ForgotPasswordPage/otpForm.tsx";
+import { ResetPasswordPage } from "./pages/ForgotPasswordPage/resetPasswordPage.tsx";
 
 
 const router = createBrowserRouter([
@@ -48,6 +49,9 @@ const router = createBrowserRouter([
   },{
     path:"/otpForm",
     element:<OtpForm/>
+  },{
+    path:"/resetPassword",
+    element:<ResetPasswordPage/>
   },{
     path:"/",
     element:<App/>,
