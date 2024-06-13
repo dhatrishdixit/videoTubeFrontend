@@ -60,9 +60,9 @@ export function VerificationEmailPage(){
                 type:"foreground",
                 description: "Email Verified Successfully",
             });
-            setTimeout(()=>{
-                navigate("/login");
-            },500);
+            setLoading(false);
+            navigate("/login");
+            
         })
         .catch(error => {
             if(error instanceof AxiosError){
@@ -72,6 +72,8 @@ export function VerificationEmailPage(){
                   description:error?.response?.data?.message
                 })
               }
+              setLoading(false);
+
         });
     }
     return (
