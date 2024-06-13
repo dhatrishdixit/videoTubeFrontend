@@ -24,6 +24,9 @@ export const Register:React.FC = () => {
   // TODO: add refresh token functionality 
   const navigate = useNavigate();
   const {toast} = useToast();
+  const [isResendBtnVisible,setIsResendBtnVisible] = React.useState<boolean>(false);
+  const [emailForResend,setEmailForResend] = React.useState<string>("");
+  const [loadingResendBtn,setLoadingResendBtn] = React.useState<boolean>(false);
   const schema = z.object({
     username:z.string(),
     fullName:z.string(),
@@ -35,6 +38,34 @@ export const Register:React.FC = () => {
   })
   
   type formFields = z.infer<typeof schema>;
+
+  const handleResendVerificationMail = async () => {
+      try {
+        //{{localServer}}/users/send-email-for-verification
+        setLoadingResendBtn(true);
+        const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/api/v1/users/send-email-for-verification`,{
+          email:emailForResend
+        },{
+          withCredentials:true
+        });
+        setLoadingResendBtn(false);
+        toast({
+          variant:"success",
+          type:"foreground",
+          description:" verification mail has been sent to your email"
+        });
+
+      } catch (error) {
+        if(error instanceof AxiosError){
+          toast({
+            variant:"destructive",
+            type:"foreground",
+            description:error?.response?.data?.message
+          })
+        }
+        setLoadingResendBtn(false);
+      }
+  }
 
   const {
     register,
@@ -65,15 +96,16 @@ export const Register:React.FC = () => {
            formData.append("coverImage",data?.coverImage[0])
         }
         const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/api/v1/users/register`,formData);
-    
+        setIsResendBtnVisible(true);
+        setEmailForResend(data.email);
         toast({
           variant:"success",
           type:"foreground",
-          description:"registration successfull"
+          description:" verification mail has been sent to your email"
         })
-        setTimeout(()=>{
-          navigate('/login')
-        },2000)
+        // setTimeout(()=>{
+        //   navigate('/login')
+        // },2000)
         // for (const p of formData) {
         //   console.log(p)
         // }
@@ -191,12 +223,22 @@ export const Register:React.FC = () => {
         </form>
       </CardContent>
       <CardFooter className="flex justify-center flex-col">
+        <div className="flex gap-3">
         <Button size="lg" className="mb-4" form="registerForm" disabled={isSubmitting}>
         {
             isSubmitting ? ( <> <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
             Please wait</>) : "Register"
           }
         </Button>
+        {
+          isResendBtnVisible &&  <Button size="lg" className="mb-4 bg-green-700 hover:bg-green-800" onClick={handleResendVerificationMail} >
+           {
+            loadingResendBtn ? ( <> <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
+            Please wait</>) : "Register"
+          }
+       </Button>
+        }
+        </div>
         {
           errors.root && <p className="text-red-600">
             {errors.root.message}
