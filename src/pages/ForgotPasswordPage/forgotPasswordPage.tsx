@@ -6,7 +6,6 @@ import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -42,7 +41,7 @@ export function ForgotPasswordPage(){
     const  { errors, isSubmitting } = formState;
     const onSubmit:SubmitHandler<formFields> = async (data) => {
         try {
-            //{{localServer}}/users/send-email-for-password-otp
+           
             console.log(data.email);
             const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/api/v1/users/send-email-for-password-otp`,{
                 email:data.email,
@@ -54,6 +53,11 @@ export function ForgotPasswordPage(){
                 type:"foreground",
                 description:" verification mail has been sent to your email"
             });
+            navigate("/otpForm",{
+              state:{
+                email:data.email
+              }
+            })
 
         } catch (error) {
             if(error instanceof AxiosError){
@@ -73,20 +77,23 @@ export function ForgotPasswordPage(){
 
     return (
         <div className='flex justify-center items-center h-screen'>
-            <Card className='w-[350px]'>
+            <Card className='sm:w-[500px] w-[350px]'>
                 <CardHeader>
                     <CardTitle className='text-3xl '>Forgot Password ?</CardTitle>
                     <p className='text-gray-400'>Type in your email in the field below and we will send you a code to reset your password.</p>
                 </CardHeader>
                 <CardContent className='mt-5'>
-                    <form onSubmit={handleSubmit(onSubmit)}>
+                    <form 
+                    onSubmit={handleSubmit(onSubmit)}
+                      autoComplete="new-password"
+                    >
                     <div className="grid w-full items-center gap-4">
             <div className="flex flex-col space-y-2">
                
               <Label htmlFor="email">Email</Label>
               <Input
                 id="email"
-                autoComplete="new-password"
+                autoComplete='off'
                 placeholder="Email"
                 type="email"
                 {...register("email")}
