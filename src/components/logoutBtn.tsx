@@ -67,7 +67,7 @@ export function LogoutBtn(props:{
       <AlertDialogHeader>
         <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
         <AlertDialogDescription>
-          This action cannot be undone. This action will log you out of VideoTube and you will have to login again.
+          This action cannot be undone. This action will log you out of ClipSync and you will have to login again.
         </AlertDialogDescription>
       </AlertDialogHeader>
       <AlertDialogFooter>

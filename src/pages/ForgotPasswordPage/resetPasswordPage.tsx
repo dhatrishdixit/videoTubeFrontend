@@ -7,14 +7,12 @@ import {
         CardHeader,
         CardTitle,
             } from "@/components/ui/card";
-import { Input, InputPassword } from "@/components/ui/input";
+import { InputPassword } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {z} from 'zod';
 import {zodResolver} from "@hookform/resolvers/zod";
 import { SubmitHandler,useForm } from "react-hook-form";
 import axios, { AxiosError } from 'axios';
-import { AppDispatch } from "@/app/store";
-import { useDispatch } from "react-redux";
 import { useToast } from "../../components/ui/use-toast";
 import { ReloadIcon } from "@radix-ui/react-icons";
 import { Button } from "@/components/ui/button";
@@ -24,7 +22,6 @@ import { Button } from "@/components/ui/button";
 
 export function ResetPasswordPage(){
     const {toast} = useToast();
-    const dispatch = useDispatch<AppDispatch>();
     const navigate = useNavigate();
     const { state } = useLocation();
     const schema = z.object(
@@ -103,7 +100,7 @@ export function ResetPasswordPage(){
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="grid w-full items-center gap-4">
               <div className="flex flex-col space-y-2">
-                <Label htmlFor="email">Email</Label>
+                <Label htmlFor="newPassword">New Password</Label>
                 <InputPassword
                  autoComplete="off"
                  placeholder="Password"

@@ -18,7 +18,7 @@ import { useToast } from "./ui/use-toast";
 import { ReloadIcon } from "@radix-ui/react-icons";
 
 
-
+const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
 export const Register:React.FC = () => {
 
   // TODO: add refresh token functionality 
@@ -33,7 +33,9 @@ export const Register:React.FC = () => {
     email:z.string().email(),
     password:z.string().min(8),
     confirmPassword:z.string().min(8),
-    avatar:z.instanceof(FileList).refine(val => val.length == 1,"only one avatar file should be there "),
+    avatar:z.instanceof(FileList)
+    .refine(val => val.length == 1,"only one avatar file should be there ")
+    .refine(val => ACCEPTED_IMAGE_TYPES.includes(val[0].type),"only .jpg, .jpeg, .png and .webp formats are supported"),
     coverImage:z.instanceof(FileList).refine(val => val.length <= 1,"coverImage should not be more than 1").optional()
   })
   
@@ -62,7 +64,13 @@ export const Register:React.FC = () => {
             type:"foreground",
             description:error?.response?.data?.message
           })
+          setError(
+            "root",{
+              message:error?.response?.data?.message
+            }
+          )
         }
+     
         setLoadingResendBtn(false);
       }
   }
