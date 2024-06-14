@@ -55,7 +55,7 @@ export function UserAccountFieldReset() {
   const [disableSubBtn,setDisableSubBtn] = useState<boolean>(true);
   const [avatarChanged, setAvatarChanged] = useState(false);
 const [coverImageChanged, setCoverImageChanged] = useState(false);
-
+  //console.log(userData);
   const schema = z.object({
     email: z.string().email().optional(),
     fullName: z.string().optional(),
@@ -99,6 +99,15 @@ const [coverImageChanged, setCoverImageChanged] = useState(false);
   const [initialAvatar, setInitialAvatar] = useState<string | undefined>(undefined);
   const [initialCoverImage, setInitialCoverImage] = useState<string | undefined>(undefined);
 
+  useEffect(()=>{
+     setInitialAvatar(userData.avatar);
+  },[userData.avatar]);
+
+  useEffect(()=>{
+      setInitialCoverImage(userData.coverImage);
+      console.log(initialCoverImage);
+  },[userData.coverImage])
+
   async function resetUserData(userData: UserDataSchema) {
     const avatar = userData?.avatar ? await urlToFile(userData.avatar, "avatar.jpg", "image/jpeg") : undefined;
     const coverImage = userData?.coverImage ? await urlToFile(userData.coverImage, "coverImage.jpg", "image/jpeg") : undefined;
@@ -118,10 +127,10 @@ const [coverImageChanged, setCoverImageChanged] = useState(false);
 
   const { dirtyFields,isDirty,errors, isSubmitting } = formState;
   const userAccountFieldResetSubmitHandler: SubmitHandler<formFields> = async (data) => {
-    console.log(data);
+    console.log("data",data);
     try {
       const changes:UpdateUserPayload = {} ;
-      if(dirtyFields.avatar && data?.avatar?.[0]){
+      if(avatarChanged && data?.avatar?.[0]){
          const formData = new FormData();
          formData.append("avatar",data.avatar[0]);
          const response = await axios.patch(`${import.meta.env.VITE_BASE_URL}/api/v1/users/update-avatar`,formData,{
@@ -130,7 +139,7 @@ const [coverImageChanged, setCoverImageChanged] = useState(false);
          changes.avatar = response.data.data.user.avatar;
       }
 
-      if(dirtyFields.coverImage && data?.coverImage?.[0]){
+      if(coverImageChanged && data?.coverImage?.[0]){
          const formData = new FormData();
          formData.append("coverImage",data.coverImage[0]);
          const response = await axios.patch(`${import.meta.env.VITE_BASE_URL}/api/v1/users/update-coverImage`,formData,{
@@ -142,17 +151,19 @@ const [coverImageChanged, setCoverImageChanged] = useState(false);
       let emailChanged = false ;
 
       if(dirtyFields.email || dirtyFields.fullName){
-         const formData = new FormData();
+         const formData:any = {};
          if(dirtyFields.fullName && data?.fullName){
-            formData.append("fullName",data?.fullName);
+            formData.fullName = data.fullName;
             changes.fullName = data.fullName;
+            // console.log("inside if formData :" ,formData);
          }
          if(dirtyFields.email && data?.email){
-            formData.append("email",data?.email);
+            formData.email = data.email;
             emailChanged = true;
             changes.email = data.email;
          }
-         await axios.patch(`${import.meta.env.VITE_BASE_URL}/api/v1/users/update-coverImage`,formData,{
+         console.log("formData : ",formData)
+         await axios.patch(`${import.meta.env.VITE_BASE_URL}/api/v1/users/update-user`,formData,{
           withCredentials:true
          });
          if(emailChanged){
@@ -167,8 +178,9 @@ const [coverImageChanged, setCoverImageChanged] = useState(false);
       toast({
         variant:"success",
         type:"foreground",
-        description: emailChanged == true ? "Fields updated && a mail sent to verify email":"Fields updated successfully",
+        description: emailChanged == true ? "Fields updated & a mail sent to verify email":"Fields updated successfully",
       })
+      console.log("changes ",changes);
       dispatch(updateUserData(changes));
 
     } catch (error) {
@@ -289,7 +301,8 @@ const [coverImageChanged, setCoverImageChanged] = useState(false);
                 Please wait
               </>
             ) : (
-              "Change Password"
+              "Change Settings"
+              //TODO: think of adding resend 
             )}
           </Button>
         </CardFooter>
