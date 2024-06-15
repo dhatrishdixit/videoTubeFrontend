@@ -302,7 +302,7 @@ const [coverImageChanged, setCoverImageChanged] = useState(false);
               </>
             ) : (
               "Change Settings"
-              //TODO: think of adding resend 
+              //TODO: think of adding resend option here as well
             )}
           </Button>
         </CardFooter>
