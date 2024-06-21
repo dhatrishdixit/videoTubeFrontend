@@ -13,6 +13,8 @@ import { CommentPage } from "../CommentPage/CommentPage";
 import { formatCount } from "@/utils/CountFormat";
 import { TailSpin } from "react-loader-spinner";
 import { ToastAction } from "@/components/ui/toast";
+import { MdFormatListBulletedAdd } from "react-icons/md";
+import { PlaylistBtn } from "@/components/playlistBtn";
 
 
 function stringShortener(str:string):string {
@@ -125,6 +127,7 @@ export const MainVideoPage: React.FC<ReactPlayerProps> = () => {
         type:"foreground",
         description:err?.response?.data?.message
       })
+      setLoading(false);
      });
 
      
@@ -258,6 +261,7 @@ export const MainVideoPage: React.FC<ReactPlayerProps> = () => {
        }
         <p className="ml-4">{formatCount(liked.likedCount as number)}</p>
         </Button>
+      <PlaylistBtn/>
       
        </div>
        <div className="w-[95%] dark:bg-[#272727] rounded-md my-4 bg-[#f1f1f1] pr-4">

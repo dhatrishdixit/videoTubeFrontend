@@ -30,6 +30,7 @@ export const PublishedBtn = () => {
     thumbnail:z.instanceof(FileList).refine(files => files.length ===1,
     "only one thumbnail can be posted at a time")
   })
+  //TODO: addfile type to this 
 
   type formFields = z.infer<typeof schema>;
 
@@ -61,9 +62,9 @@ export const PublishedBtn = () => {
               description:"video published successfully"
             })
 
-            setTimeout(()=>{
-                setOpen(false);
-            },1000)
+           
+          setOpen(false);
+        
 
          } catch (error) {
            if(error instanceof AxiosError){
