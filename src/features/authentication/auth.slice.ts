@@ -9,7 +9,7 @@ export interface AuthState {
     fullName?: string;
     avatar?: string;
     coverImage?: string;
-    watchHistory?: string[]; // change watch history in backend to return all other types and update this type with array of objects
+    watchHistory?: string[];
     createdAt?: Date;
   };
 }
@@ -21,7 +21,7 @@ export interface UserState {
     fullName?: string;
     avatar?: string;
     coverImage?: string;
-    watchHistory?: string[]; // change watch history in backend to return all other types and update this type with array of objects
+    watchHistory?: string[];
     createdAt?: Date;
 }
 
@@ -42,22 +42,9 @@ export const authSlice = createSlice({
   initialState: initialState,
   reducers: {
     logIn: (state, action:PayloadAction<UserState>) => {
-     // console.log(action)
       state.authStatus = true;
       state.userData = action.payload;
     },
-    // updateUserData: (state,action:PayloadAction<{
-    //   email?:string,
-    //   fullName?:string,   
-    // }>) => {
-    //   state.authStatus = true;
-    //   if(action.payload.email){
-    //     state.userData.email = action.payload.email;
-    //   }
-    //   if(action.payload.fullName){
-    //     state.userData.fullName = action.payload.fullName;
-    //   }
-    // },
     updateUserData: (state,action:PayloadAction<UpdateUserPayload>)=>{
       state.authStatus = true;
       state.userData = {
@@ -71,7 +58,6 @@ export const authSlice = createSlice({
     },
   },
 });
-//Think of adding other actions like update 
 
 
 export const { logIn, logOut,updateUserData } = authSlice.actions;

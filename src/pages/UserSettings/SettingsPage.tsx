@@ -1,30 +1,9 @@
-import React from "react";
-import { Button } from "@/components/ui/button"
-import { Input, InputPassword } from "@/components/ui/input";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
-import { Label } from "@/components/ui/label"
 import {
   Tabs,
   TabsContent,
   TabsList,
   TabsTrigger,
 } from "@/components/ui/tabs"
-import { useNavigate } from "react-router-dom";
-import {z} from 'zod';
-import {zodResolver} from "@hookform/resolvers/zod";
-import axios, { AxiosError } from 'axios';
-import { AppDispatch } from "@/app/store";
-import { useDispatch } from "react-redux";
-import { ReloadIcon } from "@radix-ui/react-icons";
-import { useToast } from "@/components/ui/use-toast";
-import { useForm } from "react-hook-form";
 import { PasswordResetSettings } from "./passwordResetSettings";
 import { UserAccountFieldReset } from "./userAccountFieldReset";
 
