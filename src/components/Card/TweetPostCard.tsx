@@ -93,7 +93,7 @@ export function TweetCard(props:TweetCardProps){
         {
              <div>{likedStatus.isLiked ? <PiThumbsUpFill scale="300" className="mb-2 text-xl"/> : <PiThumbsUpDuotone scale="300" className="mb-2 text-xl"/>}</div>
         }
-        <span className="ml-2 font-normal text-sm text-slate-500 select-none">
+        <span className="ml-2 font-normal text-sm text-slate-500 select-none tabular-nums">
         {formatCount(likedStatus.likesCount)}
         </span>
         </p>

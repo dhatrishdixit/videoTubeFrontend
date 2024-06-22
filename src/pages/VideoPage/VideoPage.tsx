@@ -229,10 +229,10 @@ export const MainVideoPage: React.FC<ReactPlayerProps> = () => {
             navigate(`/channel/${data.channel}`)
         }}
         >{data.channelName}</p>
-         <p className="text-slate-500 text-sm text-left">{subscribed.subscribedCount} subscribers</p></div>
+         <p className="text-slate-500 text-sm text-left tabular-nums">{subscribed.subscribedCount} subscribers</p></div>
          <Button 
          variant="secondary" 
-         className={`${!subscribed.subscribed? "rounded-xl dark:bg-red-600 bg-red-600 text-white hover:text-black" : ""} w-[96px]`}
+         className={`${!subscribed.subscribed? "rounded-xl dark:bg-red-600 bg-red-600 text-white hover:text-black" : ""} w-[96px] tabular-nums`}
          onClick={()=>{
              currentSubscribeState.current = !currentSubscribeState.current;
              setSubscribed(prev =>{
@@ -246,7 +246,7 @@ export const MainVideoPage: React.FC<ReactPlayerProps> = () => {
          {subscribed.subscribed?"subscribed":"subscribe"}
          </Button>
        </div>
-       <Button className="w-max" variant="secondary" onClick={()=>{
+       <Button className="w-max tabular-nums" variant="secondary" onClick={()=>{
          currentLikeState.current = !currentLikeState.current;
           setLiked(prev => {
                return {
@@ -259,7 +259,7 @@ export const MainVideoPage: React.FC<ReactPlayerProps> = () => {
         
         !liked.liked?<PiThumbsUpDuotone className="scale-150"/>:<PiThumbsUpFill className="scale-150"/>
        }
-        <p className="ml-4">{formatCount(liked.likedCount as number)}</p>
+        <p className="ml-4 tabular-nums">{formatCount(liked.likedCount as number)}</p>
         </Button>
       <PlaylistBtn/>
       

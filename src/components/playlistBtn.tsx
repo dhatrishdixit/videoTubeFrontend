@@ -36,6 +36,7 @@ import {
   } from "@/components/ui/select";
   import { toast } from "@/components/ui/use-toast";
 import { ReloadIcon } from '@radix-ui/react-icons';
+import { ToastAction } from '@radix-ui/react-toast';
 
 
 const FormSchema = z.object({
@@ -78,6 +79,14 @@ export const PlaylistBtn = () => {
                 variant:"success",
                 type:"foreground",
                 description:"Video added to playlist successfully",
+                action:<ToastAction className='border' altText="undo" onClick={()=>{
+                  axios
+                  .patch(`${import.meta.env.VITE_BASE_URL}/api/v1/playlist/remove/${videoId}/${data.playlistId}`,null,{
+                   withCredentials:true
+                 })
+                  .then(res => console.log(res.data.data.message))
+                  .catch(err => console.log("error in undo video from playlist : ",err.response.data.message));
+                }}>undo</ToastAction>,
             })
         } catch (error) {
             if(error instanceof AxiosError){
@@ -110,7 +119,7 @@ export const PlaylistBtn = () => {
                 </DialogTrigger>
                 <DialogContent>
                 <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="w-2/3 space-y-6">
+      <form onSubmit={form.handleSubmit(onSubmit)} id="createPlaylist" className="w-2/3 space-y-6" >
         <FormField
           control={form.control}
           name="playlistId"
@@ -145,14 +154,15 @@ export const PlaylistBtn = () => {
                       </FormItem>
                         )}
                      />
-                     <Button variant="outline" className="hover:bg-red-600" type="submit" disabled={form.formState.isSubmitting}>
+                
+                   </form>
+                  </Form>
+                  <Button variant="outline" form= "createPlaylist" className="hover:bg-red-600" type="submit" disabled={form.formState.isSubmitting}>
           {
             form.formState.isSubmitting ? ( <> <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
             Please wait</>) : "Add Video"
           }
           </Button>
-                   </form>
-                  </Form>
                   <Button>Create Playlist</Button>
                 </DialogContent>
         </Dialog>

@@ -151,7 +151,7 @@ export function ChannelPage() {
             <div className='pt-2'>
               <Button
                 variant="ghost"
-                className={`rounded-3xl ${subscribeState?.isSubscribed ? "bg-secondary/80" : "bg-red-600"}`}
+                className={`rounded-3xl w-[100px] tabular-nums ${subscribeState?.isSubscribed ? "bg-secondary/80" : "bg-red-600"}`}
                 onClick={handleSubscribeToggle}
               >
                 {subscribeState?.isSubscribed ? "subscribed" : "subscribe"}

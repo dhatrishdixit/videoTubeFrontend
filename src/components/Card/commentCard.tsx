@@ -169,7 +169,7 @@ export const CommentCard  = ((
           currentLikeStatus.isLiked ? <PiThumbsUpFill className='scale-150'/> : <PiThumbsUpDuotone className='scale-150'/> 
          }</Button> 
         
-         <p className='mt-1'
+         <p className='mt-1 tabular-nums'
          >{formatCount(currentLikeStatus.likesCount)}</p>
      
          </div>
