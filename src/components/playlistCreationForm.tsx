@@ -17,6 +17,9 @@ import { Switch } from "@/components/ui/switch"
 import { toast } from "@/components/ui/use-toast"
 import { Input } from './ui/input'
 import { Textarea } from './ui/textarea'
+import axios, { AxiosError } from "axios"
+import { ReloadIcon } from '@radix-ui/react-icons'
+
 
 
 interface PlaylistCreationFormProps {
@@ -25,33 +28,45 @@ interface PlaylistCreationFormProps {
 }
 const FormSchema = z.object({
   playlist_name: z.string(),
+  playlist_description: z.string(),
   is_public: z.boolean().default(true),
-  playlist_description: z.string()  
+  
 })
 
 export function PlaylistCreationForm({setFormOpen,setReloadPlaylist}:PlaylistCreationFormProps) {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues:{
-        playlist_name:"",
         is_public: true,
-        playlist_description:"description"
     }
   })
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
-    console.log(data)
-    //{{localServer}}/playlist
-    toast({
-      title: "You submitted the following values:",
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-    })
-    setFormOpen(false);
-    setReloadPlaylist(Math.random());
+  try {
+      await axios.post(`${import.meta.env.VITE_BASE_URL}/api/v1/playlist`,{
+            name:data.playlist_name,
+            description:data.playlist_description,
+            isPublic:data.is_public
+      },{
+          withCredentials:true
+      })
+      
+      toast({
+          variant:"success",
+          type:"foreground",
+          description:"Playlist created successfully"
+      })
+      setFormOpen(false);
+      setReloadPlaylist(Math.random());
+  } catch (error) {
+    if(error instanceof AxiosError){
+        toast({
+         variant:"destructive",
+         type:"foreground",
+         description:error?.response?.data?.message,
+        })
+      }
+  }
   }
 
   return (
@@ -120,7 +135,12 @@ export function PlaylistCreationForm({setFormOpen,setReloadPlaylist}:PlaylistCre
           </div>
         </div>
         <div className='flex justify-between'>
-        <Button type="submit" form="create-playlist">Create Playlist</Button>
+        <Button variant="outline" form= "create-playlist" className="hover:bg-red-600" type="submit" disabled={form.formState.isSubmitting}>
+          {
+            form.formState.isSubmitting ? ( <> <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
+            Please wait</>) : "Create Playlist"
+          }
+          </Button>
         <Button onClick={()=>{
             setFormOpen(false)            
         }}

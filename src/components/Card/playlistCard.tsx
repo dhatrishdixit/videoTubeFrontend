@@ -1,10 +1,10 @@
-import { useState } from "react";
+import {useState } from "react";
 import { IoVideocamSharp } from "react-icons/io5";
+
 function stringShortener(str: string): string {
   return str?.length >= 50 ? str?.substring(0, 49)+"..." : str;
 }
 import { useNavigate } from "react-router-dom";
-
 const defaultImageUrl = "https://flowbite.com/docs/images/examples/image-1@2x.jpg" ;
 
 
@@ -18,6 +18,7 @@ export interface PlaylistCardProps{
    FirstVideoThumbnail?:string;
    videos:number
 }
+
 
 export function PlaylistCard(props:PlaylistCardProps) {
   const [hover, setHover] = useState<boolean>(false);

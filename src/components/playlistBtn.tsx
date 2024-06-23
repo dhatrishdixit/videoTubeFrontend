@@ -102,7 +102,7 @@ export const PlaylistBtn = () => {
       }
 
     useEffect(()=>{
-        axios.get(`${import.meta.env.VITE_BASE_URL}/api/v1/playlist/user/${userId}`,{
+        axios.get(`${import.meta.env.VITE_BASE_URL}/api/v1/playlist/owner/playlists`,{
             withCredentials:true
         }).then((res)=>{
             setUserPlaylists(res.data.data);
@@ -121,7 +121,7 @@ export const PlaylistBtn = () => {
                 </DialogTrigger>
                 <DialogContent>
                 { !formOpen && <div><Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} id="createPlaylist" className="w-2/3 space-y-6" >
+      <form onSubmit={form.handleSubmit(onSubmit)} id="addVideo" className="w-2/3 space-y-6" >
         <FormField
           control={form.control}
           name="playlistId"
@@ -156,11 +156,10 @@ export const PlaylistBtn = () => {
                       </FormItem>
                         )}
                      />
-                
                    </form>
                   </Form>
                   <div className='flex justify-between mt-4'>
-                  <Button variant="outline" form= "createPlaylist" className="hover:bg-red-600" type="submit" disabled={form.formState.isSubmitting}>
+                  <Button variant="outline" form= "addVideo" className="hover:bg-red-600" type="submit" disabled={form.formState.isSubmitting}>
           {
             form.formState.isSubmitting ? ( <> <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
             Please wait</>) : "Add Video"

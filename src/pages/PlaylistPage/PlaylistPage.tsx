@@ -8,6 +8,10 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { formatDate } from "@/utils/DateFormat";
 import { Button } from "@/components/ui/button";
+import { useSelector } from "react-redux";
+import { RootState } from "@/app/store";
+import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
 
 function stringShortener(str:string):string {
   return str?.substring(0,119);
@@ -19,8 +23,10 @@ export interface PlaylistPageSchema {
   description:string,
   videos:VideoPropsSearch[],
   owner:string,
-  createdAt: string ,
-  ownerAvatar:string
+  ownerId:string,
+  createdAt: string,
+  ownerAvatar:string,
+  isPublic:boolean
 }
 
 
@@ -32,6 +38,10 @@ export function PlaylistPage(){
     const [isLoading,setIsLoading] = useState<boolean>(false);
     const [data,setData] = useState<PlaylistPageSchema>();
     const [collapse,setCollapse] = useState<boolean>(true) ;
+    const userId = useSelector((root:RootState)=>root.authorization.userData._id);
+    const [permission,setPermission] = useState<boolean>(false);
+    const [access,setAccess] = useState<boolean|undefined>(false);
+    const [disable,setDisable] = useState<boolean>(false);
     useEffect(()=>{
         setIsLoading(true);
         axios.get(`${import.meta.env.VITE_BASE_URL}/api/v1/playlist/${playlistId}`,{
@@ -39,8 +49,7 @@ export function PlaylistPage(){
         }).
         then((res)=>{
           setIsLoading(false);
-          setData(res.data.data[0])
-       
+          setData(res.data.data[0]);
         }).
         catch((err)=>{
           setIsLoading(false);
@@ -50,9 +59,16 @@ export function PlaylistPage(){
               
           })
         })
+
     },[playlistId])
     
-
+    useEffect(()=>{
+      if(data?.ownerId == userId){
+        setPermission(true);
+        setAccess(data?.isPublic);
+      }
+   
+    },[userId,data])
 
     return (
       
@@ -87,13 +103,54 @@ export function PlaylistPage(){
             </div> 
             <div>
             <div className="flex">
-            <img 
-       src={data?.ownerAvatar} 
-       className="h-12 w-12 rounded-full  col-span-1 cursor-pointer"
-       onClick={()=>{
-        navigate(`/channel/${data?.owner}`)
-       }}
-       />
+              {
+              permission == true ?  
+              <div>
+                  <div className="flex items-center space-x-2 m-4">
+                  <Label htmlFor="publicAccess" className="font-semibold text-center">{
+                      access == true? "Public" : "Private"           
+                }</Label>
+                  <Switch
+                    checked = {access}
+                    onCheckedChange={()=>{
+                      setAccess(prev=>!prev);
+                      setDisable(true);
+                      axios
+                      .patch(`${import.meta.env.VITE_BASE_URL}/api/v1/playlist/toggle/${userId}/${data?._id}`,null,{
+                        withCredentials:true,
+                      })
+                      .then(()=>{
+                        setDisable(false);
+                        toast({
+                          variant:"success",
+                          type:"foreground",
+                          description:"Playlist updated successfully"
+                        })
+                      })
+                      .catch((res)=>{
+                        setDisable(false);
+                        toast({
+                          variant:"destructive",
+                          type:"foreground",
+                          description:res.response.data.message
+                        })
+                      })
+                    }}
+                    id="publicAccess"
+                    disabled={disable}
+                 />
+              </div>
+              </div> 
+               :  <img 
+         src={data?.ownerAvatar} 
+         className="h-12 w-12 rounded-full  col-span-1 cursor-pointer"
+         onClick={()=>{
+          navigate(`/channel/${data?.owner}`)
+         }}
+         />
+         }
+           
+       
        <div 
        className="flex col-span-6 items-center gap-4 ml-2 mb-2" >
         <div>

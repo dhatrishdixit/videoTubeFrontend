@@ -31,7 +31,7 @@ export const PublishedBtn = () => {
     "only one thumbnail can be posted at a time")
   })
   //TODO: addfile type to this 
-
+  //TODO: improve this form 
   type formFields = z.infer<typeof schema>;
 
   const {register

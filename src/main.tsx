@@ -117,7 +117,7 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById("root")!).render(
     <Provider store={store}>
       <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-      <ToastProvider>
+      <ToastProvider duration={5000}>
       <RouterProvider router={router} />
       <Toaster />
       </ToastProvider>

@@ -98,12 +98,12 @@ export const VideoCardMain = React.forwardRef<HTMLDivElement, VideoPropsMain>(
           </div>
           <div className="flex flex-col">
             <h5
-              className="text-xl font-bold tracking-tight text-left text-gray-900 dark:text-white"
+              className="text-xl font-bold tracking-tight text-left text-gray-900 dark:text-white truncate"
               onClick={() => {
                 navigate(`/video/${props._id}`,{ state: { channelId: props.channelId } });
               }}
             >
-              {props.title}
+              {props.title.substring(0,22)}{props.title.length >= 23 ? "...":""}
             </h5>
 
             <p
@@ -201,7 +201,7 @@ export const VideoCardSearch = React.forwardRef<HTMLDivElement,VideoPropsSearch>
         <div className="flex py-2 px-2 gap-4 pl-6">
           <div className="flex flex-col">
             <h5
-              className="text-xl font-bold tracking-tight text-left text-gray-900 dark:text-white"
+              className="text-xl font-bold tracking-tight text-left text-gray-900 dark:text-white truncate"
               onClick={() => {
                 navigate(`/video/${props._id}`,{ state: { channelId: props.channelId } });
               }}
@@ -321,7 +321,7 @@ export const VideoCardSearch = React.forwardRef<HTMLDivElement,VideoPropsSearch>
           <div className="flex py-2 px-2 gap-4 pl-6">
             <div className="flex flex-col">
               <h5
-                className="text-xl font-bold tracking-tight text-left text-gray-900 dark:text-white"
+                className="text-xl font-bold tracking-tight text-left text-gray-900 dark:text-white truncate"
                 onClick={() => {
                   navigate(`/video/${props._id}`,{ state: { channelId: props.owner._id } });
                 }}
@@ -431,7 +431,7 @@ export const VideoCardSearch = React.forwardRef<HTMLDivElement,VideoPropsSearch>
   
               <p className="mb -1 font-normal text-gray-700 dark:text-gray-400 text-left">
                 {" "}
-                {props.views} views • {/*TODO: here use created at  */}3 months
+                {props.views} views • {formatDate(props.createdAt)}
                 ago
               </p>
               <div className="mt-2 flex gap-6">
@@ -524,7 +524,7 @@ export const VideoCardRecommendation = React.forwardRef<HTMLDivElement,VideoProp
       <div className="flex py-2 px-2 gap-4 pl-6">
         <div className="flex flex-col">
           <h5
-            className="text-xl font-bold tracking-tight text-left text-gray-900 dark:text-white"
+            className="text-xl font-bold tracking-tight text-left text-gray-900 dark:text-white truncate"
             onClick={() => {
               navigate(`/video/${props._id}`,{ state: { channelId: props.channelId } });
             }}
