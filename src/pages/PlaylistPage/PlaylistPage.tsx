@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import {useState,useEffect} from "react";
 import { useToast } from "@/components/ui/use-toast";
-import { VideoCardSearch } from "@/components/Card/videoCard";
+import { VideoCardPlaylist, VideoCardSearch } from "@/components/Card/videoCard";
 import { VideoPropsSearch } from "@/components/Card/videoCard";
 import { SkeletonCardSearch } from "@/components/Card/skeletonCard";
 import axios from "axios";
@@ -12,6 +12,19 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/app/store";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
+import { MdOutlineDelete } from "react-icons/md";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+
 
 function stringShortener(str:string):string {
   return str?.substring(0,119);
@@ -42,6 +55,7 @@ export function PlaylistPage(){
     const [permission,setPermission] = useState<boolean>(false);
     const [access,setAccess] = useState<boolean|undefined>(false);
     const [disable,setDisable] = useState<boolean>(false);
+    const [open,setOpen] = useState<boolean>(false);
     useEffect(()=>{
         setIsLoading(true);
         axios.get(`${import.meta.env.VITE_BASE_URL}/api/v1/playlist/${playlistId}`,{
@@ -139,6 +153,48 @@ export function PlaylistPage(){
                     id="publicAccess"
                     disabled={disable}
                  />
+                 <AlertDialog open={open} onOpenChange={setOpen}>
+                    <AlertDialogTrigger>
+                            <Button variant="ghost" className="rounded-full"> <MdOutlineDelete className='scale-150'/>
+                            </Button>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                       <AlertDialogDescription>
+                              This action cannot be undone. This will permanently delete your
+                              playlist and remove your data from our servers.
+                       </AlertDialogDescription>
+                      </AlertDialogHeader>
+                      <AlertDialogFooter>
+          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogAction onClick={()=>{
+              setOpen(true);
+              axios.delete(`${import.meta.env.VITE_BASE_URL}/api/v1/playlist/${playlistId}`,{
+                withCredentials:true
+              })
+              .then(()=>{
+                setOpen(true);
+                navigate(-1);
+                toast({
+                  variant:"success",
+                  type:"foreground",
+                  description:"Playlist deleted successfully"
+                })
+              })
+              .catch(()=>{
+                setOpen(true);
+                toast({
+                  variant:"destructive",
+                  type:"foreground",
+                  description:"Something went wrong"
+                })
+              })
+          }}>Delete</AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+                 </AlertDialog>
+                 
               </div>
               </div> 
                :  <img 
@@ -179,7 +235,7 @@ export function PlaylistPage(){
         </>
       ) : (
         
-        data?.videos.map((video)=> <VideoCardSearch key={video._id} {...video as VideoPropsSearch} />
+        data?.videos.map((video)=> <VideoCardPlaylist key={video._id} {...video as VideoPropsSearch} />
         )
       )}
      </div>

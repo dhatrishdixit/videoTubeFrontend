@@ -1,10 +1,12 @@
-import {useState } from "react";
+import { useEffect, useState } from "react";
 import { IoVideocamSharp } from "react-icons/io5";
-
+import { BiDotsHorizontalRounded } from "react-icons/bi";
 function stringShortener(str: string): string {
   return str?.length >= 50 ? str?.substring(0, 49)+"..." : str;
 }
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { RootState } from "@/app/store";
 const defaultImageUrl = "https://flowbite.com/docs/images/examples/image-1@2x.jpg" ;
 
 
@@ -18,12 +20,16 @@ export interface PlaylistCardProps{
    FirstVideoThumbnail?:string;
    videos:number
 }
-
+//TODO: wrong 
 
 export function PlaylistCard(props:PlaylistCardProps) {
   const [hover, setHover] = useState<boolean>(false);
   const navigate = useNavigate();
-
+  const userId  = useSelector((root:RootState)=>root.authorization.userData._id);
+  const permission = userId == props.ownerId;
+  useEffect(()=>{
+    console.log("playlist card : ",permission);
+  },[])
   return (
     <div
       className="m-2 relative"

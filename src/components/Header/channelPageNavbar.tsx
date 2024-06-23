@@ -44,7 +44,7 @@ export function ChannelPageNavbar(){
              >
                Playlist
             </Button>
-            <Button 
+            {/* <Button 
             variant="ghost"
             onClick={() => {
               setNavigationState("about")
@@ -53,7 +53,7 @@ export function ChannelPageNavbar(){
            className={navigationState === "about" ? "bg-secondary/80" : ""}
             >
                 About
-            </Button>
+            </Button> */}
         </div>
         </nav>
     )

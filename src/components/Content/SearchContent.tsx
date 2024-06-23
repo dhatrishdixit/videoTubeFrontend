@@ -35,7 +35,7 @@ export const ContentSearch = () => {
     const [videoCount,setVideoCount]= useState<number>(0);
     
     //{{localServer}}/videos/result/counts?query=hey
-
+    //TODO: check this also
     useEffect(()=>{
          axios.get(`${import.meta.env.VITE_BASE_URL}/api/v1/videos/result/counts?query=${query}`,{
             withCredentials:true,

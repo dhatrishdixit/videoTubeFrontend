@@ -367,20 +367,9 @@ export const VideoCardSearch = React.forwardRef<HTMLDivElement,VideoPropsSearch>
       const [hoverTimer, setHoverTimer] = React.useState<
         NodeJS.Timeout | undefined
       >(undefined);
-      const divRef = useRef<HTMLDivElement>(null);
-      useEffect(() => {
-        if (ref) {
-          if (typeof ref === 'function') {
-            ref(divRef.current);
-          } else {
-            ref.current = divRef.current;
-          }
-        }
-      }, [ref]);
-  
+      //TODO: just add a delete option similar to comment card
       return (
         <div
-          ref={divRef}
           className={` bg-white  ${!isHover ? "rounded-lg" : ""}  dark:bg-[#09090b]   cursor-pointer flex my-2 border p-1`}
       
         >
