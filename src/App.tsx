@@ -17,7 +17,7 @@ function App() {
     .then((response) => {
       dispatch(logIn(response.data.data as UserState));
     })
- },[])
+ },[]);
 
  // outlet this into - main video page , search results , frontPage results/content , playlist results and watch history results
  

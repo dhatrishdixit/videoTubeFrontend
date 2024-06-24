@@ -159,17 +159,18 @@ export const PlaylistBtn = () => {
                    </form>
                   </Form>
                   <div className='flex justify-between mt-4'>
-                  <Button variant="outline" form= "addVideo" className="hover:bg-red-600" type="submit" disabled={form.formState.isSubmitting}>
-          {
-            form.formState.isSubmitting ? ( <> <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
-            Please wait</>) : "Add Video"
-          }
-          </Button>
+                
                   <Button onClick={()=>{
                     setFormOpen(true);
                   }}
                    variant = "default"
                   >Create Playlist</Button>
+                    <Button variant="outline" form= "addVideo" className="hover:bg-red-600" type="submit" disabled={form.formState.isSubmitting}>
+          {
+            form.formState.isSubmitting ? ( <> <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
+            Please wait</>) : "Add Video"
+          }
+          </Button>
                   </div>
                   </div>}
                   {

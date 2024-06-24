@@ -1,9 +1,23 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useToast } from "@/components/ui/use-toast";
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '@/app/store';
+import axios from 'axios';
 
 export function DashBoardPage() {
   const navigate = useNavigate();
+  const dispatch = useDispatch<AppDispatch>();
+  useEffect(()=>{
+       axios.get(`${import.meta.env.VITE_BASE_URL}/api/v1/users/get-current-user`,{
+     withCredentials:true
+    })
+    .then(res => {
+       dispatch(logIn(res.data.data as UserState));
+    })
+  },[])
+  
+
   return (
     <div><Component/></div>
   )
@@ -23,15 +37,18 @@ import { ResponsivePie } from "@nivo/pie"
 import { ResponsiveScatterPlot } from "@nivo/scatterplot"
 import { ResponsiveHeatMap } from "@nivo/heatmap"
 
+//TODO: after completing this you have to do authentication , and at the end fix the search error 
+// then finally deploy 
+// correct subscriber function also mainly in video page 
+
 export default function Component() {
+
   const {toast} = useToast();
   const navigate = useNavigate();
-  const userInfo = useSelector((state:RootState) => state.authorization.userData);
- 
+  const userInfo = useSelector((state:RootState) => state?.authorization?.userData);
 
   const [data,setData] = React.useState<UserChannelProfile|null>(null)
   React.useEffect(()=>{
-     console.log(userInfo);
      const channelUserName = userInfo.username;
      axios.get(`${import.meta.env.VITE_BASE_URL}/api/v1/users/c/${channelUserName}`,{
       withCredentials:true
@@ -55,22 +72,34 @@ export default function Component() {
     <div className="flex flex-col w-full min-h-screen">
       <header className="flex items-center h-16 px-4 border-b shrink-0 md:px-6">
         <nav className="flex-col hidden gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6">
-          <a href="#" className="flex items-center gap-2 text-lg font-semibold md:text-base">
+          <a 
+          href="#" 
+          className="flex items-center gap-2 text-lg font-semibold md:text-base"
+          onClick={(e)=>{
+             e.preventDefault();
+             navigate('/');
+          }}
+          >
           <Logo/>
             <span className="sr-only"></span>
           </a>
-          <a href="#" className="font-bold">
+          <a href="#" className="font-bold"
+          onClick={(e)=>{
+              e.preventDefault();
+          }}
+          >
             Dashboard
-          </a>
-          <a href="#" className="text-muted-foreground">
-          
           </a>
       
         </nav>
         <div className="flex items-center w-full gap-4 md:ml-auto md:gap-2 lg:gap-4">
           <div className="flex-1 ml-auto sm:flex-initial">
             <div className="relative">
-             <Button>Home<IoArrowForwardOutline/> </Button>
+             <Button
+             onClick={()=>{
+              navigate('/');
+             }}
+             >Home<IoArrowForwardOutline/> </Button>
             </div>
           </div>
           <Button variant="ghost" size="icon" className="rounded-full">
@@ -190,110 +219,7 @@ export default function Component() {
             </div>
           </TabsContent>
           <TabsContent value="videos" className="p-6">
-            <div className="grid gap-6">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Video Management</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <Table>
-                    <TableHeader>
-                      <TableRow>
-                        <TableHead>Title</TableHead>
-                        <TableHead>Total Likes</TableHead>
-                        <TableHead>Total Views</TableHead>
-                        <TableHead>Created At</TableHead>
-                        <TableHead>Visibility</TableHead>
-                        <TableHead>Previously Public/Private</TableHead>
-                        <TableHead className="text-right">Actions</TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      <TableRow>
-                        <TableCell className="font-medium">Introduction to React</TableCell>
-                        <TableCell>1200</TableCell>
-                        <TableCell>10000</TableCell>
-                        <TableCell>2023-06-01</TableCell>
-                        <TableCell>
-                          <div className="flex items-center gap-2">
-                            <Label htmlFor="video-1-toggle" className="text-sm font-medium">
-                              Public
-                            </Label>
-                            <Switch id="video-1-toggle" aria-label="Toggle video visibility" />
-                          </div>
-                        </TableCell>
-                        <TableCell>
-                          <div className="flex items-center gap-2">
-                            <Label htmlFor="video-1-previously" className="text-sm font-medium">
-                              Public
-                            </Label>
-                          </div>
-                        </TableCell>
-                        <TableCell className="text-right">
-                          <Button variant="ghost" size="icon" className="rounded-full">
-                            <TrashIcon className="w-5 h-5 text-muted-foreground" />
-                          </Button>
-                        </TableCell>
-                      </TableRow>
-                      <TableRow>
-                        <TableCell className="font-medium">Advanced CSS Techniques</TableCell>
-                        <TableCell>800</TableCell>
-                        <TableCell>5000</TableCell>
-                        <TableCell>2023-05-15</TableCell>
-                        <TableCell>
-                          <div className="flex items-center gap-2">
-                            <Label htmlFor="video-2-toggle" className="text-sm font-medium">
-                            <Badge variant="destructive" className=" text-white">
-                            Private
-                          </Badge>
-                            </Label>
-                            <Switch id="video-2-toggle" aria-label="Toggle video visibility" />
-                          </div>
-                        </TableCell>
-                        <TableCell>
-                          <div className="flex items-center gap-2">
-                            <Label htmlFor="video-2-previously" className="text-sm font-medium">
-                              Public
-                            </Label>
-                          </div>
-                        </TableCell>
-                        <TableCell className="text-right">
-                          <Button variant="ghost" size="icon" className="rounded-full">
-                            <TrashIcon className="w-5 h-5 text-muted-foreground" />
-                          </Button>
-                        </TableCell>
-                      </TableRow>
-                      <TableRow>
-                        <TableCell className="font-medium">Building a Serverless API</TableCell>
-                        <TableCell>1500</TableCell>
-                        <TableCell>15000</TableCell>
-                        <TableCell>2023-06-05</TableCell>
-                        <TableCell>
-                          <div className="flex items-center gap-2">
-                            <Label htmlFor="video-3-toggle" className="text-sm font-medium">
-                              Public
-                            </Label>
-                            <Switch id="video-3-toggle" aria-label="Toggle video visibility" />
-                          </div>
-                        </TableCell>
-                        <TableCell>
-                          <div className="flex items-center gap-2">
-                            <Label htmlFor="video-3-previously" className="text-sm font-medium">
-                              Public
-                            </Label>
-                          </div>
-                        </TableCell>
-                        <TableCell className="text-right">
-                          <Button variant="ghost" size="icon" className="rounded-full">
-                            <TrashIcon className="w-5 h-5 text-muted-foreground" />
-                          </Button>
-                        </TableCell>
-                      </TableRow>
-                    </TableBody>
-                  </Table>
-                </CardContent>
-              </Card>
-            </div>
+         <VideoDashboard/>
           </TabsContent>
           <TabsContent value="community" className="p-6">
             <div className="grid gap-6">
@@ -1002,26 +928,7 @@ function StackedbarChart(props:any) {
 }
 
 
-function TrashIcon(props:any) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M3 6h18" />
-      <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
-      <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
-    </svg>
-  )
-}
+
 
 
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuItem } from "@/components/ui/dropdown-menu"
@@ -1032,8 +939,11 @@ import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/h
 import { ScrollableArea } from '@/components/ScrollableContent';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/app/store';
-import axios from 'axios';
+
 import { UserChannelProfile } from '@/components/Header/header';
+import { TrashIcon } from './icons/TrashIcon';
+import { logIn, UserState } from '@/features/authentication/auth.slice';
+import { VideoDashboard } from './Tabs/Video';
 
 // export default function Component() {
 //   return (
