@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux';
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import { BsThreeDotsVertical } from 'react-icons/bs';
 import { cn } from '@/lib/utils';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { useToast } from '../ui/use-toast';
 
 export interface VideoPropsMain {
@@ -385,10 +385,6 @@ export const VideoCardSearch = React.forwardRef<HTMLDivElement,VideoPropsSearch>
       const userId = useSelector((state:RootState)=>state.authorization.userData._id);
       const permission = props.playlistOwnerId === userId;
       const deleteHandler = async () => {
-          // {{localServer}}/playlist/remove/:videoId/:playlistId
-          console.log("video id: ", props._id);
-          console.log("playlist Id: ",props.playlistId);
-
           try {
             const res = await axios.patch(`${import.meta.env.VITE_BASE_URL}/api/v1/playlist/remove/${props._id}/${props.playlistId}`,null,{
               withCredentials:true
@@ -400,7 +396,13 @@ export const VideoCardSearch = React.forwardRef<HTMLDivElement,VideoPropsSearch>
               description:res.data.message
             })
           } catch (error) {
-            
+            if(error instanceof AxiosError){
+                  toast({
+              variant:"destructive",
+              type:"foreground",
+              description:error?.response?.data?.message
+            })
+            }
           }
       };
       return (
