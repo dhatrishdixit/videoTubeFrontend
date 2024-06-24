@@ -10,6 +10,7 @@ import { useEffect, useState } from "react"
 import { useToast } from "@/components/ui/use-toast"
 import { formatDate } from "@/utils/DateFormat"
 import { FiRefreshCw } from "react-icons/fi"
+import { Skeleton } from "@/components/ui/skeleton"
 
 export interface videoDataSchema {
     _id: string;
@@ -30,12 +31,58 @@ export interface videoDataSchema {
 
 interface VideoRowSchema{
     video : videoDataSchema,
-    toggleHandler : (id:string) => Promise<void>
-    deleteHandler : (id:string) => Promise<void>
+    setReload : React.Dispatch<React.SetStateAction<number>>
 }
 
-const VideoRow = ({ video, toggleHandler, deleteHandler }:VideoRowSchema) => {
+const VideoRow = ({ video,setReload }:VideoRowSchema) => {
+
+    const { toast } = useToast();
     const [publicAccess, setPublicAccess] = useState<boolean>(video.isPublic);
+    
+    const toggleHandler = async (videoId: string) => {
+        axios.patch(`${import.meta.env.VITE_BASE_URL}/api/v1/videos/toggle/publish/${videoId}`, null, {
+            withCredentials: true
+        })
+        .then(res => {
+            toast({
+                variant: "success",
+                type: "foreground",
+                description: "Video public access changed"
+            });
+        })
+        .catch(err => {
+            if (err instanceof AxiosError) {
+                toast({
+                    variant: "destructive",
+                    type: "foreground",
+                    description: err?.response?.data?.message
+                });
+            }
+        });
+    }
+
+    const deleteHandler = async (videoId: string) => {
+        axios.delete(`${import.meta.env.VITE_BASE_URL}/api/v1/videos/${videoId}`, {
+            withCredentials: true
+        })
+        .then(res => {
+            toast({
+                variant: "success",
+                type: "foreground",
+                description: "Video deleted successfully"
+            });
+            setReload(prev => prev+1);
+        })
+        .catch(err => {
+            if (err instanceof AxiosError) {
+                toast({
+                    variant: "destructive",
+                    type: "foreground",
+                    description: err?.response?.data?.message
+                });
+            }
+        });
+    }
 
     return (
         <TableRow key={video._id}>
@@ -49,7 +96,7 @@ const VideoRow = ({ video, toggleHandler, deleteHandler }:VideoRowSchema) => {
                         id={`video-${video._id}-toggle`}
                         aria-label="Toggle video visibility"
                         checked={publicAccess}
-                        onChange={() => {
+                        onCheckedChange={() => {
                             setPublicAccess(prev => !prev);
                             toggleHandler(video._id);
                         }}
@@ -59,7 +106,7 @@ const VideoRow = ({ video, toggleHandler, deleteHandler }:VideoRowSchema) => {
             <TableCell>
                 <div className="flex items-center gap-2">
                     <Label htmlFor={`video-${video._id}-previously`} className="text-sm font-medium">
-                        <Badge variant={video.isPublic ? "success" : "destructive"} className="text-white">
+                        <Badge variant={publicAccess ? "public" : "private"} className="text-white w-[58px] text-center">
                             {publicAccess ? "public" : "private"}
                         </Badge>
                     </Label>
@@ -102,53 +149,9 @@ export function VideoDashboard() {
         });
     }, [reload]);
 
-    const toggleHandler = async (videoId: string) => {
-        console.log("toggled")
-        axios.patch(`${import.meta.env.VITE_BASE_URL}/api/v1/videos/toggle/publish/${videoId}`, null, {
-            withCredentials: true
-        })
-        .then(res => {
-            toast({
-                variant: "success",
-                type: "foreground",
-                description: "Video public access changed"
-            });
-        })
-        .catch(err => {
-            if (err instanceof AxiosError) {
-                toast({
-                    variant: "destructive",
-                    type: "foreground",
-                    description: err?.response?.data?.message
-                });
-            }
-        });
-    }
-
-    const deleteHandler = async (videoId: string) => {
-        axios.delete(`${import.meta.env.VITE_BASE_URL}/api/v1/videos/${videoId}`, {
-            withCredentials: true
-        })
-        .then(res => {
-            toast({
-                variant: "success",
-                type: "foreground",
-                description: "Video deleted successfully"
-            });
-            setReload(prev => prev + 1);
-        })
-        .catch(err => {
-            if (err instanceof AxiosError) {
-                toast({
-                    variant: "destructive",
-                    type: "foreground",
-                    description: err?.response?.data?.message
-                });
-            }
-        });
-    }
-
+   
     const handleReload = () => {
+        console.log("handle reload called");
         setReload(prev => prev + 1);
     }
 
@@ -176,22 +179,54 @@ export function VideoDashboard() {
                                 <TableHead className="text-right">Actions</TableHead>
                             </TableRow>
                         </TableHeader>
-                        <TableBody>
-                            {videoData.length === 0 ? (
-                                <TableRow>
-                                    <TableCell colSpan={7}>No videos available</TableCell>
+                        {
+                            loading == true ? 
+                           (
+                            Array.from({ length: 5 }).map((_, index) => (
+                                <TableRow key={index}>
+                                  <TableCell className="w-[inherit]">
+                                    <Skeleton className="h-4 w-full" />
+                                  </TableCell>
+                                  <TableCell className="w-[inherit]">
+                                    <Skeleton className="h-4 w-full" />
+                                  </TableCell>
+                                  <TableCell className="w-[inherit]">
+                                    <Skeleton className="h-4 w-full" />
+                                  </TableCell>
+                                  <TableCell className="w-[inherit]">
+                                    <Skeleton className="h-4 w-full" />
+                                  </TableCell>
+                                  <TableCell className="w-[inherit]">
+                                    <Skeleton className="h-4 w-full" />
+                                  </TableCell>
+                                  <TableCell className="w-[inherit]">
+                                    <Skeleton className="h-4 w-full" />
+                                  </TableCell>
+                                  <TableCell className="w-[inherit]">
+                                    <Skeleton className="h-4 w-full" />
+                                  </TableCell>
                                 </TableRow>
-                            ) : (
-                                videoData.map(video => (
-                                    <VideoRow
-                                        key={video._id}
-                                        video={video}
-                                        toggleHandler={toggleHandler}
-                                        deleteHandler={deleteHandler}
-                                    />
-                                ))
-                            )}
-                        </TableBody>
+                              ))
+                           )
+                                :
+                                <TableBody>
+                                {videoData.length === 0 ? (
+                                    <TableRow>
+                                        <TableCell colSpan={7}>No videos available</TableCell>
+                                    </TableRow>
+                                ) : (
+                                    videoData.map(video => (
+                                        <VideoRow
+                                            key={video._id}
+                                            video={video}
+                                            setReload={setReload}
+                                        />
+                                    ))
+                                )}
+                            </TableBody>
+                            
+                        }
+                      
                     </Table>
                 </CardContent>
             </Card>

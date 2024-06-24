@@ -19,7 +19,7 @@ export function DashBoardPage() {
   
 
   return (
-    <div><Component/></div>
+    <div className='overflow-y-scroll h-screen scrollbar-thin dark:scrollbar-track-[#19191d] scrollbar-thumb-red-600 scrollbar-track-white '><Component/></div>
   )
 }
 import { Logo } from "@/components/logo/logo";
