@@ -40,6 +40,10 @@ const router = createBrowserRouter([
     element:<RegisterPage/>
   },
   {
+    path:"/dashBoard",
+    element:<DashBoardPage/>
+  },
+  {
     path:"/verifyEmail/:verifyToken",
     element:<VerificationEmailPage/>
   },
@@ -84,10 +88,7 @@ const router = createBrowserRouter([
           },{
             path:"/liked",
             element:<LikedVideosPage/>
-          },{
-            path:"/dashBoard",
-            element:<DashBoardPage/>
-          }
+          },
         ]
       },
       {

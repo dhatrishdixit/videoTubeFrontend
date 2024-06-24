@@ -12,7 +12,7 @@ export const ScrollableArea:React.FC<UserChannelProfile> = (props:UserChannelPro
       <div className="p-4">
         <h4 className="mb-4 text-sm font-medium leading-none">User Info</h4>
         {
-          Object.entries(props).filter(prop=> prop[0] !== "_id" && prop[0] !== "avatar" && prop[0] !== "coverImage" && prop[0] !=="isSubscribed").map((prop,ind)=>{
+          Object.entries(props).filter(prop=> prop[0] !== "_id" && prop[0] !== "avatar" && prop[0] !== "coverImage" && prop[0] !=="isSubscribed" && prop[0] !== "tweets").map((prop,ind)=>{
           return(
             <>
             <div key={ind}><span className="font-bold">{prop[0].toUpperCase()} :</span>{" "+prop[1]}</div>
