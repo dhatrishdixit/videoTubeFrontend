@@ -55,7 +55,9 @@ export function PlaylistPage(){
     const [permission,setPermission] = useState<boolean>(false);
     const [access,setAccess] = useState<boolean|undefined>(false);
     const [disable,setDisable] = useState<boolean>(false);
-    const [open,setOpen] = useState<boolean>(false);
+    const [open,setOpen] = useState<boolean>(false); 
+    const [reload,setReload] = useState<number>(0);
+
     useEffect(()=>{
         setIsLoading(true);
         axios.get(`${import.meta.env.VITE_BASE_URL}/api/v1/playlist/${playlistId}`,{
@@ -74,7 +76,7 @@ export function PlaylistPage(){
           })
         })
 
-    },[playlistId])
+    },[playlistId,reload])
     
     useEffect(()=>{
       if(data?.ownerId == userId){
@@ -235,7 +237,12 @@ export function PlaylistPage(){
         </>
       ) : (
         
-        data?.videos.map((video)=> <VideoCardPlaylist key={video._id} {...video as VideoPropsSearch} />
+        data?.videos.map((video)=> <VideoCardPlaylist 
+        playlistOwnerId={data.ownerId} 
+        setReload={setReload} 
+        key={video._id}
+        playlistId={data._id} 
+        {...video as VideoPropsSearch} />
         )
       )}
      </div>

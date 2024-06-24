@@ -25,7 +25,7 @@ export function UserPlaylistPage() {
   },[])
   
 
-  return loading ? <div className=' flex justify-center items-end'>
+  return loading ? <div className=' h-[90vh] flex justify-center items-center'>
 <TailSpin
 visible={true}
 height="80"

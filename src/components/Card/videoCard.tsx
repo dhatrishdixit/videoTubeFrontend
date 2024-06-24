@@ -2,6 +2,13 @@ import { formatDate } from '@/utils/DateFormat';
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ReactPlayer from 'react-player';
+import { RootState } from '@/app/store';
+import { useSelector } from 'react-redux';
+import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
+import { BsThreeDotsVertical } from 'react-icons/bs';
+import { cn } from '@/lib/utils';
+import axios from 'axios';
+import { useToast } from '../ui/use-toast';
 
 export interface VideoPropsMain {
   _id: string;
@@ -268,6 +275,7 @@ export const VideoCardSearch = React.forwardRef<HTMLDivElement,VideoPropsSearch>
         NodeJS.Timeout | undefined
       >(undefined);
       const divRef = useRef<HTMLDivElement>(null);
+
       useEffect(() => {
         if (ref) {
           if (typeof ref === 'function') {
@@ -282,7 +290,6 @@ export const VideoCardSearch = React.forwardRef<HTMLDivElement,VideoPropsSearch>
         <div
           ref={divRef}
           className={` bg-white  ${!isHover ? "rounded-lg" : ""}  dark:bg-[#09090b]   cursor-pointer flex my-2 border p-1`}
-      
         >
           <div
             onMouseEnter={() => {
@@ -360,18 +367,54 @@ export const VideoCardSearch = React.forwardRef<HTMLDivElement,VideoPropsSearch>
       );
     })
 
-  export const VideoCardPlaylist = React.forwardRef<HTMLDivElement,VideoPropsSearch&{owner:string}>((props,ref) =>
+  export const VideoCardPlaylist = React.forwardRef<HTMLDivElement,VideoPropsSearch&{
+    owner:string,
+    setReload:React.Dispatch<React.SetStateAction<number>>,
+    playlistOwnerId:string,
+    playlistId:string
+  }>((props,ref) =>
     {
       const navigate  = useNavigate();
       const [isHover, setHover] = React.useState<boolean>(false);
+      const { toast } = useToast();
       const [hoverTimer, setHoverTimer] = React.useState<
         NodeJS.Timeout | undefined
       >(undefined);
-      //TODO: just add a delete option similar to comment card
+      const [hoverDiv,setHoverDiv] = React.useState<boolean>(false);
+      const divRef = React.useRef<HTMLDivElement|null>(null);
+      const userId = useSelector((state:RootState)=>state.authorization.userData._id);
+      const permission = props.playlistOwnerId === userId;
+      const deleteHandler = async () => {
+          // {{localServer}}/playlist/remove/:videoId/:playlistId
+          console.log("video id: ", props._id);
+          console.log("playlist Id: ",props.playlistId);
+
+          try {
+            const res = await axios.patch(`${import.meta.env.VITE_BASE_URL}/api/v1/playlist/remove/${props._id}/${props.playlistId}`,null,{
+              withCredentials:true
+            })
+            props.setReload(Math.random());
+            toast({
+              variant:"success",
+              type:"foreground",
+              description:res.data.message
+            })
+          } catch (error) {
+            
+          }
+      };
       return (
         <div
           className={` bg-white  ${!isHover ? "rounded-lg" : ""}  dark:bg-[#09090b]   cursor-pointer flex my-2 border p-1`}
-      
+          ref={divRef}
+          onMouseEnter={()=>{
+            setHoverDiv(true);
+          }}
+          onMouseLeave={(event)=>{
+             if(divRef.current && event.relatedTarget instanceof Node && !divRef.current.contains(event.relatedTarget)){
+                setHoverDiv(false);
+             }
+          }}
         >
           <div
             onMouseEnter={() => {
@@ -407,7 +450,7 @@ export const VideoCardSearch = React.forwardRef<HTMLDivElement,VideoPropsSearch>
               />
             )}
           </div>
-          <div className="flex py-2 px-2 gap-4 pl-6">
+          <div className="flex w-full justify-between py-2 px-2 gap-4 pl-6">
             <div className="flex flex-col">
               <h5
                 className="text-xl font-bold tracking-tight text-left text-gray-900 dark:text-white"
@@ -444,6 +487,32 @@ export const VideoCardSearch = React.forwardRef<HTMLDivElement,VideoPropsSearch>
                 {manageString(props.description)}
               </p>
             </div>
+            <div>
+      {
+          (hoverDiv == true) && permission == true ? (
+            <div className='mt-4 cursor-pointer'>
+         <DropdownMenu.Root>
+          <DropdownMenu.Trigger asChild>
+            <button> <BsThreeDotsVertical /></button>
+          </DropdownMenu.Trigger>
+
+          <DropdownMenu.Content className={cn(
+        "z-50 min-w-[8rem] overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md",
+        "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 cursor-pointer")}>
+            <DropdownMenu.Item
+                className={cn(
+                  "relative flex select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 pl-8 bg-red-500 cursor-pointer", 
+                )}
+             onClick={deleteHandler}
+            >Delete</DropdownMenu.Item>
+      
+          </DropdownMenu.Content>
+        </DropdownMenu.Root>
+         </div>
+          ):null
+        }
+            </div>
+            
           </div>
         </div>
       );

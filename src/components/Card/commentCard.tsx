@@ -116,7 +116,7 @@ export const CommentCard  = ((
           setHover(true)
         }}
         onMouseLeave={(event)=>{
-          if (divRef.current &&!divRef?.current?.contains(event?.relatedTarget as Node)) {
+          if (divRef.current && event.relatedTarget instanceof Node && !divRef.current.contains(event.relatedTarget)) {
              setHover(false);
           }
         }}
@@ -188,7 +188,6 @@ export const CommentCard  = ((
         {
           (hover == true) && props.isEditable == true ? (
             <div className='mt-4 cursor-pointer'>
-              
          <DropdownMenu.Root>
           <DropdownMenu.Trigger asChild>
             <button> <BsThreeDotsVertical /></button>
