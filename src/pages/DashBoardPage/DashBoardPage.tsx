@@ -26,7 +26,7 @@ import { Logo } from "@/components/logo/logo";
 import { Input } from "@/components/ui/input"
 import { IoArrowForwardOutline } from "react-icons/io5";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
+
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@/components/ui/table"
 import { Label } from "@/components/ui/label"
 import { Switch } from "@/components/ui/switch"
@@ -137,9 +137,9 @@ export default function Component() {
             <TabsTrigger value="community">Community</TabsTrigger>
           </TabsList>
           <TabsContent value="analytics" className="p-6">
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            <div>
               <Analytics/>
-              <Card>
+              {/* <Card>
                 <CardHeader>
                   <CardTitle>Subscriptions per Day</CardTitle>
                 </CardHeader>
@@ -218,7 +218,7 @@ export default function Component() {
                 <CardContent>
                   <HeatmapChart className="aspect-[9/4]" />
                 </CardContent>
-              </Card>
+              </Card> */}
             </div>
           </TabsContent>
           <TabsContent value="videos" className="p-6">
