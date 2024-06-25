@@ -12,6 +12,8 @@ import { formatDate } from "@/utils/DateFormat"
 import { FiRefreshCw } from "react-icons/fi"
 import { Skeleton } from "@/components/ui/skeleton"
 
+//TODO: finish this with disable and all that 
+
 export interface videoDataSchema {
     _id: string;
     videoFile: string;
@@ -61,7 +63,7 @@ const VideoRow = ({ video,setReload }:VideoRowSchema) => {
         });
     }
 
-    const deleteHandler = async (videoId: string) => {
+    const deleteHandler = (videoId: string) => {
         axios.delete(`${import.meta.env.VITE_BASE_URL}/api/v1/videos/${videoId}`, {
             withCredentials: true
         })
@@ -151,7 +153,7 @@ export function VideoDashboard() {
 
    
     const handleReload = () => {
-        console.log("handle reload called");
+        //console.log("handle reload called");
         setReload(prev => prev + 1);
     }
 
@@ -182,31 +184,35 @@ export function VideoDashboard() {
                         {
                             loading == true ? 
                            (
-                            Array.from({ length: 5 }).map((_, index) => (
-                                <TableRow key={index}>
-                                  <TableCell className="w-[inherit]">
-                                    <Skeleton className="h-4 w-full" />
-                                  </TableCell>
-                                  <TableCell className="w-[inherit]">
-                                    <Skeleton className="h-4 w-full" />
-                                  </TableCell>
-                                  <TableCell className="w-[inherit]">
-                                    <Skeleton className="h-4 w-full" />
-                                  </TableCell>
-                                  <TableCell className="w-[inherit]">
-                                    <Skeleton className="h-4 w-full" />
-                                  </TableCell>
-                                  <TableCell className="w-[inherit]">
-                                    <Skeleton className="h-4 w-full" />
-                                  </TableCell>
-                                  <TableCell className="w-[inherit]">
-                                    <Skeleton className="h-4 w-full" />
-                                  </TableCell>
-                                  <TableCell className="w-[inherit]">
-                                    <Skeleton className="h-4 w-full" />
-                                  </TableCell>
-                                </TableRow>
-                              ))
+                             <TableBody>
+                                {
+                                    Array.from({ length: 5 }).map((_, index) => (
+                                        <TableRow key={index}>
+                                          <TableCell className="w-[200px]">
+                                            <Skeleton className="h-4 w-full" />
+                                          </TableCell>
+                                          <TableCell className="w-[100px]">
+                                            <Skeleton className="h-4 w-full" />
+                                          </TableCell>
+                                          <TableCell className="w-[100px]">
+                                            <Skeleton className="h-4 w-full" />
+                                          </TableCell>
+                                          <TableCell className="w-[150px]">
+                                            <Skeleton className="h-4 w-full" />
+                                          </TableCell>
+                                          <TableCell className="w-[100px]">
+                                            <Skeleton className="h-4 w-full" />
+                                          </TableCell>
+                                          <TableCell className="w-[100px]">
+                                            <Skeleton className="h-4 w-full" />
+                                          </TableCell>
+                                          <TableCell className="w-[100px]">
+                                            <Skeleton className="h-4 w-full" />
+                                          </TableCell>
+                                        </TableRow>
+                                      ))
+                                }
+                             </TableBody>
                            )
                                 :
                                 <TableBody>

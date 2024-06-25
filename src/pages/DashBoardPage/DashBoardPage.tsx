@@ -19,7 +19,7 @@ export function DashBoardPage() {
   
 
   return (
-    <div className='overflow-y-scroll h-screen scrollbar-thin dark:scrollbar-track-[#19191d] scrollbar-thumb-red-600 scrollbar-track-white '><Component/></div>
+    <div className='overflow-y-scroll h-[100vh] scrollbar-thin dark:scrollbar-track-[#19191d] scrollbar-thumb-red-600 scrollbar-track-white '><Component/></div>
   )
 }
 import { Logo } from "@/components/logo/logo";
@@ -31,6 +31,8 @@ import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@
 import { Label } from "@/components/ui/label"
 import { Switch } from "@/components/ui/switch"
 import { Textarea } from "@/components/ui/textarea"
+
+//TODO: remove this nivo line 
 import { ResponsiveLine } from "@nivo/line"
 import { ResponsiveBar } from "@nivo/bar"
 import { ResponsivePie } from "@nivo/pie"
@@ -45,7 +47,7 @@ export default function Component() {
 
   const {toast} = useToast();
   const navigate = useNavigate();
-  const userInfo = useSelector((state:RootState) => state?.authorization?.userData);
+  const userInfo = useSelector((state:RootState) => state?.authorization?.userData!);
 
   const [data,setData] = React.useState<UserChannelProfile|null>(null)
   React.useEffect(()=>{
@@ -136,6 +138,7 @@ export default function Component() {
           </TabsList>
           <TabsContent value="analytics" className="p-6">
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+              <Analytics/>
               <Card>
                 <CardHeader>
                   <CardTitle>Subscriptions per Day</CardTitle>
@@ -222,77 +225,7 @@ export default function Component() {
          <VideoDashboard/>
           </TabsContent>
           <TabsContent value="community" className="p-6">
-            <div className="grid gap-6">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Create Community Post</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <form className="space-y-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="title">Title</Label>
-                      <Input id="title" required />
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="content">Content</Label>
-                      <Textarea id="content" required />
-                    </div>
-                    <Button type="submit" className="w-full">
-                      Post
-                    </Button>
-                  </form>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardHeader>
-                  <CardTitle>Community Posts</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <Table>
-                    <TableHeader>
-                      <TableRow>
-                        <TableHead>Title</TableHead>
-                        <TableHead>Likes</TableHead>
-                        <TableHead>Created At</TableHead>
-                        <TableHead className="text-right">Actions</TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      <TableRow>
-                        <TableCell className="font-medium">Introducing the new React feature</TableCell>
-                        <TableCell>50</TableCell>
-                        <TableCell>2023-06-01</TableCell>
-                        <TableCell className="text-right">
-                          <Button variant="ghost" size="icon" className="rounded-full">
-                            <TrashIcon className="w-5 h-5 text-muted-foreground" />
-                          </Button>
-                        </TableCell>
-                      </TableRow>
-                      <TableRow>
-                        <TableCell className="font-medium">Best practices for CSS optimization</TableCell>
-                        <TableCell>75</TableCell>
-                        <TableCell>2023-05-25</TableCell>
-                        <TableCell className="text-right">
-                          <Button variant="ghost" size="icon" className="rounded-full">
-                            <TrashIcon className="w-5 h-5 text-muted-foreground" />
-                          </Button>
-                        </TableCell>
-                      </TableRow>
-                      <TableRow>
-                        <TableCell className="font-medium">Building a Serverless API with Vercel</TableCell>
-                        <TableCell>100</TableCell>
-                        <TableCell>2023-06-10</TableCell>
-                        <TableCell className="text-right">
-                          <Button variant="ghost" size="icon" className="rounded-full">
-                            <TrashIcon className="w-5 h-5 text-muted-foreground" />
-                          </Button>
-                        </TableCell>
-                      </TableRow>
-                    </TableBody>
-                  </Table>
-                </CardContent>
-              </Card>
-            </div>
+          <CommunityPostDashBoard/>
           </TabsContent>
         </Tabs>
       </main>
@@ -944,6 +877,8 @@ import { UserChannelProfile } from '@/components/Header/header';
 import { TrashIcon } from './icons/TrashIcon';
 import { logIn, UserState } from '@/features/authentication/auth.slice';
 import { VideoDashboard } from './Tabs/Video';
+import { CommunityPostDashBoard } from './Tabs/CommunityPost';
+import { Analytics } from './Tabs/Analytics';
 
 // export default function Component() {
 //   return (
