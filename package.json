@@ -43,6 +43,7 @@
     "input-otp": "^1.2.4",
     "lucide-react": "^0.321.0",
     "react": "^18.2.0",
+    "react-countup": "^6.5.3",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.50.0",
     "react-icons": "^5.0.1",

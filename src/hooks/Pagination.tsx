@@ -28,36 +28,63 @@ export function usePaginate(itemCount:number=0,limit:number=20,url:string="/comm
 
 
    React.useEffect(()=>{
-        setIsLoading(true);
-        let URL = `${import.meta.env.VITE_BASE_URL}/api/v1${url}?page=${pageNum-1}&limit=${limit}` ;
-        if(urlHasSomeBasicQuery) URL = `${import.meta.env.VITE_BASE_URL}/api/v1${url}&page=${pageNum-1}&limit=${limit}`
-      
-
-        if(query){
-            URL += `&${query}`
-        }
+        if(urlHasSomeBasicQuery){
+         if(query){
+            setResult([]);
+            setIsLoading(true);
+            let URL = `${import.meta.env.VITE_BASE_URL}/api/v1${url}?page=${pageNum-1}&limit=${limit}` ;
+          
     
-        axios.get(URL,{
-            withCredentials:true
-        })
-        .then(res=>{
-            setResult(res.data.data);
-            setIsLoading(false);
-        })
-        .catch(err =>{
-            toast({
-               variant:"destructive",
-               type:"foreground",
-               description: err.response.data.message
+            if(query){
+                URL += `&${query}`
+            }
+            console.log("url : ",URL);
+            axios.get(URL,{
+                withCredentials:true
             })
-            setIsLoading(false);
-        })
+            .then(res=>{
+                setResult(res.data.data);
+                setIsLoading(false);
+            })
+            .catch(err =>{
+                toast({
+                   variant:"destructive",
+                   type:"foreground",
+                   description: err.response.data.message
+                })
+                setIsLoading(false);
+            })
+           }
+          
+        }
+        else{
+         setResult([]);
+         setIsLoading(true);
+         let URL = `${import.meta.env.VITE_BASE_URL}/api/v1${url}?page=${pageNum-1}&limit=${limit}` ;
+       
+ 
+         if(query){
+             URL += `&${query}`
+         }
+         console.log("url : ",URL);
+         axios.get(URL,{
+             withCredentials:true
+         })
+         .then(res=>{
+             setResult(res.data.data);
+             setIsLoading(false);
+         })
+         .catch(err =>{
+             toast({
+                variant:"destructive",
+                type:"foreground",
+                description: err.response.data.message
+             })
+             setIsLoading(false);
+         })
+        }
         
    },[pageNum,url,query,refresh])
-   // remember 1 thing ki page start hoga zero se apne server mei 
-   // lekin apne ko show karna hai ki start ho rha hai 1 se bas 
-   // TODO: think of adding comments inside comments 
-
    
    function switchToNextPage(){
      if(pageNum >= totalPages){

@@ -31,12 +31,11 @@ export const ContentSearch = () => {
     const [reRender,setReRender] = useState<number>(0);
     const { toast } = useToast();
    
-    const intObserver = useRef<IntersectionObserver | null>(null);
     const [videoCount,setVideoCount]= useState<number>(0);
-    
+    const [searchResult,setSearchResult] = useState<VideoPropsSearch[]>([]);
     //{{localServer}}/videos/result/counts?query=hey
-    //TODO: check this also
     useEffect(()=>{
+         console.log(query);
          axios.get(`${import.meta.env.VITE_BASE_URL}/api/v1/videos/result/counts?query=${query}`,{
             withCredentials:true,
          })
@@ -54,10 +53,16 @@ export const ContentSearch = () => {
       isLoading,
       result,
       pageNum
-  } = usePaginate(videoCount,20,`/videos`,backendUrl,reRender);
-    console.log("result",result)
+  } = usePaginate(videoCount,20,`/videos`,backendUrl,reRender,true);
+    
   const isPreviousPageAvailable = Boolean(pageNum !== 1)  ;
   const isNextPageAvailable = pageNum < totalPages ;
+   
+  
+  useEffect(()=>{
+    console.log("result",result)
+     setSearchResult(result as VideoPropsSearch[]);
+   },[result]);
 
     useEffect(()=>{
         setBackendUrl(`query=${query}&sortBy=${sortBy}&sortType=${sortType}`);
@@ -93,14 +98,14 @@ export const ContentSearch = () => {
         </>
        
         ) : (
-          result.length == 0 ? (
+          searchResult.length == 0 ? (
           <div className="flex items-center justify-center h-full text-4xl font-bold">
               No Result Found for: "{query}"
           </div>) : (
             <div>
            <p className="text-3xl font-bold">Search Results for "{query}"</p>
            {
-            result.map((videoData) => <VideoCardSearch key={videoData._id} {...videoData as VideoPropsSearch} />)
+            searchResult.map((videoData) => <VideoCardSearch key={videoData._id} {...videoData as VideoPropsSearch} />)
           }
            <Pagination className="cursor-pointer pb-2">
         <PaginationContent>
