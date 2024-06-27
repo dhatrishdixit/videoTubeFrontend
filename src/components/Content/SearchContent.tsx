@@ -27,7 +27,6 @@ export const ContentSearch = () => {
     const { toast } = useToast();
     const [videoCount,setVideoCount]= useState<number>(0);
     const [searchResult,setSearchResult] = useState<VideoPropsSearch[]>([]);
-    //{{localServer}}/videos/result/counts?query=hey
     useEffect(()=>{
          console.log(query);
          axios.get(`${import.meta.env.VITE_BASE_URL}/api/v1/videos/result/counts?query=${query}`,{
