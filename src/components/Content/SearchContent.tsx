@@ -5,12 +5,7 @@ import { useLocation } from "react-router-dom";
 import { useToast } from "../ui/use-toast";
 import { usePaginate } from "@/hooks/Pagination";
 import { BiDotsHorizontalRounded } from "react-icons/bi";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+
 import {
   Pagination,
   PaginationContent,
@@ -19,7 +14,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination"
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 
 export const ContentSearch = () => {
     const location = useLocation();
@@ -30,7 +25,6 @@ export const ContentSearch = () => {
     const [backendUrl,setBackendUrl] = useState<string>("");
     const [reRender,setReRender] = useState<number>(0);
     const { toast } = useToast();
-   
     const [videoCount,setVideoCount]= useState<number>(0);
     const [searchResult,setSearchResult] = useState<VideoPropsSearch[]>([]);
     //{{localServer}}/videos/result/counts?query=hey
@@ -39,8 +33,18 @@ export const ContentSearch = () => {
          axios.get(`${import.meta.env.VITE_BASE_URL}/api/v1/videos/result/counts?query=${query}`,{
             withCredentials:true,
          })
-         .then(res => setVideoCount(res.data.data[0].totalCount as number)
-         )
+         .then(res => setVideoCount(res.data.data[0].totalCount as number))
+         .catch(err => {
+          if(err instanceof AxiosError){
+            // console.log(error.response.data.message)
+              toast({
+                variant:"destructive",
+                type:"foreground",
+                description:err?.response?.data?.message
+              })
+            
+            }
+         })
     },[query]);
    
 

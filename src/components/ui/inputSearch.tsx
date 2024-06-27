@@ -84,8 +84,6 @@ export const InputSearch: React.FC<InputProps> = ({ className }) => {
   useEffect(()=>{
        setUrl(`?sortType=${sortType}&sortBy=${sortBy}&query=${search}`)
   },[sortType,sortBy,search])
-  //TODO: think of passing reRender or something like that cant understand right now 
-  // add a cross to remove from search suggestions list
 
   return (
     <div className="w-full flex justify-center items-center gap-4">
