@@ -11,8 +11,7 @@ import { useToast } from "@/components/ui/use-toast"
 import { formatDate } from "@/utils/DateFormat"
 import { FiRefreshCw } from "react-icons/fi"
 import { Skeleton } from "@/components/ui/skeleton"
-
-//TODO: finish this with disable and all that 
+import { useNavigate } from "react-router-dom"
 
 export interface videoDataSchema {
     _id: string;
@@ -40,7 +39,8 @@ const VideoRow = ({ video,setReload }:VideoRowSchema) => {
 
     const { toast } = useToast();
     const [publicAccess, setPublicAccess] = useState<boolean>(video.isPublic);
-    
+    const navigate = useNavigate();
+
     const toggleHandler = async (videoId: string) => {
         axios.patch(`${import.meta.env.VITE_BASE_URL}/api/v1/videos/toggle/publish/${videoId}`, null, {
             withCredentials: true
@@ -88,7 +88,11 @@ const VideoRow = ({ video,setReload }:VideoRowSchema) => {
 
     return (
         <TableRow key={video._id}>
-            <TableCell className="font-medium">{video.title}</TableCell>
+            <TableCell className="font-medium cursor-pointer" onClick={() =>{
+                       navigate(`/video/${video._id}`,{ 
+                            state: { channelId: video.owner }
+                        });
+            }}>{video.title}</TableCell>
             <TableCell>{video.likesCount}</TableCell>
             <TableCell>{video.views}</TableCell>
             <TableCell>{formatDate(video.createdAt)}</TableCell>

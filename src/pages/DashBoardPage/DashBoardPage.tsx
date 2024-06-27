@@ -42,7 +42,7 @@ import { ResponsiveHeatMap } from "@nivo/heatmap"
 //TODO: after completing this you have to do authentication , and at the end fix the search error 
 // then finally deploy 
 // correct subscriber function also mainly in video page 
-
+// remove both recharts and nivo after this 
 export default function Component() {
 
   const {toast} = useToast();

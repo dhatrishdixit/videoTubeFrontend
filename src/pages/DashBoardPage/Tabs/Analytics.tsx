@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { FiRefreshCw } from "react-icons/fi";
 import CountUp from 'react-countup';
 import axios from "axios";
-import { CustomActiveShapePieChart } from "../charts/CustomActiveShapePieChart";
+import { PieChart } from "../charts/PieChart";
 
 interface basicAnalyticsSchema {
   totalViews: number;
@@ -92,7 +92,7 @@ export function Analytics(){
             </Button>
                 </CardHeader>
                 <CardContent className="flex items-center justify-center h-full">
-                  <CustomActiveShapePieChart/>
+                  <PieChart/>
                 </CardContent>
               </Card>
               <Card className="h-[50vh]">

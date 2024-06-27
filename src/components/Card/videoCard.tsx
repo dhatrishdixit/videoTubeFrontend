@@ -72,7 +72,6 @@ export const VideoCardMain = React.forwardRef<HTMLDivElement, VideoPropsMain>(
         >
           {isHover ? (
             <div onClick={()=>{
-             
               navigate(`/video/${props._id}`,{ state: { channelId: props.channelId } });
             }}>
             <ReactPlayer
