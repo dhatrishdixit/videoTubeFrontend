@@ -72,17 +72,7 @@ export function Analytics(){
         </div>
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-2">
             <LineChartDashBoard/>
-              <Card className="h-fit">
-                <CardHeader className="flex justify-between w-full flex-row">
-                  <CardTitle>Subscriptions per Day</CardTitle>
-                  <Button variant="ghost" size="icon">
-                            <FiRefreshCw className="w-6 h-6 text-muted-foreground" />
-            </Button>
-                </CardHeader>
-                <CardContent className="flex items-center justify-center h-full">
-                  <PieChart/>
-                </CardContent>
-              </Card>
+            <PieChartDashBoard/>
               <Card className="h-[50vh]">
                 <CardHeader className="flex justify-between w-full flex-row">
                   <CardTitle>Subscriptions per Day</CardTitle>
@@ -99,6 +89,27 @@ export function Analytics(){
      
     )
 
+}
+
+export function PieChartDashBoard(){
+  const [reload,setReload] = useState<number>(0);
+  const handleReload = () =>{
+    setReload(prev => prev+1);
+  }
+
+  return (
+    <Card className="h-[80vh] w-full">
+                <CardHeader className="flex justify-between w-full flex-row">
+                  <CardTitle>Like Stats</CardTitle>
+                  <Button variant="ghost" size="icon">
+                            <FiRefreshCw className="w-6 h-6 text-muted-foreground" onClick={handleReload}/>
+            </Button>
+                </CardHeader>
+                <CardContent className="flex items-center justify-center h-[80%]">
+                <PieChart reload={reload}/>
+                </CardContent>
+              </Card>
+  )
 }
 
 export function LineChartDashBoard(){

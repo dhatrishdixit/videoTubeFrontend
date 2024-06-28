@@ -112,7 +112,7 @@ const VideoRow = ({ video,setReload }:VideoRowSchema) => {
             <TableCell>
                 <div className="flex items-center gap-2">
                     <Label htmlFor={`video-${video._id}-previously`} className="text-sm font-medium">
-                        <Badge variant={publicAccess ? "public" : "private"} className="text-white w-[58px] text-center">
+                        <Badge variant={publicAccess ? "public" : "private"} className="text-black dark:text-white w-[58px] text-center">
                             {publicAccess ? "public" : "private"}
                         </Badge>
                     </Label>
