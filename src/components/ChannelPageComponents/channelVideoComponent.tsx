@@ -25,7 +25,7 @@ export function ChannelVideoComponent() {
   const {channelUsername} = useParams();
   const {videoCount} = useChannelStateContext();
   const [query,setQuery] = useState<QueryType>("Recent");
-  const [refresh,setRefresh] = useState<number>(0);
+  
   
 
    let Query;
@@ -58,7 +58,7 @@ export function ChannelVideoComponent() {
     isLoading,
     result,
     pageNum
-} = usePaginate(videoCount,10,URL,Query,refresh,false,true);
+} = usePaginate(videoCount,10,URL,Query,1,false,true);
 const ref = useRef<HTMLDivElement|null>(null);
 
 

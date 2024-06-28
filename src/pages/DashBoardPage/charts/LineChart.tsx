@@ -8,7 +8,6 @@ import {
   Tooltip,
   Legend,
   TooltipProps,
-  XAxis,
 } from "recharts";
 import axios from "axios";
 

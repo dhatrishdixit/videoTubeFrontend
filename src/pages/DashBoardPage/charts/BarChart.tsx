@@ -14,7 +14,7 @@ import {
   
   interface CustomTooltipProps extends TooltipProps<number, string> {}
 
-  const CustomTooltip: React.FC<CustomTooltipProps> = ({ active, payload, label }) => {
+  const CustomTooltip: React.FC<CustomTooltipProps> = ({ active, payload }) => {
   
     if (active && payload && payload.length) {
       return (

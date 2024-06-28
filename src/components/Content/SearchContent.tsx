@@ -1,4 +1,4 @@
-import {  useEffect, useRef, useState } from "react";
+import {  useEffect, useState } from "react";
 import { SkeletonCardSearch } from "../Card/skeletonCard";
 import { VideoCardSearch, VideoPropsSearch } from "../Card/videoCard";
 import { useLocation } from "react-router-dom";

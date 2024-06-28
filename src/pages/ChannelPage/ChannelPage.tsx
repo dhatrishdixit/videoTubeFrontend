@@ -85,7 +85,7 @@ export function ChannelPage() {
           .post(`${import.meta.env.VITE_BASE_URL}/api/v1/subscriptions/c/${channelId?.current as string}`, null, {
             withCredentials: true
           })
-          .then(res => {
+          .then(() => {
             toast({
               variant: "success",
               type: "foreground",
@@ -154,6 +154,7 @@ export function ChannelPage() {
               <Button
                 variant="ghost"
                 className={`rounded-3xl w-[100px] tabular-nums ${subscribeState?.isSubscribed ? "bg-secondary/80" : "bg-red-600"}`}
+                disabled={disableBtn}
                 onClick={handleSubscribeToggle}
               >
                 {subscribeState?.isSubscribed ? "subscribed" : "subscribe"}

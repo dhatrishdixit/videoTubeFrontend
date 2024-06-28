@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import {useState,useEffect} from "react";
 import { useToast } from "@/components/ui/use-toast";
-import { VideoCardPlaylist, VideoCardSearch } from "@/components/Card/videoCard";
+import { VideoCardPlaylist } from "@/components/Card/videoCard";
 import { VideoPropsSearch } from "@/components/Card/videoCard";
 import { SkeletonCardSearch } from "@/components/Card/skeletonCard";
 import axios from "axios";

@@ -2,7 +2,6 @@ import { useEffect,useState } from "react";
 import axios from "axios";
 import { PlaylistCard } from "@/components/Card/playlistCard";
 import { TailSpin } from 'react-loader-spinner';
-import { BiDotsHorizontalRounded } from 'react-icons/bi';
 import { PlaylistCardProps } from '@/components/Card/playlistCard';
 
 export function UserPlaylistPage() {

@@ -1,9 +1,7 @@
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@/components/ui/table"
 import { TrashIcon } from "../icons/TrashIcon"
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
-import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
 import { Button } from "@/components/ui/button"
 import {
   Form,
@@ -123,7 +121,7 @@ export function CommunityPostRow({post,setReload}:CommunityPostRowProps){
         axios.delete(`${import.meta.env.VITE_BASE_URL}/api/v1/tweets/${postId}`, {
             withCredentials: true
         })
-        .then(res => {
+        .then(() => {
             toast({
                 variant: "success",
                 type: "foreground",

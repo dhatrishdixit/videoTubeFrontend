@@ -7,20 +7,7 @@ interface ErrorSchema {
   }
   
   
-interface VideoSchema {
-     id:string,
-     videoFile:string,
-     thumbnail:string,
-     owner:string,
-     title:string,
-     duration:number,
-     views:number,
-     createdAt:Date,
-     channel:string,
-     channelFullName:string,
-     channelAvatar:string,
-     channelId:string,
-  }
+
 
 export const api = axios.create({
     baseURL: `${import.meta.env.VITE_BASE_URL}/api/v1`

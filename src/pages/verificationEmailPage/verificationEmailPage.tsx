@@ -54,7 +54,7 @@ export function VerificationEmailPage(){
         },{
             withCredentials:true
         })
-        .then(res=>{
+        .then(()=>{
             toast({
                 variant:"success",
                 type:"foreground",

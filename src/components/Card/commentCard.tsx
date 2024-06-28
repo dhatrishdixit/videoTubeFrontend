@@ -1,4 +1,4 @@
-import {useEffect, useState, useRef } from 'react';
+import {useState, useRef } from 'react';
 import { Button } from '../ui/button';
 import { PiThumbsUpDuotone } from "react-icons/pi";
 import { PiThumbsUpFill } from "react-icons/pi";
@@ -39,7 +39,6 @@ export const CommentCard  = ((
     props:CommentCardSchema
 ) => { 
   const navigate  = useNavigate();
-  const { videoId } = useParams();
   const {toast} = useToast();
   const [hover,setHover] = useState<boolean>(false);
   const [collapse,setCollapse] = useState<boolean>(true) ;
@@ -53,7 +52,7 @@ export const CommentCard  = ((
   function stringShortener(str:string):string {
        return str?.substring(0,119);
   }
-   const {pageNum,setRefresh,refresh} = usePageNumAndRefreshContext();
+   const {setRefresh} = usePageNumAndRefreshContext();
    const [isEditing,setIsEditing] = useState(false);
    const [disable,setDisable] = useState(false);
 

@@ -17,7 +17,6 @@ import axios, { AxiosError } from "axios";
 import { useToast } from "./ui/use-toast";
 import { ReloadIcon } from "@radix-ui/react-icons";
 
-const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
 
 export const Register: React.FC = () => {
   const navigate = useNavigate();
@@ -42,7 +41,7 @@ export const Register: React.FC = () => {
   const handleResendVerificationMail = async () => {
     try {
       setLoadingResendBtn(true);
-      const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/api/v1/users/send-email-for-verification`, {
+      await axios.post(`${import.meta.env.VITE_BASE_URL}/api/v1/users/send-email-for-verification`, {
         email: emailForResend
       }, {
         withCredentials: true
@@ -89,7 +88,7 @@ export const Register: React.FC = () => {
       if (data.coverImage && data.coverImage.length === 1) {
         formData.append("coverImage", data.coverImage[0]);
       }
-      const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/api/v1/users/register`, formData);
+      await axios.post(`${import.meta.env.VITE_BASE_URL}/api/v1/users/register`, formData);
       setIsResendBtnVisible(true);
       setEmailForResend(data.email);
       toast({

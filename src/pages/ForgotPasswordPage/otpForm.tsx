@@ -14,11 +14,10 @@ import {
   Card,
   CardContent,
   CardHeader,
-  CardTitle,
 } from "@/components/ui/card";
 import { useNavigate } from "react-router-dom";
 
-//TODO: make this route such that only people who have filled forgotPasswordPage come here 
+
 export function OtpForm() {
     const { state } = useLocation();
     const { toast }  = useToast();
@@ -81,7 +80,7 @@ export function OtpForm() {
       },{
         withCredentials:true
       })
-      .then(res => {
+      .then(() => {
         toast({
           variant:"success",
           type:"foreground",

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -10,7 +10,6 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
-import { useNavigate } from "react-router-dom";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useDispatch, useSelector } from "react-redux";
@@ -49,7 +48,6 @@ export function UserAccountFieldReset() {
   };
   
   const dispatch = useDispatch<AppDispatch>();
-  const navigate = useNavigate();
   const { toast } = useToast();
   const { userData } = useSelector((root: RootState) => root.authorization);
   const [disableSubBtn,setDisableSubBtn] = useState<boolean>(true);
@@ -91,7 +89,6 @@ const [coverImageChanged, setCoverImageChanged] = useState(false);
     setError,
     formState,
     reset,
-    watch
   } = useForm<formFields>({
     resolver: zodResolver(schema),
   });
@@ -122,7 +119,6 @@ const [coverImageChanged, setCoverImageChanged] = useState(false);
       coverImage: coverImage ? filesToFileList([coverImage]) : undefined,
     };
   }
-  const watchFields = watch(); 
 
 
   const { dirtyFields,isDirty,errors, isSubmitting } = formState;

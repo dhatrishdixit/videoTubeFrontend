@@ -17,7 +17,7 @@ interface DataSchema {
 
 interface CustomTooltipProps extends TooltipProps<number, string> {}
 
-const CustomTooltip: React.FC<CustomTooltipProps> = ({ active, payload, label }) => {
+const CustomTooltip: React.FC<CustomTooltipProps> = ({ active, payload }) => {
   if (active && payload && payload.length) {
     return (
       <div className="p-3 shadow bg-[#f0f0f0] text-[#333] dark:bg-gray-800 dark:text-white rounded">
@@ -51,7 +51,6 @@ const renderCustomizedLabel = ({
   innerRadius,
   outerRadius,
   percent,
-  index,
 }: any) => {
   const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
   const x = cx + radius * Math.cos(-midAngle * RADIAN);
@@ -152,7 +151,7 @@ export const PieChart: React.FC<PieChartProps> = ({ reload }) => {
       fill="#8884d8"
       dataKey="value"
     >
-          {data.map((entry, index) => (
+          {data.map((_,index) => (
             <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
           ))}
         </Pie>

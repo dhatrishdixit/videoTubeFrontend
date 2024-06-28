@@ -371,7 +371,7 @@ export const VideoCardSearch = React.forwardRef<HTMLDivElement,VideoPropsSearch>
     setReload:React.Dispatch<React.SetStateAction<number>>,
     playlistOwnerId:string,
     playlistId:string
-  }>((props,ref) =>
+  }>((props) =>
     {
       const navigate  = useNavigate();
       const [isHover, setHover] = React.useState<boolean>(false);

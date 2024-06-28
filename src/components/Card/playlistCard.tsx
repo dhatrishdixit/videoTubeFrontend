@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { IoVideocamSharp } from "react-icons/io5";
-import { BiDotsHorizontalRounded } from "react-icons/bi";
 function stringShortener(str: string): string {
   return str?.length >= 50 ? str?.substring(0, 49)+"..." : str;
 }
@@ -20,7 +19,6 @@ export interface PlaylistCardProps{
    FirstVideoThumbnail?:string;
    videos:number
 }
-//TODO: wrong 
 
 export function PlaylistCard(props:PlaylistCardProps) {
   const [hover, setHover] = useState<boolean>(false);

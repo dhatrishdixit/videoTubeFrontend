@@ -7,7 +7,6 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-  DialogClose
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -20,8 +19,7 @@ import React from "react";
 import { ReloadIcon } from "@radix-ui/react-icons";
 
 export const PublishedBtn = () => {
- 
-  const dialogCloseRef = React.useRef<typeof DialogClose>(null);
+
   const {toast} = useToast();
   const schema = z.object({
     title:z.string(),
@@ -30,8 +28,7 @@ export const PublishedBtn = () => {
     thumbnail:z.instanceof(FileList).refine(files => files.length ===1,
     "only one thumbnail can be posted at a time")
   })
-  //TODO: addfile type to this 
-  //TODO: improve this form 
+ 
   type formFields = z.infer<typeof schema>;
 
   const {register

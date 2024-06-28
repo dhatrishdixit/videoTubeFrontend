@@ -1,5 +1,5 @@
 import { Moon, Sun } from "lucide-react";
-import React, { useState } from "react";
+import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -37,10 +37,9 @@ export function ModeToggle() {
   );
 }
 
-type Theme = "dark" | "light" | "system";
+
 export const Switcher = () => {
   const { theme, setTheme } = useTheme();
-  const [isChecked, setIsChecked] = useState(theme);
 
   const handleCheckboxChange = () => {
     theme == "dark" ? setTheme("light") : setTheme("dark");

@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import {
     AlertDialog,
-    AlertDialogAction,
     AlertDialogCancel,
     AlertDialogContent,
     AlertDialogDescription,
@@ -21,9 +20,7 @@ import { useNavigate } from 'react-router-dom';
 import { useToast } from "./ui/use-toast";
 
 
-export function LogoutBtn(props:{
-    className?:string;
-}) {
+export function LogoutBtn() {
     const dispatch =  useDispatch<AppDispatch>();
     const [isOpen,setIsOpen] = useState<boolean>(false);
     const [loadingLogoutBtn,setLoadingLogoutBtn] = useState<boolean>(false);

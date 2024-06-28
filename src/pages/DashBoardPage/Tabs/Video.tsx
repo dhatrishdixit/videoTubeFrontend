@@ -45,7 +45,7 @@ const VideoRow = ({ video,setReload }:VideoRowSchema) => {
         axios.patch(`${import.meta.env.VITE_BASE_URL}/api/v1/videos/toggle/publish/${videoId}`, null, {
             withCredentials: true
         })
-        .then(res => {
+        .then(() => {
             toast({
                 variant: "success",
                 type: "foreground",
@@ -67,7 +67,7 @@ const VideoRow = ({ video,setReload }:VideoRowSchema) => {
         axios.delete(`${import.meta.env.VITE_BASE_URL}/api/v1/videos/${videoId}`, {
             withCredentials: true
         })
-        .then(res => {
+        .then(() => {
             toast({
                 variant: "success",
                 type: "foreground",

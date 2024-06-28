@@ -1,6 +1,5 @@
-import React from "react";
 import { Button } from "@/components/ui/button"
-import { Input, InputPassword } from "@/components/ui/input";
+import { InputPassword } from "@/components/ui/input";
 import {
   Card,
   CardContent,
@@ -10,12 +9,6 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import { Label } from "@/components/ui/label"
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "@/components/ui/tabs"
 import { useNavigate } from "react-router-dom";
 import {z} from 'zod';
 import {zodResolver} from "@hookform/resolvers/zod";

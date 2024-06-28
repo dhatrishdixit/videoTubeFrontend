@@ -42,7 +42,7 @@ export function ForgotPasswordPage(){
         try {
            
             console.log(data.email);
-            const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/api/v1/users/send-email-for-password-otp`,{
+            await axios.post(`${import.meta.env.VITE_BASE_URL}/api/v1/users/send-email-for-password-otp`,{
                 email:data.email,
             },{
                 withCredentials:true
