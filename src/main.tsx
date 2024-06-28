@@ -28,20 +28,33 @@ import { VerificationEmailPage } from "./pages/verificationEmailPage/verificatio
 import { ForgotPasswordPage } from "./pages/ForgotPasswordPage/forgotPasswordPage.tsx";
 import { OtpForm } from "./pages/ForgotPasswordPage/otpForm.tsx";
 import { ResetPasswordPage } from "./pages/ForgotPasswordPage/resetPasswordPage.tsx";
+import { AuthLayout } from "./components/AuthLayout.tsx";
 
 
 const router = createBrowserRouter([
   {
     path:"/login",
-    element:<LoginPage/>
+    element:(
+      <AuthLayout authentication={false}>
+        <LoginPage/>
+      </AuthLayout>
+    )
   },
   {
     path:"/register",
-    element:<RegisterPage/>
+    element:(
+      <AuthLayout authentication={false}>
+        <RegisterPage/>
+      </AuthLayout>
+    )
   },
   {
     path:"/dashBoard",
-    element:<DashBoardPage/>
+    element:(
+      <AuthLayout authentication={true}>
+        <DashBoardPage/>
+      </AuthLayout>
+    )
   },
   {
     path:"/verifyEmail/:verifyToken",
@@ -58,7 +71,11 @@ const router = createBrowserRouter([
     element:<ResetPasswordPage/>
   },{
     path:"/",
-    element:<App/>,
+    element:(
+      <AuthLayout authentication={true}>
+        <App/>
+      </AuthLayout>
+    ),
     children:[
       {
         path:"/",
@@ -93,7 +110,11 @@ const router = createBrowserRouter([
       },
       {
         path:"/channel/:channelUsername",
-        element:<ChannelPage/>,
+        element:(
+          <AuthLayout authentication={true}>
+            <ChannelPage/>
+          </AuthLayout>
+        ),
         children:[
           {
               path:"videos",
@@ -114,7 +135,7 @@ const router = createBrowserRouter([
   },
 
 ])
-// dashboard is still left 
+
 ReactDOM.createRoot(document.getElementById("root")!).render(
     <Provider store={store}>
       <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">

@@ -29,8 +29,6 @@ interface eleSchema {
 interface CustomTooltipProps extends TooltipProps<number, string> {}
 
 const CustomTooltip: React.FC<CustomTooltipProps> = ({ active, payload }) => {
-
-  
   if (active && payload && payload.length) {
     return (
       <div className="p-3 shadow bg-[#f0f0f0] text-[#333] dark:bg-gray-800 dark:text-white rounded">

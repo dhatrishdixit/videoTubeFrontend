@@ -14,11 +14,11 @@ import { useToast } from "../../components/ui/use-toast";
 import { ReloadIcon } from "@radix-ui/react-icons";
 import {z} from 'zod';
 import {zodResolver} from "@hookform/resolvers/zod";
-
-
+import { useSelector } from 'react-redux';
+import { RootState } from '@/app/store';
 export function ForgotPasswordPage(){
     
-    
+    const authState = useSelector((state:RootState)=>state.authorization.authStatus);
     const { toast } = useToast();
     const navigate = useNavigate();
     const schema = z.object(
@@ -109,8 +109,8 @@ export function ForgotPasswordPage(){
           }
         </Button>
         <Button size="lg" variant="link" className='mt-2 text-sm font-light text-blue-600  dark:text-blue-500 hover:cursor-pointer' onClick={()=>{
-            navigate('/login')
-        }}>Back to Login</Button>
+            authState?  navigate('/'): navigate('/login')
+        }}>{authState?"Back to Home":"Back to Login"}</Button>
         </div>
             </div>
             </form>
