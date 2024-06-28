@@ -167,6 +167,7 @@ export const MainVideoPage: React.FC<ReactPlayerProps> = () => {
         withCredentials: true,
       })
       .then((res) => {
+        console.log(res)
         toast({
           variant: "success",
           type: "foreground",
@@ -177,6 +178,7 @@ export const MainVideoPage: React.FC<ReactPlayerProps> = () => {
               withCredentials: true
             })
             .then(res => {
+              console.log(res);
               currentSubscribeState.current = !currentSubscribeState.current;
               setSubscribed(prev =>{
                   return {
