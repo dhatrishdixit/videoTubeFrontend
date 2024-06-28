@@ -7,7 +7,6 @@ import { formatDate } from '@/utils/DateFormat';
 import { formatCount } from '@/utils/CountFormat';
 import axios from "axios";
 import { useToast } from '../ui/use-toast';
-import { useParams } from 'react-router-dom';
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import { cn } from '@/lib/utils';
 import { usePageNumAndRefreshContext } from '@/hooks/PageNumAndRefreshContext';
