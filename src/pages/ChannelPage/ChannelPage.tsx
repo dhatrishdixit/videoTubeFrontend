@@ -43,11 +43,7 @@ export function ChannelPage() {
   const currentIsSubscribed = useRef<boolean | null>(null);
   const initialIsSubscribed = useRef<boolean | null>(null);
   const channelId = useRef<string | null>(null);
-  // const [reload,setReload] = useState<number>(0);
 
-  // useEffect(()=>{
-  //   setReload(Math.random());
-  // },[])
 
   useEffect(() => {
     setLoading(true);
@@ -82,6 +78,7 @@ export function ChannelPage() {
   }, []);
 
   useEffect(() => {
+    
     return () => {
       if (currentIsSubscribed.current !== initialIsSubscribed.current) {
         axios

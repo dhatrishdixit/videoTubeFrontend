@@ -83,7 +83,8 @@ interface SubscribedSchema{
 }
 
 export const MainVideoPage: React.FC<ReactPlayerProps> = () => {
-
+  
+  const [disable,setDisable]=useState<boolean>(false);
   const [collapse,setCollapse] = useState<boolean>(true) ;
   const location = useLocation();
   const { toast } = useToast();
@@ -133,58 +134,65 @@ export const MainVideoPage: React.FC<ReactPlayerProps> = () => {
      
      
     return () =>{
-     
       if(initialLikeState.current !== currentLikeState.current) {
         
-         axios
-        .post(`${import.meta.env.VITE_BASE_URL}/api/v1/likes/toggle/v/${videoId}`,null,{
-          withCredentials:true
-        })
-        .then(res => {
-          console.log(res.data.message);
-        })
-        .catch(err=>{
-          toast({
-            variant:"destructive",
-            type:"foreground",
-            description:err?.response?.data?.message
-          })
-          console.log(err)
+        axios
+       .post(`${import.meta.env.VITE_BASE_URL}/api/v1/likes/toggle/v/${videoId}`,null,{
+         withCredentials:true
+       })
+       .then(res => {
+         console.log(res.data.message);
+       })
+       .catch(err=>{
+         toast({
+           variant:"destructive",
+           type:"foreground",
+           description:err?.response?.data?.message
          })
-      }
-      if(initialSubscribeState.current!== currentSubscribeState.current) {
-         axios
-         .post(`${import.meta.env.VITE_BASE_URL}/api/v1/subscriptions/c/${currentChannelId.current}`,null,{
-          withCredentials:true
+         console.log(err)
         })
-         .then(res=> {
-          toast({
-            variant: "success",
-            type: "foreground",
-            description: `channel ${currentSubscribeState.current ? "subscribed" : "unsubscribed"}`,
-            action : <ToastAction altText="undo" onClick={()=>{
-              axios
-              .post(`${import.meta.env.VITE_BASE_URL}/api/v1/subscriptions/c/${currentChannelId.current}`,null,{
-               withCredentials:true
-             })
-              .then(res => console.log(res))
-              .catch(err => console.log(err));
-            }}>undo</ToastAction>,
-          });
-         })
-         .catch(err=>{
-          toast({
-            variant:"destructive",
-            type:"foreground",
-            description:err?.response?.data?.message
-          })
-          console.log(err)
-         })
-      }
+     }
   }
   },[videoId,location,location.pathname,toast])
-
-//TODO: think of adding sooner shadcn instead of normal toast 
+  
+  const handleSubscribeToggle = () => {
+    setDisable(true);
+    axios
+      .post(`${import.meta.env.VITE_BASE_URL}/api/v1/subscriptions/c/${currentChannelId.current}`, null, {
+        withCredentials: true,
+      })
+      .then((res) => {
+        toast({
+          variant: "success",
+          type: "foreground",
+          description: `channel ${currentSubscribeState.current ? "subscribed" : "unsubscribed"}`,
+          action : <ToastAction altText="undo" onClick={()=>{
+            axios
+            .post(`${import.meta.env.VITE_BASE_URL}/api/v1/subscriptions/c/${currentChannelId.current as string}`, null, {
+              withCredentials: true
+            })
+            .then(res => {
+              currentSubscribeState.current = !currentSubscribeState.current;
+              setSubscribed(prev =>{
+                  return {
+                     subscribed:!prev.subscribed,
+                     subscribedCount: prev.subscribed == true ? (prev.subscribedCount as number - 1) : (prev.subscribedCount as number + 1)
+                  }
+              }) 
+            })
+            .catch(err => console.log(err))
+          }}>undo</ToastAction>,
+        });
+      })
+      .catch((err) => {
+        toast({
+          variant: 'destructive',
+          type: 'foreground',
+          description: err?.response?.data?.message,
+        });
+      })
+      .finally(()=>setDisable(false));
+  };
   
 
   return loading == true ? (
@@ -233,7 +241,9 @@ export const MainVideoPage: React.FC<ReactPlayerProps> = () => {
          <Button 
          variant="secondary" 
          className={`${!subscribed.subscribed? "rounded-xl dark:bg-red-600 bg-red-600 text-white hover:text-black" : ""} w-[96px] tabular-nums`}
+         disabled={disable}
          onClick={()=>{
+             handleSubscribeToggle();
              currentSubscribeState.current = !currentSubscribeState.current;
              setSubscribed(prev =>{
                  return {
