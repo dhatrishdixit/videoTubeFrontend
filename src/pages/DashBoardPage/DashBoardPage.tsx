@@ -42,7 +42,8 @@ import { ResponsiveHeatMap } from "@nivo/heatmap"
 //TODO: after completing this you have to do authentication , and at the end fix the search error 
 // then finally deploy 
 // correct subscriber function also mainly in video page 
-// remove both recharts and nivo after this 
+// remove both chartjs and react-charts-js2 or something and nivo after this 
+// take a look into forms which caused the error 
 export default function Component() {
 
   const {toast} = useToast();
@@ -96,7 +97,8 @@ export default function Component() {
         </nav>
         <div className="flex items-center w-full gap-4 md:ml-auto md:gap-2 lg:gap-4">
           <div className="flex-1 ml-auto sm:flex-initial">
-            <div className="relative">
+            <div className="relative flex items-center">
+            <Switcher />
              <Button
              onClick={()=>{
               navigate('/');
@@ -879,6 +881,7 @@ import { logIn, UserState } from '@/features/authentication/auth.slice';
 import { VideoDashboard } from './Tabs/Video';
 import { CommunityPostDashBoard } from './Tabs/CommunityPost';
 import { Analytics } from './Tabs/Analytics';
+import { Switcher } from '@/components/mood-toggle';
 
 // export default function Component() {
 //   return (
