@@ -20,7 +20,7 @@ interface CustomTooltipProps extends TooltipProps<number, string> {}
 const CustomTooltip: React.FC<CustomTooltipProps> = ({ active, payload, label }) => {
   if (active && payload && payload.length) {
     return (
-      <div className="p-3 shadow bg-gray-800 text-white rounded">
+      <div className="p-3 shadow bg-[#f0f0f0] text-[#333] dark:bg-gray-800 dark:text-white rounded">
         <span className="font-semibold">Total Likes</span>
         <br />
         {payload.map((ele, index) => (
@@ -123,6 +123,12 @@ export const PieChart: React.FC<PieChartProps> = ({ reload }) => {
       </div>
     );
   }
+  
+  if(data.length == 0){
+    return(
+      <div className="text-center text-2xl font-bold">No data available</div>
+    )
+  }
 
   return (
     <ResponsiveContainer width="80%" height="100%">
@@ -139,7 +145,7 @@ export const PieChart: React.FC<PieChartProps> = ({ reload }) => {
         <Pie
       data={data}
       cx="50%" // This will center the pie chart horizontally
-      cy="50%" // This will center the pie chart vertically
+      cy="60%" // This will center the pie chart vertically
       labelLine={false}
       label={renderCustomizedLabel}
       outerRadius={120} // Increase this value to make the pie chart larger

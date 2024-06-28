@@ -8,6 +8,7 @@ import {
   Tooltip,
   Legend,
   TooltipProps,
+  XAxis,
 } from "recharts";
 import axios from "axios";
 
@@ -27,13 +28,13 @@ interface eleSchema {
 
 interface CustomTooltipProps extends TooltipProps<number, string> {}
 
-const CustomTooltip: React.FC<CustomTooltipProps> = ({ active, payload, label }) => {
+const CustomTooltip: React.FC<CustomTooltipProps> = ({ active, payload }) => {
 
   
   if (active && payload && payload.length) {
     return (
-      <div className="p-3 shadow bg-gray-800 text-white">
-        <span>{payload[0].payload.title}</span>
+      <div className="p-3 shadow bg-[#f0f0f0] text-[#333] dark:bg-gray-800 dark:text-white rounded">
+        <span className="font-semibold">{payload[0].payload.title}</span>
         <br />
         {payload.map((ele, index) => (
           <div key={index}>
@@ -102,6 +103,12 @@ export const LineChart: React.FC<LineChartProps> = ({reload}) => {
       </div>
     );
   }
+  
+  if(data.length == 0){
+    return(
+      <div className="text-center text-2xl font-bold">No data available</div>
+    )
+  }
 
   return (
     <ResponsiveContainer width="100%" height="100%">
@@ -115,8 +122,9 @@ export const LineChart: React.FC<LineChartProps> = ({reload}) => {
         left: 20,
         bottom: 20,
       }} >
-      <CartesianGrid strokeDasharray="3 3" stroke="#ccc" />
-      <YAxis/>
+      <CartesianGrid strokeDasharray="3 3" stroke="#ccc" strokeOpacity={0.5}/>
+      <YAxis tickLine={false}/>
+    
       <Tooltip content={<CustomTooltip/>} />
       <Legend margin={{
               top: 10,
@@ -130,19 +138,19 @@ export const LineChart: React.FC<LineChartProps> = ({reload}) => {
         type="monotone"
         dataKey="views"
         stroke="#ff7300"
-        fill="rgba(255, 115, 0, 0.2)"
+        fill="#ff7300"
       />
       <Line
         type="monotone"
         dataKey="likes"
         stroke="#387908"
-        fill="rgba(56, 121, 8, 0.2)"
+        fill="#387908"
       />
       <Line
         type="monotone"
         dataKey="comments"
         stroke="#8884d8"
-        fill="rgba(136, 132, 216, 0.2)"
+        fill="#387908"
       />
     </ReChartsLineChart>
    </ResponsiveContainer>

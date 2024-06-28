@@ -23,21 +23,12 @@ export function DashBoardPage() {
   )
 }
 import { Logo } from "@/components/logo/logo";
-import { Input } from "@/components/ui/input"
 import { IoArrowForwardOutline } from "react-icons/io5";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"
 
-import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@/components/ui/table"
-import { Label } from "@/components/ui/label"
-import { Switch } from "@/components/ui/switch"
-import { Textarea } from "@/components/ui/textarea"
 
 //TODO: remove this nivo line 
-import { ResponsiveLine } from "@nivo/line"
-import { ResponsiveBar } from "@nivo/bar"
-import { ResponsivePie } from "@nivo/pie"
-import { ResponsiveScatterPlot } from "@nivo/scatterplot"
-import { ResponsiveHeatMap } from "@nivo/heatmap"
+
 
 //TODO: after completing this you have to do authentication , and at the end fix the search error 
 // then finally deploy 
