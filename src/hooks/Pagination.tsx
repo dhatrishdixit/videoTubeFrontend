@@ -18,7 +18,7 @@ export interface CommentSchema {
     isLiked : boolean;
 }
 
-export function usePaginate(itemCount:number=0,limit:number=20,url:string="/comments",query:string="",refresh:number,urlHasSomeBasicQuery:boolean=false){
+export function usePaginate(itemCount:number=0,limit:number=20,url:string="/comments",query:string="",refresh:number,urlHasSomeBasicQuery:boolean=false,forChannelVidComponent:boolean=false){
   
    const { toast } = useToast();
    const totalPages = Math.ceil(itemCount / limit) ;
@@ -62,7 +62,7 @@ export function usePaginate(itemCount:number=0,limit:number=20,url:string="/comm
          setIsLoading(true);
          let URL = `${import.meta.env.VITE_BASE_URL}/api/v1${url}?page=${pageNum-1}&limit=${limit}` ;
        
- 
+         if(forChannelVidComponent) URL = `${import.meta.env.VITE_BASE_URL}/api/v1${url}&page=${pageNum-1}&limit=${limit}`
          if(query){
              URL += `&${query}`
          }

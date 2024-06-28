@@ -58,7 +58,7 @@ export function ChannelVideoComponent() {
     isLoading,
     result,
     pageNum
-} = usePaginate(videoCount,10,URL,Query,refresh,true);
+} = usePaginate(videoCount,10,URL,Query,refresh,false,true);
 const ref = useRef<HTMLDivElement|null>(null);
 
 

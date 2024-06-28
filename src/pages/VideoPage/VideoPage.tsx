@@ -84,6 +84,7 @@ interface SubscribedSchema{
 
 export const MainVideoPage: React.FC<ReactPlayerProps> = () => {
   
+  const [videoLikeDisable,setVideoLikeDisable] = useState<boolean>(false);
   const [disable,setDisable]=useState<boolean>(false);
   const [collapse,setCollapse] = useState<boolean>(true) ;
   const location = useLocation();
@@ -132,28 +133,32 @@ export const MainVideoPage: React.FC<ReactPlayerProps> = () => {
      });
 
      
-     
-    return () =>{
-      if(initialLikeState.current !== currentLikeState.current) {
-        
-        axios
-       .post(`${import.meta.env.VITE_BASE_URL}/api/v1/likes/toggle/v/${videoId}`,null,{
-         withCredentials:true
-       })
-       .then(res => {
-         console.log(res.data.message);
-       })
-       .catch(err=>{
-         toast({
-           variant:"destructive",
-           type:"foreground",
-           description:err?.response?.data?.message
-         })
-         console.log(err)
-        })
-     }
-  }
   },[videoId,location,location.pathname,toast])
+
+  const handleLikeToggle = () =>{
+    setVideoLikeDisable(true);
+    axios
+    .post(`${import.meta.env.VITE_BASE_URL}/api/v1/likes/toggle/v/${videoId}`,null,{
+      withCredentials:true
+    })
+    .then(res => {
+      console.log(res.data.message);
+      toast({
+        variant:"success",
+        type:"foreground",
+        description:res.data.message
+      })
+    })
+    .catch(err=>{
+      toast({
+        variant:"destructive",
+        type:"foreground",
+        description:err?.response?.data?.message
+      })
+      console.log(err)
+     })
+     .finally(() => setVideoLikeDisable(false))
+  }
   
   const handleSubscribeToggle = () => {
     setDisable(true);
@@ -256,7 +261,8 @@ export const MainVideoPage: React.FC<ReactPlayerProps> = () => {
          {subscribed.subscribed?"subscribed":"subscribe"}
          </Button>
        </div>
-       <Button className="w-max tabular-nums" variant="secondary" onClick={()=>{
+       <Button className="w-max tabular-nums" variant="secondary" disabled={videoLikeDisable} onClick={()=>{
+        handleLikeToggle()
          currentLikeState.current = !currentLikeState.current;
           setLiked(prev => {
                return {

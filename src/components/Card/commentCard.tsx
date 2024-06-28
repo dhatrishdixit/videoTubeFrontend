@@ -55,30 +55,26 @@ export const CommentCard  = ((
   }
    const {pageNum,setRefresh,refresh} = usePageNumAndRefreshContext();
    const [isEditing,setIsEditing] = useState(false);
+   const [disable,setDisable] = useState(false);
 
-   useEffect(()=>{
-        
-    return () => {
-      if(likeRef.current !== props.isLiked){
-        axios
-        .post(`${import.meta.env.VITE_BASE_URL}/api/v1/likes/toggle/c/${props._id}`,null,{
-          withCredentials:true
-        })
-        .then(res => 
-              console.log(res.data.message)
-          )
-        .catch(err => 
-              toast({
-                variant:"destructive",
-                type:"foreground",
-                description:err?.response?.data?.message
-              })
-          )
-      }
-    
-    }
-
-   },[pageNum,videoId,refresh])
+   function toggleLikeHandler(){
+    setDisable(true);
+    axios
+    .post(`${import.meta.env.VITE_BASE_URL}/api/v1/likes/toggle/c/${props._id}`,null,{
+      withCredentials:true
+    })
+    .then(res => 
+          console.log(res.data.message)
+      )
+    .catch(err => 
+          toast({
+            variant:"destructive",
+            type:"foreground",
+            description:err?.response?.data?.message
+          })
+      )
+      .finally(()=>setDisable(false))
+   }
 
     function editHandler(){
         setIsEditing(true);
@@ -154,7 +150,9 @@ export const CommentCard  = ((
          <Button
           variant="ghost"
           className='w-fit'
+          disabled={disable}
           onClick={()=>{
+            toggleLikeHandler();
                 likeRef.current = !likeRef.current;
                 setCurrentLikeStatus(prev =>
                      {

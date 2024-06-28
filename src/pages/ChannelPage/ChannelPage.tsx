@@ -43,7 +43,7 @@ export function ChannelPage() {
   const currentIsSubscribed = useRef<boolean | null>(null);
   const initialIsSubscribed = useRef<boolean | null>(null);
   const channelId = useRef<string | null>(null);
-
+  const [disableBtn,setDisableBtn] = useState(false);
 
   useEffect(() => {
     setLoading(true);
@@ -77,11 +77,11 @@ export function ChannelPage() {
       });
   }, []);
 
-  useEffect(() => {
-    
-    return () => {
-      if (currentIsSubscribed.current !== initialIsSubscribed.current) {
-        axios
+
+
+  const handleSubscribeToggle = () => {
+    setDisableBtn(true);
+    axios
           .post(`${import.meta.env.VITE_BASE_URL}/api/v1/subscriptions/c/${channelId?.current as string}`, null, {
             withCredentials: true
           })
@@ -95,7 +95,16 @@ export function ChannelPage() {
                 .post(`${import.meta.env.VITE_BASE_URL}/api/v1/subscriptions/c/${channelId?.current as string}`, null, {
                   withCredentials: true
                 })
-                .then(res => console.log(res))
+                .then(res => {
+                  console.log(res)
+                  currentIsSubscribed.current = !currentIsSubscribed.current;
+                  setSubscribeState(prev => {
+                    return {
+                      isSubscribed: !prev?.isSubscribed,
+                      subscriberCount: prev?.isSubscribed ? (prev?.subscriberCount - 1) : (prev?.subscriberCount as number + 1)
+                    };
+                  });
+                })
                 .catch(err => console.log(err));
               }}>undo</ToastAction>,
             });
@@ -106,12 +115,8 @@ export function ChannelPage() {
               type: "foreground",
               description: err?.response?.data?.message
             });
-          });
-      }
-    };
-  }, [toast]);
-
-  const handleSubscribeToggle = () => {
+          })
+          .finally(()=>setDisableBtn(false));
     currentIsSubscribed.current = !currentIsSubscribed.current;
     setSubscribeState(prev => {
       return {
