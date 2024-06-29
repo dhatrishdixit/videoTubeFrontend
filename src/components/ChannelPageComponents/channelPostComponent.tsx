@@ -54,7 +54,7 @@ wrapperClass=""
       <div className='py-4'>
       
       {
-        result.map(
+        result?.map(
           (post)=>(
             <TweetCard {...post as TweetCardProps} />
           )

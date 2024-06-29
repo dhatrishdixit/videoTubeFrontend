@@ -123,7 +123,7 @@ export const CommentPage:React.FC<CommentPageSchema> = ({videoId,commentsCount})
         />
       </div>
        {
-          result.map((commentData,index) => {
+          result?.map((commentData,index) => {
             return(
               <CommentCard key={index} {...commentData as CommentCardSchema}/>
             )

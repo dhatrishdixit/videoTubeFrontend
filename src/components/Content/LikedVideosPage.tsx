@@ -50,7 +50,7 @@ export function LikedVideosPage() {
         </>
        
       ) : (
-        likedVideos.map((video)=> <VideoCardSearch key={video._id} {...video} />
+        likedVideos?.map((video)=> <VideoCardSearch key={video._id} {...video} />
         )
       )}
      </div>

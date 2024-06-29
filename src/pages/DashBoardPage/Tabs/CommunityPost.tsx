@@ -233,7 +233,7 @@ export function CommunityPostDashBoard(){
               {
                             loading == true ? 
                            (
-                            Array.from({ length: 5 }).map((_, index) => (
+                            Array.from({ length: 5 })?.map((_, index) => (
                                 <TableRow key={index}>
                                   <TableCell className="w-[180px]">
                                     <Skeleton className="h-4 w-full" />
@@ -257,7 +257,7 @@ export function CommunityPostDashBoard(){
                                         <TableCell colSpan={7}>No videos available</TableCell>
                                     </TableRow>
                                 ) : (
-                                    postsData.map(post => (
+                                    postsData?.map(post => (
                                         <CommunityPostRow
                                             key={post._id}
                                             post={post}

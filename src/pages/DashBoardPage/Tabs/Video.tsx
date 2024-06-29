@@ -190,7 +190,7 @@ export function VideoDashboard() {
                            (
                              <TableBody>
                                 {
-                                    Array.from({ length: 5 }).map((_, index) => (
+                                    Array.from({ length: 5 })?.map((_, index) => (
                                         <TableRow key={index}>
                                           <TableCell className="w-[200px]">
                                             <Skeleton className="h-4 w-full" />
@@ -225,7 +225,7 @@ export function VideoDashboard() {
                                         <TableCell colSpan={7}>No videos available</TableCell>
                                     </TableRow>
                                 ) : (
-                                    videoData.map(video => (
+                                    videoData?.map(video => (
                                         <VideoRow
                                             key={video._id}
                                             video={video}

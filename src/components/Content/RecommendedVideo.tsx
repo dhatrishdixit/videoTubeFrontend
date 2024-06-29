@@ -36,7 +36,7 @@ export const RecommendedVideo:React.FC<RecommendedVideoProps> = ({channelId}) =>
     [isLoading, hasNextPage]
   );
 
-  const content = results.map((post, i) => {
+  const content = results?.map((post, i) => {
     if (results?.length === i + 1) {
       return (
         <VideoCardRecommendation

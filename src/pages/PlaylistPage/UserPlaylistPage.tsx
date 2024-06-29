@@ -45,7 +45,7 @@ wrapperClass=""
         <div>
     <div className='grid md:grid-cols-4 grid-cols-2 overflow-y-scroll h-[90vh]  scrollbar-thin dark:scrollbar-track-[#19191d] scrollbar-thumb-red-600 scrollbar-track-white'>
        {
-           playlists.map(playlistProps => (
+           playlists?.map(playlistProps => (
             <PlaylistCard {...playlistProps as PlaylistCardProps}/>
            ))
        }

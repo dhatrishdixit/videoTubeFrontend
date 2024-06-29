@@ -155,7 +155,7 @@ export function SideBar() {
           {
             userPlaylist?.length == 0 ? (<span className="text-center ml-6">No playlists </span>):(<div>
                         {
-                          userPlaylist.map(playlist => (
+                          userPlaylist?.map(playlist => (
                             <Button className="flex flex-row gap-4 cursor-pointer border-none w-full px-6 justify-start my-2" variant={`${playlistId == playlist._id ? "secondary" : "outline"}`}
                             key={playlist._id}
                             onClick={()=>{

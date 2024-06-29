@@ -239,7 +239,7 @@ export const InputSearch: React.FC<InputProps> = ({ className }) => {
                 </div>
          
             ) : (
-              searchSuggestions.map((suggestion, index) => (
+              searchSuggestions?.map((suggestion, index) => (
                 <div
                   key={index}
                   className="cursor-pointer px-4 py-2 hover:bg-accent hover:text-accent-foreground flex justify-between items-center"

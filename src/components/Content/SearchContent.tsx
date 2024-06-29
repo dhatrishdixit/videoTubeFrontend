@@ -108,7 +108,7 @@ export const ContentSearch = () => {
             <div>
            <p className="text-3xl font-bold">Search Results for "{query}"</p>
            {
-            searchResult.map((videoData) => <VideoCardSearch key={videoData._id} {...videoData as VideoPropsSearch} />)
+            searchResult?.map((videoData) => <VideoCardSearch key={videoData._id} {...videoData as VideoPropsSearch} />)
           }
            <Pagination className="cursor-pointer pb-2">
         <PaginationContent>

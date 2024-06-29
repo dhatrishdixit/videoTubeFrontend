@@ -49,7 +49,7 @@ export const WatchHistoryPage = () => {
        
       ) : (
         
-        watchHistory.map((video)=> <VideoCardWatchHistory key={video._id} {...video as WatchHistorySchema} />
+        watchHistory?.map((video)=> <VideoCardWatchHistory key={video._id} {...video as WatchHistorySchema} />
         )
       )}
      </div>

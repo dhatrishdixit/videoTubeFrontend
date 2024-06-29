@@ -237,7 +237,7 @@ export function PlaylistPage(){
         </>
       ) : (
         
-        data?.videos.map((video)=> <VideoCardPlaylist 
+        data?.videos?.map((video)=> <VideoCardPlaylist 
         playlistOwnerId={data.ownerId} 
         setReload={setReload} 
         key={video._id}

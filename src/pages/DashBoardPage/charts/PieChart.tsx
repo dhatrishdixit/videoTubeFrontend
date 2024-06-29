@@ -23,7 +23,7 @@ const CustomTooltip: React.FC<CustomTooltipProps> = ({ active, payload }) => {
       <div className="p-3 shadow bg-[#f0f0f0] text-[#333] dark:bg-gray-800 dark:text-white rounded">
         <span className="font-semibold">Total Likes</span>
         <br />
-        {payload.map((ele, index) => (
+        {payload?.map((ele, index) => (
           <div key={index}>
             <small>
               {ele.name}: <span className="font-bold">{ele.value}</span>
@@ -151,7 +151,7 @@ export const PieChart: React.FC<PieChartProps> = ({ reload }) => {
       fill="#8884d8"
       dataKey="value"
     >
-          {data.map((_,index) => (
+          {data?.map((_,index) => (
             <Cell key={`cell-${index}`} fill={COLORS[index % COLORS?.length]} />
           ))}
         </Pie>

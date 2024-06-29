@@ -47,7 +47,7 @@ export function ChannelPlaylistComponent() {
           <div>
       <div className='grid md:grid-cols-4 grid-cols-2'>
          {
-             playlists.map(playlistProps => (
+             playlists?.map(playlistProps => (
               <PlaylistCard {...playlistProps as PlaylistCardProps}/>
              ))
          }

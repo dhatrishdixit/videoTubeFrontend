@@ -33,7 +33,7 @@ const CustomTooltip: React.FC<CustomTooltipProps> = ({ active, payload }) => {
       <div className="p-3 shadow bg-[#f0f0f0] text-[#333] dark:bg-gray-800 dark:text-white rounded">
         <span className="font-semibold">{payload[0].payload.title}</span>
         <br />
-        {payload.map((ele, index) => (
+        {payload?.map((ele, index) => (
           <div key={index}>
             <small>
               {ele.name} : {ele.value}
@@ -65,7 +65,7 @@ export const LineChart: React.FC<LineChartProps> = ({reload}) => {
       })
       .then((res) => {
         setData(()=>{
-          return res.data.data.map((ele:eleSchema)=>{
+          return res.data.data?.map((ele:eleSchema)=>{
             return {
               title:ele.title,
               views:ele.viewsCount,

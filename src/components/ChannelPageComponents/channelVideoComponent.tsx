@@ -105,7 +105,7 @@ const ref = useRef<HTMLDivElement|null>(null);
         >Oldest</Button>
       </div>
        {
-        result.map(video => <VideoCardSearch {...video as VideoPropsSearch} ref={ref}/>)
+        result?.map(video => <VideoCardSearch {...video as VideoPropsSearch} ref={ref}/>)
        }
        
 
