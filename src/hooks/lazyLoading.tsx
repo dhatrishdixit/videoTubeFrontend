@@ -43,8 +43,14 @@ const usePosts = (pageNum = 0,limit=9,params:string|null = null,URL:string="/vid
 
         getPostsPage(pageNum,limit, params,{ withCredentials:true ,signal},URL,digDeep)
             .then(data => {
-                setResults(prev => [...prev, ...data])
+                if (Array.isArray(data) || typeof data === 'object' && data !== null){
+                    setResults(prev => [...prev, ...data])
                 setHasNextPage(Boolean(data?.length))
+                }else {
+                    console.error('Data is not iterable:', data);
+                    // Handle the error appropriately, e.g., set an error state or show a message to the user
+                }
+                
                 setIsLoading(false)
             })
             .catch(e => {
