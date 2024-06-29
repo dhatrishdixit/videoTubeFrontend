@@ -381,7 +381,7 @@ export const VideoCardSearch = React.forwardRef<HTMLDivElement,VideoPropsSearch>
       >(undefined);
       const [hoverDiv,setHoverDiv] = React.useState<boolean>(false);
       const divRef = React.useRef<HTMLDivElement|null>(null);
-      const userId = useSelector((state:RootState)=>state.authorization.userData._id);
+      const userId = useSelector((state:RootState)=>state.authorization.userData?._id);
       const permission = props.playlistOwnerId === userId;
       const deleteHandler = async () => {
           try {

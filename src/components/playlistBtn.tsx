@@ -57,7 +57,7 @@ export const PlaylistBtn = () => {
     
     const [formOpen,setFormOpen] = useState<boolean>(false);
     const [reloadPlaylist,setReloadPlaylist] = useState<number>(0);
-    const userId = useSelector((state:RootState) => state.authorization.userData._id);
+    const userId = useSelector((state:RootState) => state.authorization.userData?._id);
     const location = useLocation();
     const [userPlaylists,setUserPlaylists] = useState<UserPlaylistSchema[]>([]);
     const form = useForm<z.infer<typeof FormSchema>>({

@@ -51,7 +51,7 @@ export function PlaylistPage(){
     const [isLoading,setIsLoading] = useState<boolean>(false);
     const [data,setData] = useState<PlaylistPageSchema>();
     const [collapse,setCollapse] = useState<boolean>(true) ;
-    const userId = useSelector((root:RootState)=>root.authorization.userData._id);
+    const userId = useSelector((root:RootState)=>root.authorization.userData?._id);
     const [permission,setPermission] = useState<boolean>(false);
     const [access,setAccess] = useState<boolean|undefined>(false);
     const [disable,setDisable] = useState<boolean>(false);

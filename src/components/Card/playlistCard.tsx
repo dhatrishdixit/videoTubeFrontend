@@ -23,7 +23,7 @@ export interface PlaylistCardProps{
 export function PlaylistCard(props:PlaylistCardProps) {
   const [hover, setHover] = useState<boolean>(false);
   const navigate = useNavigate();
-  const userId  = useSelector((root:RootState)=>root.authorization.userData._id);
+  const userId  = useSelector((root:RootState)=>root.authorization.userData?._id);
   const permission = userId == props.ownerId;
   useEffect(()=>{
     console.log("playlist card : ",permission);
