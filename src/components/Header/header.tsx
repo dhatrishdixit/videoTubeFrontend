@@ -34,7 +34,7 @@ export const Navbar = () => {
   const {toast} = useToast();
   const navigate = useNavigate();
   const userInfo = useSelector((state:RootState) => state.authorization.userData);
-  const channelUserName = userInfo.username;
+  const channelUserName = userInfo?.username;
 
   const [data,setData] = React.useState<UserChannelProfile|null>(null)
   React.useEffect(()=>{

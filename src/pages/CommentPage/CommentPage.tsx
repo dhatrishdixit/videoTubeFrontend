@@ -48,7 +48,8 @@ interface CommentPageSchema {
 type queryType  = "Top" | "Recent" ;
 export const CommentPage:React.FC<CommentPageSchema> = ({videoId,commentsCount}) =>{
     
-    const {avatar} = useSelector((state:RootState) => state.authorization.userData)
+    const userInfo = useSelector((state:RootState) => state.authorization.userData);
+    const avatar = userInfo?.avatar
     const [query,setQuery] = useState<queryType>("Top");
     const Query = query == "Top" ? "" : "&ascending=true" ;
     const [refresh,setRefresh] = useState<number>(0);
