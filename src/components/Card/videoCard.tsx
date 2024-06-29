@@ -109,7 +109,7 @@ export const VideoCardMain = React.forwardRef<HTMLDivElement, VideoPropsMain>(
                 navigate(`/video/${props._id}`,{ state: { channelId: props.channelId } });
               }}
             >
-              {props.title.substring(0,22)}{props.title.length >= 23 ? "...":""}
+              {props.title.substring(0,22)}{props?.title?.length >= 23 ? "...":""}
             </h5>
 
             <p

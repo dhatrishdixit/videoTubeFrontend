@@ -30,7 +30,7 @@ export function OtpForm() {
        if(!state?.email) navigate("/forgotPassword")
     },[state])
     const otpSubmitHandler = async ():Promise<void> => {
-          if(otpValue.length != 6){
+          if(otpValue?.length != 6){
              setError("otp must have 6 characters");
              toast({
               variant:"destructive",

@@ -32,8 +32,8 @@ export const Register: React.FC = () => {
     password: z.string().min(8, "Password must be at least 8 characters long"),
     confirmPassword: z.string().min(8, "Confirm password must be at least 8 characters long"),
     avatar: z.instanceof(FileList)
-      .refine(val => val.length === 1, "Only one avatar file should be selected"),
-    coverImage: z.instanceof(FileList).refine(val => val.length <= 1, "Cover image should not be more than 1").optional()
+      .refine(val => val?.length === 1, "Only one avatar file should be selected"),
+    coverImage: z.instanceof(FileList).refine(val => val?.length <= 1, "Cover image should not be more than 1").optional()
   });
 
   type formFields = z.infer<typeof schema>;

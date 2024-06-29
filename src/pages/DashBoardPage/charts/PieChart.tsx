@@ -18,7 +18,7 @@ interface DataSchema {
 interface CustomTooltipProps extends TooltipProps<number, string> {}
 
 const CustomTooltip: React.FC<CustomTooltipProps> = ({ active, payload }) => {
-  if (active && payload && payload.length) {
+  if (active && payload && payload?.length) {
     return (
       <div className="p-3 shadow bg-[#f0f0f0] text-[#333] dark:bg-gray-800 dark:text-white rounded">
         <span className="font-semibold">Total Likes</span>
@@ -152,7 +152,7 @@ export const PieChart: React.FC<PieChartProps> = ({ reload }) => {
       dataKey="value"
     >
           {data.map((_,index) => (
-            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS?.length]} />
           ))}
         </Pie>
         <Tooltip content={<CustomTooltip />} />

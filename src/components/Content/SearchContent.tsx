@@ -101,7 +101,7 @@ export const ContentSearch = () => {
         </>
        
         ) : (
-          searchResult.length == 0 ? (
+          searchResult?.length == 0 ? (
           <div className="flex items-center justify-center h-full text-4xl font-bold">
               No Result Found for: "{query}"
           </div>) : (

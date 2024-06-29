@@ -79,7 +79,7 @@ export function SideBar() {
   useEffect(()=>{
       
       const pathUrl = location?.pathname.split("/")[1];
-      if(pathUrl.length == 0){
+      if(pathUrl?.length == 0){
         setSelect("home");
       }else{
         setSelect(pathUrl as selectTypes);
@@ -153,7 +153,7 @@ export function SideBar() {
      </AccordionTrigger>
         <AccordionContent>
           {
-            userPlaylist.length == 0 ? (<span className="text-center ml-6">No playlists </span>):(<div>
+            userPlaylist?.length == 0 ? (<span className="text-center ml-6">No playlists </span>):(<div>
                         {
                           userPlaylist.map(playlist => (
                             <Button className="flex flex-row gap-4 cursor-pointer border-none w-full px-6 justify-start my-2" variant={`${playlistId == playlist._id ? "secondary" : "outline"}`}
@@ -165,7 +165,7 @@ export function SideBar() {
                             }}
                             >  
                             <MdFeaturedPlayList className='scale-150'/>
-                              <span>{playlist.name.length > 27 ? `${playlist.name.substring(0,27)}...` : playlist.name}</span>
+                              <span>{playlist?.name?.length > 27 ? `${playlist?.name?.substring(0,27)}...` : playlist?.name}</span>
                             </Button>
                           ))
                         }      

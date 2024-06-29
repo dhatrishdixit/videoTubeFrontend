@@ -19,7 +19,7 @@ export const WatchHistoryPage = () => {
             setIsLoading(false);
         });
     },[]);
-    if(!setWatchHistory.length){
+    if(!setWatchHistory?.length){
         return(<div className='flex justify-center items-center w-full h-[90vh]'>
                    <p className='text-pretty font-bold text-3xl mb-2'>No liked videos</p>    
               </div>)

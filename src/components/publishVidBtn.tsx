@@ -24,8 +24,8 @@ export const PublishedBtn = () => {
   const schema = z.object({
     title:z.string(),
     description:z.string(),
-    video:z.instanceof(FileList).refine(files => files.length === 1,"only one video can be posted at a time"),
-    thumbnail:z.instanceof(FileList).refine(files => files.length ===1,
+    video:z.instanceof(FileList).refine(files => files?.length === 1,"only one video can be posted at a time"),
+    thumbnail:z.instanceof(FileList).refine(files => files?.length ===1,
     "only one thumbnail can be posted at a time")
   })
  

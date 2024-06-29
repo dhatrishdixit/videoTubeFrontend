@@ -220,7 +220,7 @@ export function VideoDashboard() {
                            )
                                 :
                                 <TableBody>
-                                {videoData.length === 0 ? (
+                                {videoData?.length === 0 ? (
                                     <TableRow>
                                         <TableCell colSpan={7}>No videos available</TableCell>
                                     </TableRow>

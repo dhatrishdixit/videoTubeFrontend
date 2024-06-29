@@ -32,7 +32,7 @@ export const FrontPageContent = () => {
   );
 
   const content = results.map((post, i) => {
-    if (results.length === i + 1) {
+    if (results?.length === i + 1) {
       return (
         <VideoCardMain
           ref={lastPostRef}

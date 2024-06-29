@@ -16,7 +16,7 @@ import {
 
   const CustomTooltip: React.FC<CustomTooltipProps> = ({ active, payload }) => {
   
-    if (active && payload && payload.length) {
+    if (active && payload && payload?.length) {
       return (
         <div className="p-3 shadow bg-[#f0f0f0] text-[#333] dark:bg-gray-800 dark:text-white rounded">
           <span className="font-semibold">{payload[0].payload ? `${payload[0].payload.month},${payload[0].payload.year}` : "Subscriptions"}</span>

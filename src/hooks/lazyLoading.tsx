@@ -44,7 +44,7 @@ const usePosts = (pageNum = 0,limit=9,params:string|null = null,URL:string="/vid
         getPostsPage(pageNum,limit, params,{ withCredentials:true ,signal},URL,digDeep)
             .then(data => {
                 setResults(prev => [...prev, ...data])
-                setHasNextPage(Boolean(data.length))
+                setHasNextPage(Boolean(data?.length))
                 setIsLoading(false)
             })
             .catch(e => {

@@ -60,22 +60,22 @@ const [coverImageChanged, setCoverImageChanged] = useState(false);
     avatar: z
       .instanceof(FileList)
       .refine(
-        (fileList) => !fileList.length || fileList[0].size <= MAX_FILE_SIZE,
+        (fileList) => !fileList?.length || fileList[0].size <= MAX_FILE_SIZE,
         "max image size is 50MB"
       )
       .refine(
-        (fileList) => !fileList.length || ACCEPTED_IMAGE_TYPES.includes(fileList[0].type),
+        (fileList) => !fileList?.length || ACCEPTED_IMAGE_TYPES.includes(fileList[0].type),
         "only .jpg, .jpeg, .png and .webp formats are supported"
       )
       .optional(),
     coverImage: z
       .instanceof(FileList)
       .refine(
-        (fileList) => !fileList.length || fileList[0].size <= MAX_FILE_SIZE,
+        (fileList) => !fileList?.length || fileList[0].size <= MAX_FILE_SIZE,
         "max image size is 50MB"
       )
       .refine(
-        (fileList) => !fileList.length || ACCEPTED_IMAGE_TYPES.includes(fileList[0].type),
+        (fileList) => !fileList?.length || ACCEPTED_IMAGE_TYPES.includes(fileList[0].type),
         "only.jpg,.jpeg,.png and.webp formats are supported"
       )
       .optional(),

@@ -28,7 +28,7 @@ interface eleSchema {
 interface CustomTooltipProps extends TooltipProps<number, string> {}
 
 const CustomTooltip: React.FC<CustomTooltipProps> = ({ active, payload }) => {
-  if (active && payload && payload.length) {
+  if (active && payload && payload?.length) {
     return (
       <div className="p-3 shadow bg-[#f0f0f0] text-[#333] dark:bg-gray-800 dark:text-white rounded">
         <span className="font-semibold">{payload[0].payload.title}</span>
@@ -101,7 +101,7 @@ export const LineChart: React.FC<LineChartProps> = ({reload}) => {
     );
   }
   
-  if(data.length == 0){
+  if(data?.length == 0){
     return(
       <div className="text-center text-2xl font-bold">No data available</div>
     )

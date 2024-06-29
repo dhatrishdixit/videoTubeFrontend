@@ -40,7 +40,6 @@ export const InputSearch: React.FC<InputProps> = ({ className }) => {
   const [sortBy,setSortBy] = useState<sortByType>("views");
   const [url,setUrl] = useState<string>("");
   const [refresh,setRefresh] = useState<number>(0);
-  //TODO: if now url.length == 1 dont use url then directly send the query or add query to url as well think of it 
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -220,12 +219,12 @@ export const InputSearch: React.FC<InputProps> = ({ className }) => {
           navigate(`/videos/results${url}`,{state:refresh});
         }}
         className={`px-3 rounded-r-md `}
-        disabled={search.length == 0}
+        disabled={search?.length == 0}
       >
         <Search size={18}/>
       </button>
       {openRecommendation && (
-        <div className={`absolute mt-12 w-full max-w-[calc(100%-2rem)] rounded-md border border-input bg-popover text-popover-foreground shadow-md dark:bg-black bg-slate-200  ${search.length == 0 ? "hidden opacity-0 transition-opacity duration-300" : "opacity-100 transition-opacity duration-300"} ${typeof searchSuggestions == "string" ? "" : "overflow-y-scroll max-h-[80vh] scrollbar-thin scrollbar-thumb-red-600 dark:scrollbar-track-[#09090b] scrollbar-track-white"}`} 
+        <div className={`absolute mt-12 w-full max-w-[calc(100%-2rem)] rounded-md border border-input bg-popover text-popover-foreground shadow-md dark:bg-black bg-slate-200  ${search?.length == 0 ? "hidden opacity-0 transition-opacity duration-300" : "opacity-100 transition-opacity duration-300"} ${typeof searchSuggestions == "string" ? "" : "overflow-y-scroll max-h-[80vh] scrollbar-thin scrollbar-thumb-red-600 dark:scrollbar-track-[#09090b] scrollbar-track-white"}`} 
         ref={suggestionRef}
         >
           {

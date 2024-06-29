@@ -39,7 +39,7 @@ export function ChannelPlaylistComponent() {
   wrapperClass=""
   /> 
   </div> : (
-      playlists.length == 0 ? (
+      playlists?.length == 0 ? (
           <div className='text-center font-semibold h-[40vh]'>
           No Public Playlists By @{channelUsername}
         </div>

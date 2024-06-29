@@ -252,7 +252,7 @@ export function CommunityPostDashBoard(){
                            )
                                 :
                                 <TableBody>
-                                {postsData.length === 0 ? (
+                                {postsData?.length === 0 ? (
                                     <TableRow>
                                         <TableCell colSpan={7}>No videos available</TableCell>
                                     </TableRow>

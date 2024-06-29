@@ -46,7 +46,7 @@ wrapperClass=""
 /> 
 </div> : (
     
-    result.length == 0 ? (
+    result?.length == 0 ? (
       <div className='text-center font-semibold h-[40vh]'>
         No Community Posts By @{channelUsername}
       </div>
