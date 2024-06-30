@@ -254,7 +254,7 @@ export function CommunityPostDashBoard(){
                                 <TableBody>
                                 {postsData?.length === 0 ? (
                                     <TableRow>
-                                        <TableCell colSpan={7}>No videos available</TableCell>
+                                        <TableCell colSpan={7} className="text-center">No Posts available</TableCell>
                                     </TableRow>
                                 ) : (
                                     postsData?.map(post => (

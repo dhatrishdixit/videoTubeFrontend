@@ -222,7 +222,7 @@ export function VideoDashboard() {
                                 <TableBody>
                                 {videoData?.length === 0 ? (
                                     <TableRow>
-                                        <TableCell colSpan={7}>No videos available</TableCell>
+                                        <TableCell colSpan={7} className="text-center">No videos available</TableCell>
                                     </TableRow>
                                 ) : (
                                     videoData?.map(video => (
