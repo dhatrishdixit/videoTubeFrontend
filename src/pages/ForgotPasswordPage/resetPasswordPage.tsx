@@ -75,11 +75,7 @@ export function ResetPasswordPage(){
         } catch (err) {
             if(err instanceof AxiosError){
                 // console.log(error.response.data.message)
-                  toast({
-                    variant:"destructive",
-                    type:"foreground",
-                    description:err?.response?.data?.message
-                  })
+                  console.log(err?.response?.data?.message)
                   setError(
                     "root",{
                       message:err?.response?.data?.message

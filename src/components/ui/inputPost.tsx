@@ -67,11 +67,7 @@ export const InputPost = React.forwardRef<HTMLInputElement,InputPost>(({
          setRefresh && setRefresh(Math.random());
       })
       .catch(err =>
-        toast({
-          variant:"destructive",
-          type:"foreground",
-          description:err?.response?.data?.message
-        })
+        console.log(err?.response?.data?.message)
       )
 
   }

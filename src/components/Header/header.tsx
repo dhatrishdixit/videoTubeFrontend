@@ -15,7 +15,6 @@ import { InputSearch } from "../ui/inputSearch";
 import { useNavigate } from "react-router-dom";
 import React from "react";
 import axios from "axios";
-import { useToast } from "../ui/use-toast";
 
 
 export interface UserChannelProfile{
@@ -31,7 +30,6 @@ export interface UserChannelProfile{
 }
 
 export const Navbar = () => {
-  const {toast} = useToast();
   const navigate = useNavigate();
   const userInfo = useSelector((state:RootState) => state.authorization.userData);
   const channelUserName = userInfo?.username;
@@ -47,11 +45,7 @@ export const Navbar = () => {
        return ;
      })
      .catch(err => {
-      toast({
-        variant:"destructive",
-        type:"foreground",
-        description:err?.response?.data?.message
-      })
+      console.log(err?.response?.data?.message)
       return ;
      })
   },[channelUserName])

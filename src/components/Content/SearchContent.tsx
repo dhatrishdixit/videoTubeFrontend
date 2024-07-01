@@ -2,7 +2,6 @@ import {  useEffect, useState } from "react";
 import { SkeletonCardSearch } from "../Card/skeletonCard";
 import { VideoCardSearch, VideoPropsSearch } from "../Card/videoCard";
 import { useLocation } from "react-router-dom";
-import { useToast } from "../ui/use-toast";
 import { usePaginate } from "@/hooks/Pagination";
 import { BiDotsHorizontalRounded } from "react-icons/bi";
 
@@ -24,7 +23,6 @@ export const ContentSearch = () => {
     const query = queryParams.get('query');
     const [backendUrl,setBackendUrl] = useState<string>("");
     const [reRender,setReRender] = useState<number>(0);
-    const { toast } = useToast();
     const [videoCount,setVideoCount]= useState<number>(0);
     const [searchResult,setSearchResult] = useState<VideoPropsSearch[]>([]);
     useEffect(()=>{
@@ -36,11 +34,7 @@ export const ContentSearch = () => {
          .catch(err => {
           if(err instanceof AxiosError){
             // console.log(error.response.data.message)
-              toast({
-                variant:"destructive",
-                type:"foreground",
-                description:err?.response?.data?.message
-              })
+             console.log(err?.response?.data?.message)
             
             }
          })

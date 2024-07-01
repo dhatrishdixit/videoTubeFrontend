@@ -55,11 +55,6 @@ export const AuthLayout: React.FC<AuthLayoutProps> = ({
                 return true;
             } catch (refreshError) {
                 console.error("Refresh token error:", refreshError);
-                toast({
-                    variant: "destructive",
-                    type: "foreground",
-                    description: "Failed to refresh token. Please log in again."
-                });
                 return false;
             }
         }

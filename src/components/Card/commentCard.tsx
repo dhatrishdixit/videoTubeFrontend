@@ -65,11 +65,7 @@ export const CommentCard  = ((
           console.log(res.data.message)
       )
     .catch(err => 
-          toast({
-            variant:"destructive",
-            type:"foreground",
-            description:err?.response?.data?.message
-          })
+          console.log(err?.response?.data?.message)  
       )
       .finally(()=>setDisable(false))
    }
@@ -93,11 +89,7 @@ export const CommentCard  = ((
            }
         )
       .catch(err => {
-         toast({
-           variant:"destructive",
-           type:"foreground",
-           description:err?.response?.data?.message
-         })
+         console.log(err?.response?.data?.message)
  
       })
 

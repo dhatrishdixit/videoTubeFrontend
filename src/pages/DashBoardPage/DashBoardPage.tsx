@@ -1,6 +1,5 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useToast } from "@/components/ui/use-toast";
 import axios from 'axios';
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -19,7 +18,7 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"
 
 export function DashBoardPage() {
   
-  const {toast} = useToast();
+
   const navigate = useNavigate();
   const userInfo = useSelector((state:RootState) => state?.authorization?.userData);
 
@@ -35,11 +34,7 @@ export function DashBoardPage() {
        return ;
      })
      .catch(err => {
-      toast({
-        variant:"destructive",
-        type:"foreground",
-        description:err?.response?.data?.message
-      })
+      console.log(err?.response?.data?.message)
       return ;
      })
   },[userInfo])

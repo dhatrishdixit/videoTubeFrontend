@@ -1,6 +1,5 @@
 import React from "react";
 import axios from "axios";
-import { useToast } from "@/components/ui/use-toast";
 import { VideoPropsSearch } from "@/components/Card/videoCard";
 import { TweetCardProps } from "@/components/Card/TweetPostCard";
 import { PlaylistCardProps } from "@/components/Card/playlistCard";
@@ -20,7 +19,6 @@ export interface CommentSchema {
 
 export function usePaginate(itemCount:number=0,limit:number=20,url:string="/comments",query:string="",refresh:number,urlHasSomeBasicQuery:boolean=false,forChannelVidComponent:boolean=false){
   
-   const { toast } = useToast();
    const totalPages = Math.ceil(itemCount / limit) ;
    const [pageNum,setPageNum] = React.useState<number>(1);
    const [isLoading,setIsLoading] = React.useState<boolean>(false);
@@ -47,11 +45,7 @@ export function usePaginate(itemCount:number=0,limit:number=20,url:string="/comm
                 setIsLoading(false);
             })
             .catch(err =>{
-                toast({
-                   variant:"destructive",
-                   type:"foreground",
-                   description: err.response.data.message
-                })
+                console.log(err?.response?.data?.message)
                 setIsLoading(false);
             })
            }
@@ -75,11 +69,7 @@ export function usePaginate(itemCount:number=0,limit:number=20,url:string="/comm
              setIsLoading(false);
          })
          .catch(err =>{
-             toast({
-                variant:"destructive",
-                type:"foreground",
-                description: err.response.data.message
-             })
+             console.log(err?.response?.data?.message)
              setIsLoading(false);
          })
         }

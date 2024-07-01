@@ -60,11 +60,7 @@ export function PlaylistCreationForm({setFormOpen,setReloadPlaylist}:PlaylistCre
       setReloadPlaylist(Math.random());
   } catch (error) {
     if(error instanceof AxiosError){
-        toast({
-         variant:"destructive",
-         type:"foreground",
-         description:error?.response?.data?.message,
-        })
+        console.log(error?.response?.data?.message);
       }
   }
   }

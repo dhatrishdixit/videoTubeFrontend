@@ -65,11 +65,7 @@ export const PublishedBtn = () => {
 
          } catch (error) {
            if(error instanceof AxiosError){
-             toast({
-              variant:"destructive",
-              type:"foreground",
-              description:error?.response?.data?.message,
-             })
+          
 
              setError("root",{
               message:error?.response?.data?.message,

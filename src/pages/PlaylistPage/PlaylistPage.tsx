@@ -69,11 +69,7 @@ export function PlaylistPage(){
         }).
         catch((err)=>{
           setIsLoading(false);
-          toast({
-              variant:"destructive",
-              description:err.response.data.message,
-              
-          })
+          console.log(err.response.data.message)
         })
 
     },[playlistId,reload])
@@ -145,11 +141,7 @@ export function PlaylistPage(){
                       })
                       .catch((res)=>{
                         setDisable(false);
-                        toast({
-                          variant:"destructive",
-                          type:"foreground",
-                          description:res.response.data.message
-                        })
+                        console.log(res?.response?.data?.message)
                       })
                     }}
                     id="publicAccess"
@@ -186,11 +178,6 @@ export function PlaylistPage(){
               })
               .catch(()=>{
                 setOpen(true);
-                toast({
-                  variant:"destructive",
-                  type:"foreground",
-                  description:"Something went wrong"
-                })
               })
           }}>Delete</AlertDialogAction>
         </AlertDialogFooter>

@@ -5,7 +5,6 @@ import { PiThumbsUpFill } from "react-icons/pi";
 import { formatCount } from "@/utils/CountFormat";
 import { formatDate } from "@/utils/DateFormat";
 import axios from "axios";
-import { useToast } from "../ui/use-toast";
 
 export interface TweetCardProps {
     ownerAvatar: string;
@@ -28,7 +27,7 @@ interface LikeStatusSchema{
 
 
 export function TweetCard(props:TweetCardProps){
-    const {toast} = useToast();
+    
     const [collapse,setCollapse] = useState<boolean>(true);
     const isLiked = useRef<boolean>(props.isLiked);
     const [likedStatus,setLikedStatus] = useState<LikeStatusSchema>({
@@ -47,11 +46,7 @@ export function TweetCard(props:TweetCardProps){
                     withCredentials:true
                 })
                 .then(res => console.log(res.data.message))
-                .catch(err => toast({
-                     variant:"destructive",
-                     type:"foreground",
-                     description:err?.response?.data?.message
-                }))
+                .catch(err => console.log(err?.response?.data?.message))
               }
             }
         )

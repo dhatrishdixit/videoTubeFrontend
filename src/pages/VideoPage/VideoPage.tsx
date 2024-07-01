@@ -123,11 +123,7 @@ export const MainVideoPage: React.FC<ReactPlayerProps> = () => {
       setLoading(false);
      })
      .catch(err => {
-      toast({
-        variant:"destructive",
-        type:"foreground",
-        description:err?.response?.data?.message
-      })
+      console.log(err?.response?.data?.message);
       setLoading(false);
      });
 
@@ -149,12 +145,7 @@ export const MainVideoPage: React.FC<ReactPlayerProps> = () => {
       })
     })
     .catch(err=>{
-      toast({
-        variant:"destructive",
-        type:"foreground",
-        description:err?.response?.data?.message
-      })
-      console.log(err)
+      console.log(err?.response?.data?.message)
      })
      .finally(() => setVideoLikeDisable(false))
   }
