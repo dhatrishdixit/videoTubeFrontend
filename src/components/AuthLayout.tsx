@@ -34,11 +34,11 @@ export const AuthLayout: React.FC<AuthLayoutProps> = ({
         } catch (error) {
             console.error("Auth error:", error);
             try {
-                toast({
-                    variant:"default",
-                    type: "foreground",
-                    description: "checking refreshToken for auto login"
-                })
+                // toast({
+                //     variant:"default",
+                //     type: "foreground",
+                //     description: "checking refreshToken for auto login"
+                // })
                 await axios.post(`${import.meta.env.VITE_BASE_URL}/api/v1/users/refresh-token`,null, {
                     withCredentials: true
                 });
@@ -47,11 +47,11 @@ export const AuthLayout: React.FC<AuthLayoutProps> = ({
                     withCredentials: true
                 });
                 dispatch(logIn(retryRes.data.data as UserState));
-                    toast({
-                    variant: "success",
-                    type: "foreground",
-                    description: "Logged in successfully."
-                })
+                //     toast({
+                //     variant: "success",
+                //     type: "foreground",
+                //     description: "Logged in successfully."
+                // })
                 return true;
             } catch (refreshError) {
                 console.error("Refresh token error:", refreshError);
