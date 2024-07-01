@@ -4,7 +4,6 @@ import { RootState, AppDispatch } from "@/app/store";
 import axios from "axios";
 import { logIn, UserState } from "@/features/authentication/auth.slice";
 import { useNavigate } from "react-router-dom";
-import { useToast } from "./ui/use-toast";
 import { TailSpin } from "react-loader-spinner";
 
 interface AuthLayoutProps {
@@ -16,7 +15,7 @@ export const AuthLayout: React.FC<AuthLayoutProps> = ({
     authentication,
     children
 }) => {
-    const { toast } = useToast();
+
     const dispatch = useDispatch<AppDispatch>();
     const authStatus = useSelector((state: RootState) => state.authorization.authStatus);
     const [loading, setLoading] = useState<boolean>(false);
