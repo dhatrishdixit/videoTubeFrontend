@@ -23,7 +23,11 @@ import { Skeleton } from "@/components/ui/skeleton"
 import { formatDate } from "@/utils/DateFormat"
 import { FiRefreshCw } from "react-icons/fi"
 
-export function CommunityPostDashBoardForm(){
+interface communityPostFormProps {
+  setReload:React.Dispatch<React.SetStateAction<number>>
+}
+
+export function CommunityPostDashBoardForm({setReload}:communityPostFormProps){
     const { toast } = useToast();
     
     const FormSchema = z.object({
@@ -49,7 +53,7 @@ export function CommunityPostDashBoardForm(){
                 description:"Community post created successfully"
             })
             form.reset();
-            // setReloadPlaylist(Math.random());
+             setReload(prev => prev+1);
         } catch (error) {
           if(error instanceof AxiosError){
               console.log(error?.response?.data?.message)
@@ -202,7 +206,7 @@ export function CommunityPostDashBoard(){
            
           </CardHeader>
           <CardContent>
-             <CommunityPostDashBoardForm/>
+             <CommunityPostDashBoardForm setReload={setReload}/>
           </CardContent>
         </Card>
         <Card>
