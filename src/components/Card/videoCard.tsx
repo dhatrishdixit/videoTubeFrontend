@@ -54,9 +54,6 @@ export const VideoCardMain = React.forwardRef<HTMLDivElement, VideoPropsMain>(
       <div
         ref={divRef}
         className={`w-[55vh] bg-white ${!isHover ? 'rounded-lg' : ''} dark:bg-[#09090b] h-[60vh] p-2 cursor-pointer`}
-        // onClick={() => {
-        //    navigate(`/video/${props._id}`,{ state: { channelId: props.channelId } });
-        // }}
       >
         <div
           onMouseEnter={() => {
@@ -72,7 +69,7 @@ export const VideoCardMain = React.forwardRef<HTMLDivElement, VideoPropsMain>(
         >
           {isHover ? (
             <div onClick={()=>{
-              navigate(`/video/${props._id}`,{ state: { channelId: props.channelId } });
+              navigate(`/video/${props._id}&${props.channelId}`,{ state: { channelId: props.channelId } });
             }}>
             <ReactPlayer
               className="react-player"
@@ -87,7 +84,7 @@ export const VideoCardMain = React.forwardRef<HTMLDivElement, VideoPropsMain>(
               src={props.thumbnail}
               alt={props.title}
               onClick={() => {
-                navigate(`/video/${props._id}`,{ state: { channelId: props.channelId } });
+                navigate(`/video/${props._id}&${props.channelId}`,{ state: { channelId: props.channelId } });
               }}
             />
           )}
@@ -98,7 +95,7 @@ export const VideoCardMain = React.forwardRef<HTMLDivElement, VideoPropsMain>(
               src={props.channelAvatar}
               className="h-8 w-8 rounded-full"
               onClick={() => {
-                navigate(`/video/${props._id}`,{ state: { channelId: props.channelId } });
+                navigate(`/video/${props._id}&${props.channelId}`,{ state: { channelId: props.channelId } });
               }}
             />
           </div>
@@ -106,7 +103,7 @@ export const VideoCardMain = React.forwardRef<HTMLDivElement, VideoPropsMain>(
             <h5
               className="text-xl font-bold tracking-tight text-left text-gray-900 dark:text-white truncate"
               onClick={() => {
-                navigate(`/video/${props._id}`,{ state: { channelId: props.channelId } });
+                navigate(`/video/${props._id}&${props.channelId}`,{ state: { channelId: props.channelId } });
               }}
             >
               {props.title.substring(0,22)}{props?.title?.length >= 23 ? "...":""}
@@ -130,6 +127,122 @@ export const VideoCardMain = React.forwardRef<HTMLDivElement, VideoPropsMain>(
     );
   }
 );
+
+export interface VideoPropsLike {
+  _id: string;
+  videoId:string;
+  videoFile: string;
+  thumbnail: string;
+  owner: string;
+  title: string;
+  duration: number;
+  views: number;
+  channel: string; //  @ type
+  channelFullName: string;
+  channelAvatar: string;
+  createdAt: Date;
+  description: string;
+  channelId:string
+}
+
+export const VideoCardLike = React.forwardRef<HTMLDivElement,VideoPropsLike>((props,ref) =>
+  {
+    const navigate  = useNavigate();
+    const [isHover, setHover] = React.useState<boolean>(false);
+    const [hoverTimer, setHoverTimer] = React.useState<
+      NodeJS.Timeout | undefined
+    >(undefined);
+    const divRef = useRef<HTMLDivElement>(null);
+    useEffect(() => {
+      if (ref) {
+        if (typeof ref === 'function') {
+          ref(divRef.current);
+        } else {
+          ref.current = divRef.current;
+        }
+      }
+    }, [ref]);
+
+    return (
+      <div
+        ref={divRef}
+        className={` bg-white  ${!isHover ? "rounded-lg" : ""}  dark:bg-[#09090b]   cursor-pointer flex my-2 border p-1`}
+    
+      >
+        <div
+          onMouseEnter={() => {
+            const timeOutId = setTimeout(() => {
+              setHover(true);
+            }, 500);
+            setHoverTimer(timeOutId);
+          }}
+          onMouseLeave={() => {
+            clearTimeout(hoverTimer);
+            setHover(false);
+          }}
+        >
+          {isHover ? (
+            <ReactPlayer
+              className="react-player"
+              url={props.videoFile}
+              playing={true}
+              width="30vw"
+              height="15vw"
+              onClick={()=>{
+                navigate(`/video/${props.videoId}&${props.channelId}`,{ state: { channelId: props.channelId } });
+              }}
+            />
+          ) : (
+            <img
+              className="rounded-lg h-[15vw] w-[30vw] "
+              src={props.thumbnail}
+              alt={props.title}
+              onClick={() => {
+                navigate(`/video/${props.videoId}&${props.channelId}`,{ state: { channelId: props.channelId } });
+              }}
+            />
+          )}
+        </div>
+        <div className="flex py-2 px-2 gap-4 pl-6">
+          <div className="flex flex-col">
+            <h5
+              className="text-xl font-bold tracking-tight text-left text-gray-900 dark:text-white truncate"
+              onClick={() => {
+                navigate(`/video/${props.videoId}&${props.channelId}`,{ state: { channelId: props.channelId } });
+              }}
+            >
+              {props.title}
+            </h5>
+
+            <p className="mb -1 font-normal text-gray-700 dark:text-gray-400 text-left">
+              {" "}
+              {props.views} views • {formatDate(props.createdAt)}
+            </p>
+            <div className="mt-2 flex gap-6">
+              <img
+                src={props.channelAvatar}
+                className="h-8 w-8 rounded-full"
+                onClick={() => {
+                  navigate(`/channel/${props.channel}`)
+                }}
+              />
+              <p
+                className="mb-1 font-normal text-gray-700 dark:text-gray-400 text-left"
+                onClick={() => {
+                  navigate(`/channel/${props.channel}`)
+                }}
+              >
+                {props.channelFullName}
+              </p>
+            </div>
+            <p className="mt-6 font-normal text-gray-700 dark:text-gray-400 text-left">
+              {manageString(props.description)}
+            </p>
+          </div>
+        </div>
+      </div>
+    );
+  })
   export interface VideoPropsSearch {
     _id: string;
     videoFile: string;
@@ -145,6 +258,7 @@ export const VideoCardMain = React.forwardRef<HTMLDivElement, VideoPropsMain>(
     description: string;
     channelId:string
   }
+  
 
 export const VideoCardSearch = React.forwardRef<HTMLDivElement,VideoPropsSearch>((props,ref) =>
   {
@@ -190,7 +304,7 @@ export const VideoCardSearch = React.forwardRef<HTMLDivElement,VideoPropsSearch>
               width="30vw"
               height="15vw"
               onClick={()=>{
-                navigate(`/video/${props._id}`,{ state: { channelId: props.channelId } });
+                navigate(`/video/${props._id}&${props.channelId}`,{ state: { channelId: props.channelId } });
               }}
             />
           ) : (
@@ -199,7 +313,7 @@ export const VideoCardSearch = React.forwardRef<HTMLDivElement,VideoPropsSearch>
               src={props.thumbnail}
               alt={props.title}
               onClick={() => {
-                navigate(`/video/${props._id}`,{ state: { channelId: props.channelId } });
+                navigate(`/video/${props._id}&${props.channelId}`,{ state: { channelId: props.channelId } });
               }}
             />
           )}
@@ -209,7 +323,7 @@ export const VideoCardSearch = React.forwardRef<HTMLDivElement,VideoPropsSearch>
             <h5
               className="text-xl font-bold tracking-tight text-left text-gray-900 dark:text-white truncate"
               onClick={() => {
-                navigate(`/video/${props._id}`,{ state: { channelId: props.channelId } });
+                navigate(`/video/${props._id}&${props.channelId}`,{ state: { channelId: props.channelId } });
               }}
             >
               {props.title}
@@ -310,7 +424,7 @@ export const VideoCardSearch = React.forwardRef<HTMLDivElement,VideoPropsSearch>
                 width="30vw"
                 height="15vw"
                 onClick={()=>{
-                  navigate(`/video/${props._id}`,{ state: { channelId: props.owner._id } });
+                  navigate(`/video/${props._id}&${props.owner._id}`,{ state: { channelId: props.owner._id } });
                 }}
               />
             ) : (
@@ -319,7 +433,7 @@ export const VideoCardSearch = React.forwardRef<HTMLDivElement,VideoPropsSearch>
                 src={props.thumbnail}
                 alt={props.title}
                 onClick={() => {
-                  navigate(`/video/${props._id}`,{ state: { channelId: props.owner._id } });
+                  navigate(`/video/${props._id}&${props.owner._id}`,{ state: { channelId: props.owner._id } });
                 }}
               />
             )}
@@ -329,7 +443,7 @@ export const VideoCardSearch = React.forwardRef<HTMLDivElement,VideoPropsSearch>
               <h5
                 className="text-xl font-bold tracking-tight text-left text-gray-900 dark:text-white truncate"
                 onClick={() => {
-                  navigate(`/video/${props._id}`,{ state: { channelId: props.owner._id } });
+                  navigate(`/video/${props._id}&${props.owner._id}`,{ state: { channelId: props.owner._id } });
                 }}
               >
                 {props.title}
@@ -433,7 +547,7 @@ export const VideoCardSearch = React.forwardRef<HTMLDivElement,VideoPropsSearch>
                 width="30vw"
                 height="15vw"
                 onClick={()=>{
-                  navigate(`/video/${props._id}`,{ state: { channelId: props.channelId } });
+                  navigate(`/video/${props._id}&${props.channelId}`,{ state: { channelId: props.channelId } });
                 }}
               />
             ) : (
@@ -442,7 +556,7 @@ export const VideoCardSearch = React.forwardRef<HTMLDivElement,VideoPropsSearch>
                 src={props.thumbnail}
                 alt={props.title}
                 onClick={() => {
-                  navigate(`/video/${props._id}`,{ state: { channelId: props.channelId } });
+                  navigate(`/video/${props._id}&${props.channelId}`,{ state: { channelId: props.channelId } });
                 }}
               />
             )}
@@ -452,7 +566,7 @@ export const VideoCardSearch = React.forwardRef<HTMLDivElement,VideoPropsSearch>
               <h5
                 className="text-xl font-bold tracking-tight text-left text-gray-900 dark:text-white"
                 onClick={() => {
-                  navigate(`/video/${props._id}`,{ state: { channelId: props.channelId } });
+                  navigate(`/video/${props._id}&${props.channelId}`,{ state: { channelId: props.channelId } });
                 }}
               >
                 {props.title}
@@ -562,7 +676,7 @@ export const VideoCardRecommendation = React.forwardRef<HTMLDivElement,VideoProp
             width="100%"
             height="100%"
             onClick={() => {
-              navigate(`/video/${props._id}`,{ state: { channelId: props.channelId } });
+              navigate(`/video/${props._id}&${props.channelId}`,{ state: { channelId: props.channelId } });
             }}
           />
         ) : (
@@ -571,7 +685,7 @@ export const VideoCardRecommendation = React.forwardRef<HTMLDivElement,VideoProp
             src={props.thumbnail}
             alt={props.title}
             onClick={() => {
-              navigate(`/video/${props._id}`,{ state: { channelId: props.channelId } });
+              navigate(`/video/${props._id}&${props.channelId}`,{ state: { channelId: props.channelId } });
             }}
           />
         )}
@@ -581,7 +695,7 @@ export const VideoCardRecommendation = React.forwardRef<HTMLDivElement,VideoProp
           <h5
             className="text-xl font-bold tracking-tight text-left text-gray-900 dark:text-white truncate"
             onClick={() => {
-              navigate(`/video/${props._id}`,{ state: { channelId: props.channelId } });
+              navigate(`/video/${props._id}&${props.channelId}`,{ state: { channelId: props.channelId } });
             }}
           >
             {props.title}

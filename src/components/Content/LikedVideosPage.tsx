@@ -1,13 +1,13 @@
 import { useEffect,useState } from 'react';
 import axios from 'axios';
-import { VideoCardSearch } from '../Card/videoCard';
+import { VideoCardLike } from '../Card/videoCard';
 import { SkeletonCardSearch } from '../Card/skeletonCard';
-import { VideoPropsSearch } from '../Card/videoCard';
+import { VideoPropsLike } from '../Card/videoCard';
 
 
 export function LikedVideosPage() {
   const [isLoading,setIsLoading] = useState<boolean>(false);
-  const [likedVideos,setLikedVideos] = useState<VideoPropsSearch[]>([]);  
+  const [likedVideos,setLikedVideos] = useState<VideoPropsLike[]>([]);  
   
   useEffect(()=>{
     setIsLoading(true);
@@ -17,9 +17,10 @@ export function LikedVideosPage() {
     })
     .then((res) => {
       setLikedVideos(res.data.data);
+      console.log("likedVideos : ",res.data.data);
       setIsLoading(false);
     })
-
+    
   },[]);
   if(!likedVideos?.length){
     return(<div className='flex justify-center items-center w-full h-[90vh]'>
@@ -50,7 +51,7 @@ export function LikedVideosPage() {
         </>
        
       ) : (
-        likedVideos?.map((video)=> <VideoCardSearch key={video._id} {...video} />
+        likedVideos?.map((video)=> <VideoCardLike key={video._id} {...video} />
         )
       )}
      </div>

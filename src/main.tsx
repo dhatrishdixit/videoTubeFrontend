@@ -85,7 +85,7 @@ const router = createBrowserRouter([
             path:"/",
             element:<FrontPageContent/>
           },{
-            path:"video/:videoId",
+            path:"video/:videoInfo",
             element:<MainVideoPage/>
           },{
             path:"playlist/:playlistId",

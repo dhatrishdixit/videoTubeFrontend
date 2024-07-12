@@ -89,7 +89,7 @@ export const MainVideoPage: React.FC<ReactPlayerProps> = () => {
   const location = useLocation();
   const { toast } = useToast();
   const [data,setData] = useState<VideoPageSchema>({});
-  const { videoId } = useParams() ;
+  const {videoInfo} = useParams() ;
   const [liked,setLiked] = useState<LikedSchema>({});
   const [subscribed,setSubscribed] = useState<SubscribedSchema>({});
   const initialLikeState = useRef<boolean|undefined>(undefined);
@@ -99,6 +99,8 @@ export const MainVideoPage: React.FC<ReactPlayerProps> = () => {
   const currentChannelId = useRef<string|undefined>(undefined);
   const [loading,setLoading] = useState<boolean>(false);
   const navigate = useNavigate();
+  
+  const videoId = videoInfo?.split('&')[0];
   useEffect(()=>{
      setLoading(true);
      axios
@@ -299,7 +301,7 @@ export const MainVideoPage: React.FC<ReactPlayerProps> = () => {
       <div className="col-span-4 ">
         <h4 className="text-center font-semibold">Recommendations</h4>
 
-        <RecommendedVideo channelId={location?.state?.channelId}/>
+        <RecommendedVideo channelId={location?.state?.channelId || videoInfo?.split('&')[1]}/>
       
       </div>
 
