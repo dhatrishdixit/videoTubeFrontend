@@ -106,8 +106,8 @@ export const PlaylistBtn = () => {
         <div >
             <Dialog>
                 <DialogTrigger>  
-                     <Button className="ml-4" variant="link">
-                <MdFormatListBulletedAdd className="scale-150 text-white" />
+                     <Button  variant="link">
+                <MdFormatListBulletedAdd className="scale-150 text-black dark:text-white" />
                 </Button>                
                 </DialogTrigger>
                 <DialogContent>

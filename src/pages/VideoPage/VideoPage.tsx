@@ -14,7 +14,7 @@ import { formatCount } from "@/utils/CountFormat";
 import { TailSpin } from "react-loader-spinner";
 import { ToastAction } from "@/components/ui/toast";
 import { PlaylistBtn } from "@/components/playlistBtn";
-
+import { ShareVidBtn } from "@/components/shareVidBtn";
 
 function stringShortener(str:string):string {
   return str?.substring(0,100);
@@ -271,8 +271,11 @@ export const MainVideoPage: React.FC<ReactPlayerProps> = () => {
        }
         <p className="ml-4 tabular-nums">{formatCount(liked.likedCount as number)}</p>
         </Button>
-      <PlaylistBtn/>
-      
+        <div className="flex items-center ml-4">
+        <ShareVidBtn/>
+        <PlaylistBtn/>
+        </div>
+        
        </div>
        <div className="w-[95%] dark:bg-[#272727] rounded-md my-4 bg-[#f1f1f1] pr-4">
    
