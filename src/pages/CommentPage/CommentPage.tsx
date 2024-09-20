@@ -119,7 +119,6 @@ export const CommentPage:React.FC<CommentPageSchema> = ({videoId,commentsCount})
         setRefresh={setRefresh}
         id="input"
         ref={inputRef}
-
         />
       </div>
        {

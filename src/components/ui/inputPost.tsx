@@ -26,11 +26,11 @@ export const InputPost = React.forwardRef<HTMLInputElement,InputPost>(({
   ,commentId
   ,...props },ref) => {
   const { toast } = useToast();
-  const { videoId } = useParams();
+  const { videoInfo } = useParams();
   const [post, setPost] = React.useState<string | undefined>("");
   const [isFocus, setIsFocus] = React.useState<boolean | undefined>(false);
   const postCommentHandler = async () =>{
-
+    const videoId = videoInfo?.split("&")[0];
     await axios.post(`${import.meta.env.VITE_BASE_URL}/api/v1/comments/${videoId}`,{
         content:post
     },{
