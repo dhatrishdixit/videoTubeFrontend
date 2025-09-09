@@ -44,7 +44,7 @@ export const Register: React.FC = () => {
       await axios.post(`${import.meta.env.VITE_BASE_URL}/api/v1/users/send-email-for-verification`, {
         email: emailForResend
       }, {
-        withCredentials: true
+ //       withCredentials: true
       });
       setLoadingResendBtn(false);
       toast({
