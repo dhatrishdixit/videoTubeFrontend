@@ -402,7 +402,7 @@ export const VideoCardSearch = React.forwardRef<HTMLDivElement,VideoPropsSearch>
       return (
         <div
           ref={divRef}
-          className={` bg-white  ${!isHover ? "rounded-lg" : ""}  dark:bg-[#09090b]   cursor-pointer flex my-2 border p-1`}
+          className={` bg-white  ${!isHover ? "rounded-lg" : ""}  dark:bg-[#09090b] w-full cursor-pointer flex my-2 border p-1`}
         >
           <div
             onMouseEnter={() => {
